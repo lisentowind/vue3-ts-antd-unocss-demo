@@ -1,0 +1,7 @@
+/dist/*
+/demo-dist/*
+.local
+/node_modules/**
+
+**/*.svg
+**/*.sh
