@@ -1,5 +1,13 @@
-import { defineConfig } from 'unocss'
+import {
+  defineConfig,
+  presetAttributify,
+  presetTypography,
+  presetWind3,
+  transformerDirectives,
+  transformerVariantGroup,
+} from 'unocss'
 
 export default defineConfig({
-  // ...UnoCSS options
+  presets: [presetWind3(), presetAttributify(), presetTypography()],
+  transformers: [transformerDirectives(), transformerVariantGroup()],
 })

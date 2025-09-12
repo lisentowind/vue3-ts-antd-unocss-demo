@@ -5,8 +5,9 @@
   "private": true,
   "packageManager": "pnpm@10.15.1",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "dev": "vite --config ./config/vite.config.dev.ts",
+    "build": "vue-tsc --noEmit && vite build --config ./config/vite.config.prod.ts",
+    "build-test": "vue-tsc --noEmit && vite build --config ./config/vite.config-test.ts --mode test",
     "preview": "vite preview",
     "lint": "eslint",
     "lint:fix": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
@@ -20,14 +21,18 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@unocss/eslint-plugin": "^66.5.1",
+    "@unocss/reset": "^66.5.1",
+    "@vitejs/plugin-legacy": "^7.2.1",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.7.0",
     "eslint": "^9.35.0",
     "eslint-plugin-format": "^1.0.1",
     "husky": "^8.0.0",
+    "less": "^4.4.1",
     "typescript": "~5.8.3",
     "unocss": "^66.5.1",
     "vite": "^7.1.2",
+    "vite-plugin-eslint": "^1.8.1",
     "vue-tsc": "^3.0.5"
   }
 }
