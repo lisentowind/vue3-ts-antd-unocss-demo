@@ -1,7 +1,7 @@
-import legacy from '@vitejs/plugin-legacy';
-import { mergeConfig } from 'vite';
+import legacy from '@vitejs/plugin-legacy'
+import { mergeConfig } from 'vite'
 
-import baseConfig from './vite.config.base';
+import baseConfig from './vite.config.base'
 
 export default mergeConfig(
   {
@@ -27,13 +27,13 @@ export default mergeConfig(
       rollupOptions: {
         output: {
           // 核心配置：按类型分目录
-          assetFileNames: (assetInfo: { name: string; }) => {
+          assetFileNames: (assetInfo: { name: string }) => {
             // 将 CSS 文件放入 css 目录
             if (assetInfo.name?.endsWith('.css')) {
-              return 'css/[name]-[hash][extname]';
+              return 'css/[name]-[hash][extname]'
             }
             // 其他资源文件（图片、字体等）放入 assets 目录
-            return 'assets/[name]-[hash][extname]';
+            return 'assets/[name]-[hash][extname]'
           },
           // JS 文件分两类存放
           chunkFileNames: 'js/chunks/[name]-[hash].js', // 代码分割产生的 chunk
@@ -46,4 +46,4 @@ export default mergeConfig(
     },
   },
   baseConfig,
-);
+)
