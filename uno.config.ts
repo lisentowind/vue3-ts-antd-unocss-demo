@@ -1,6 +1,7 @@
 import {
   defineConfig,
   presetAttributify,
+  presetIcons,
   presetTypography,
   presetWind3,
   transformerDirectives,
@@ -8,6 +9,6 @@ import {
 } from 'unocss'
 
 export default defineConfig({
-  presets: [presetWind3(), presetAttributify(), presetTypography()],
+  presets: [presetWind3(), presetAttributify(), presetTypography(), presetIcons({ /* options */ })],
   transformers: [transformerDirectives(), transformerVariantGroup()],
 })
