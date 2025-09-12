@@ -20,6 +20,7 @@ export default mergeConfig(
         include: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.vue'],
         exclude: ['node_modules'],
         emitWarning: false,
+        emitError: false, // ❌ 不中断编译
       }),
       // vue开发工具非必要不要开 有性能问题
       // vueDevTools({
