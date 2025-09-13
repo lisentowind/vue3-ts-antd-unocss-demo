@@ -15,6 +15,10 @@ const router = createRouter({
   history: createWebHistory(),
 })
 
+router.beforeEach(() => {
+  NProgress.start()
+})
+
 router.afterEach(() => {
   NProgress.done()
 })

@@ -9,6 +9,7 @@ export const useAppStore = defineStore('app', {
   state: (): AppState => ({
     name: 'app',
   }),
+  persist: true,
   getters: {
     getAppName(state) {
       return state.name

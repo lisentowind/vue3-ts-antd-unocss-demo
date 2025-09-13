@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useAppStore } from '@/store'
+
+const appStore = useAppStore()
 </script>
 
 <template>
@@ -6,7 +9,7 @@
     <div
       class="[background:linear-gradient(45deg,#60a5fa,#a78bfa,#ec4899)] h-500px w-500px flex cursor-pointer items-center justify-center rounded-md hover:[background:linear-gradient(45deg,#a78bfa,#60a5fa,#ec4899)]"
     >
-      <span class="text-30px text-white" hover:color-green>1</span>
+      <span class="text-30px text-white" hover:color-green>{{ appStore.getAppName }}</span>
       <CustomIcon
         class="cursor-pointer color-white transition-all ease-in hover:color-green"
         size="30px"
