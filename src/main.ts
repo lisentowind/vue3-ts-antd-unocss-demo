@@ -2,10 +2,11 @@ import { createApp } from 'vue'
 import { setGlobalOptions } from 'vue-request'
 import App from './App.vue'
 import GlobalComponents from './components'
+import directives from './directives'
 import router from './router'
 import pinia from './store'
 import 'virtual:uno.css'
-import '@unocss/reset/tailwind.css'
+import 'ant-design-vue/dist/reset.css'
 import '@/assets/style/global.less'
 
 const app = createApp(App)
@@ -22,4 +23,5 @@ setGlobalOptions({
 app.use(GlobalComponents)
 app.use(router)
 app.use(pinia)
+app.use(directives)
 app.mount('#app')
