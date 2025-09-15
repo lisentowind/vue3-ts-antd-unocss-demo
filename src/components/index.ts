@@ -3,6 +3,7 @@ import type { App } from 'vue'
 import {
   Button,
   ConfigProvider,
+  Input,
   Modal,
   Radio,
   Select,
@@ -17,6 +18,7 @@ import CustomIcon from '@/components/CustomIcon/CustomIcon.vue'
 const AntdComponents = {
   Button,
   ConfigProvider,
+  Input,
   Modal,
   Radio,
   Select,

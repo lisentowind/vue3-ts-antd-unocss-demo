@@ -4,6 +4,7 @@ type ThemeMode = 'light' | 'dark'
 
 export interface ThemeStoreState {
   themeMode: ThemeMode
+  primaryColor: string
 }
 
 /**
@@ -14,9 +15,11 @@ export interface ThemeStoreState {
 export const useThemeStore = defineStore('theme', {
   state: (): ThemeStoreState => ({
     themeMode: 'light',
+    primaryColor: '#00b96b',
   }),
   getters: {
     getThemeDark: state => state.themeMode,
+    getPrimaryColor: state => state.primaryColor,
   },
   persist: {
     storage: localStorage,
@@ -25,6 +28,10 @@ export const useThemeStore = defineStore('theme', {
     setThemeDark(value: ThemeStoreState['themeMode']) {
       this.themeMode = value
       document.body.setAttribute('data-theme', value)
+    },
+    setPrimaryColor(value: ThemeStoreState['primaryColor']) {
+      this.primaryColor = value
+      document.body.style.setProperty('--primary-color', value)
     },
   },
 })

@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { useDark, useToggle } from '@vueuse/core'
+import { nextTick, ref, watch } from 'vue'
 import { useMessage, useModal } from '@/hooks'
 import { useAppStore, useThemeStore } from '@/store'
 
 const appStore = useAppStore()
 const themeStore = useThemeStore()
+
+const color = ref(themeStore.getPrimaryColor)
 
 // 主题
 const isDark = useDark({
@@ -33,15 +36,24 @@ function handelModal() {
 function handelChangeThemeMode() {
   toggleDark()
 }
+
+watch(
+  () => color.value,
+  (v) => {
+    nextTick(() => {
+      themeStore.setPrimaryColor(v)
+    })
+  },
+)
 </script>
 
 <template>
   <div class="h-100vh w-100vw flex items-center justify-center">
     <div
       v-glow-border
-      class="h-500px w-500px flex cursor-pointer items-center justify-center rounded-md shadow-xl"
+      class="h-500px w-500px flex flex flex-col cursor-pointer items-center justify-center rounded-md shadow-xl"
     >
-      <ASpace>
+      <ASpace class="mb-20px">
         <span class="text-30px text-black" hover:color-green>{{
           appStore.getAppName
         }}</span>
@@ -75,6 +87,9 @@ function handelChangeThemeMode() {
         <AButton type="primary" @click="handelModal">
           函数弹窗
         </AButton>
+      </ASpace>
+      <ASpace>
+        <AInput v-model:value="color" type="color" class="h-50px w-40px" />
       </ASpace>
     </div>
   </div>

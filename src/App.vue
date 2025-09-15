@@ -17,6 +17,7 @@ const { msgContextHolder } = useMessage()
 const { modalContextHolder } = useModal()
 
 const isDark = computed(() => themeStore.themeMode === 'dark')
+const primaryColor = computed(() => themeStore.primaryColor)
 </script>
 
 <template>
@@ -24,7 +25,7 @@ const isDark = computed(() => themeStore.themeMode === 'dark')
     :theme="{
       algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
       token: {
-        colorPrimary: '#00b96b',
+        colorPrimary: primaryColor,
       },
     }"
     :locale="zhCN"
