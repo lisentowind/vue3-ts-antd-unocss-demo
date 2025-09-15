@@ -1,6 +1,6 @@
 import type { App } from 'vue'
 
-import glowBorder from './v-glowBorder'
+import glowBorder from './modules/v-glowBorder'
 
 export default {
   install(Vue: App) {

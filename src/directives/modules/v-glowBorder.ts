@@ -19,7 +19,7 @@ export default {
     }
 
     // 设置基础边框
-    // el.style.border = `2px solid ${color.replace('1)', '0.3)')}`;
+    // el.style.border = `2px solid ${color.replace('1)', '0.3)')}`
 
     // 动态创建 CSS 样式
     const styleElement = document.createElement('style')

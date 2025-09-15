@@ -24,32 +24,33 @@ function handelModal() {
   <div class="h-100vh w-100vw flex items-center justify-center">
     <div
       v-glow-border
-      class="[background:linear-gradient(45deg,#60a5fa,#a78bfa,#ec4899)] h-500px w-500px flex cursor-pointer items-center justify-center rounded-md hover:[background:linear-gradient(45deg,#a78bfa,#60a5fa,#ec4899)]"
+      class="h-500px w-500px flex cursor-pointer items-center justify-center rounded-md shadow-md"
     >
       <ASpace>
-        <span class="text-30px text-white" hover:color-green>{{
+        <span class="text-30px text-black" hover:color-green>{{
           appStore.getAppName
         }}</span>
         <CustomIcon
-          class="cursor-pointer color-white transition-all ease-in hover:color-green"
+          class="cursor-pointer color-black transition-all ease-in hover:color-green"
           size="30px"
           icon="tabler:lock"
         />
         <CustomIcon
-          class="cursor-pointer color-white transition-all ease-in hover:color-green"
+          class="cursor-pointer color-black transition-all ease-in hover:color-green"
           size="30px"
           icon="tabler:lock-open"
         />
         <CustomIcon
-          class="cursor-pointer color-white transition-all ease-in hover:color-green"
+          class="cursor-pointer color-black transition-all ease-in hover:color-green"
           size="30px"
           icon="line-md:github"
         />
         <CustomIcon
-          class="animate-duration-none cursor-pointer color-white transition-all ease-in hover:scale-150 hover:color-green"
+          class="animate-duration-none cursor-pointer color-black transition-all ease-in hover:scale-150 hover:color-green"
           size="30px"
           icon="line-md:my-location"
         />
+
         <AButton type="primary" @click="handelMsg">
           消息
         </AButton>
