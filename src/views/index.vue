@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useDark, useToggle } from '@vueuse/core'
 import { debounce } from 'lodash'
-import { nextTick, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useMessage, useModal } from '@/hooks'
 import { useAppStore, useThemeStore } from '@/store'
 
