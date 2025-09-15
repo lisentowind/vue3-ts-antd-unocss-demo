@@ -1,11 +1,30 @@
 import type { DirectiveBinding } from 'vue'
 import { nanoid } from 'nanoid'
 
+function removeStyle(el: HTMLElement) {
+  // 清理样式
+  const styleElement = (el as any).__glowBorderStyle
+  const uniqueClass = (el as any).__glowBorderClass
+
+  if (styleElement && styleElement.parentNode) {
+    styleElement.parentNode.removeChild(styleElement)
+  }
+
+  if (uniqueClass) {
+    el.classList.remove(uniqueClass)
+  }
+
+  // 清理引用
+  delete (el as any).__glowBorderStyle
+  delete (el as any).__glowBorderClass
+}
+
 /**
  * 添加边框阴影动画的指令
  */
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
+    removeStyle(el)
     const color = binding.value || 'rgba(85, 239, 196, 1)'
 
     // 生成唯一的类名
@@ -120,20 +139,6 @@ export default {
   },
 
   unmounted(el: HTMLElement) {
-    // 清理样式
-    const styleElement = (el as any).__glowBorderStyle
-    const uniqueClass = (el as any).__glowBorderClass
-
-    if (styleElement && styleElement.parentNode) {
-      styleElement.parentNode.removeChild(styleElement)
-    }
-
-    if (uniqueClass) {
-      el.classList.remove(uniqueClass)
-    }
-
-    // 清理引用
-    delete (el as any).__glowBorderStyle
-    delete (el as any).__glowBorderClass
+    removeStyle(el)
   },
 }

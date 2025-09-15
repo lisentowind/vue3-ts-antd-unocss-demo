@@ -24,7 +24,7 @@ function handelModal() {
   <div class="h-100vh w-100vw flex items-center justify-center">
     <div
       v-glow-border
-      class="h-500px w-500px flex cursor-pointer items-center justify-center rounded-md shadow-md"
+      class="h-500px w-500px flex cursor-pointer items-center justify-center rounded-md shadow-xl"
     >
       <ASpace>
         <span class="text-30px text-black" hover:color-green>{{
