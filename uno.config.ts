@@ -20,7 +20,11 @@ export default defineConfig({
   transformers: [transformerDirectives(), transformerVariantGroup()],
   theme: {
     colors: {
-      primary: `var(--color-primary)`, // 动态主题色
+      // 动态主题色
+      primary: `var(--color-primary)`,
+      // 从antd获取的变量值
+      bgPrimary: `var(--colorBgContainer)`,
+      textBaseColor: `var(--colorTextBase)`,
     },
     breakpoints: {
       sm: '640px',

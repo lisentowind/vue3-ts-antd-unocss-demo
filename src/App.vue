@@ -4,6 +4,7 @@ import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import dayjs from 'dayjs'
 import { computed, onMounted } from 'vue'
 import { useMessage, useModal } from './hooks'
+import { useThemeColor } from './hooks/modules/useThemeColor'
 import { useThemeStore } from './store'
 import 'dayjs/locale/zh-cn'
 
@@ -19,12 +20,13 @@ const { modalContextHolder } = useModal()
 const isDark = computed(() => themeStore.themeMode === 'dark')
 const primaryColor = computed(() => themeStore.primaryColor)
 
-function setThemeColor(color: string) {
+function setThemePrimaryColor(color: string) {
   document.body.style.setProperty('--color-primary', color)
 }
 
 onMounted(() => {
-  setThemeColor(primaryColor.value)
+  useThemeColor()
+  setThemePrimaryColor(primaryColor.value)
 })
 </script>
 

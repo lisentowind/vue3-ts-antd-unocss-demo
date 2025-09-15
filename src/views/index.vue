@@ -45,6 +45,7 @@ const updateColor = debounce((v: string) => {
 watch(
   () => color.value,
   (v) => {
+    console.log('🚀 ~ v:', v)
     updateColor(v)
   },
   { flush: 'post' },
@@ -52,32 +53,32 @@ watch(
 </script>
 
 <template>
-  <div class="h-100vh w-100vw flex items-center justify-center">
+  <div class="bg-bgPrimary h-100vh w-100vw flex items-center justify-center">
     <div
       v-glow-border="themeStore.getPrimaryColor"
-      class="h-500px w-500px flex flex flex-col cursor-pointer items-center justify-center rounded-md shadow-xl"
+      class="bg-bgPrimary h-500px w-500px flex flex flex-col cursor-pointer items-center justify-center rounded-md shadow-xl"
     >
       <ASpace class="mb-20px">
-        <span class="text-30px text-primary hover:color-primary">{{
+        <span class="color-textBaseColor text-30px transition-all hover:color-primary">{{
           appStore.getAppName
         }}</span>
         <CustomIcon
-          class="cursor-pointer color-primary transition-all ease-in hover:color-primary"
+          class="color-textBaseColor cursor-pointer transition-all ease-in hover:color-primary"
           size="30px"
           icon="tabler:lock"
         />
         <CustomIcon
-          class="cursor-pointer color-primary transition-all ease-in hover:color-primary"
+          class="color-textBaseColor cursor-pointer transition-all ease-in hover:color-primary"
           size="30px"
           icon="tabler:lock-open"
         />
         <CustomIcon
-          class="cursor-pointer color-primary transition-all ease-in hover:color-primary"
+          class="color-textBaseColor cursor-pointer transition-all ease-in hover:color-primary"
           size="30px"
           icon="line-md:github"
         />
         <CustomIcon
-          class="animate-duration-none cursor-pointer color-primary transition-all ease-in hover:scale-150 hover:color-primary"
+          class="color-textBaseColor animate-duration-none cursor-pointer transition-all ease-in hover:scale-150 hover:color-primary"
           size="30px"
           icon="line-md:my-location"
         />
