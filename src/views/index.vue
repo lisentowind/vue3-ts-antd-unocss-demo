@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useDark, useToggle } from '@vueuse/core'
+import { debounce } from 'lodash'
 import { nextTick, ref, watch } from 'vue'
 import { useMessage, useModal } from '@/hooks'
 import { useAppStore, useThemeStore } from '@/store'
@@ -37,13 +38,16 @@ function handelChangeThemeMode() {
   toggleDark()
 }
 
+const updateColor = debounce((v: string) => {
+  themeStore.setPrimaryColor(v)
+}, 200)
+
 watch(
   () => color.value,
   (v) => {
-    nextTick(() => {
-      themeStore.setPrimaryColor(v)
-    })
+    updateColor(v)
   },
+  { flush: 'post' },
 )
 </script>
 

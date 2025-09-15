@@ -31,7 +31,6 @@ export const useThemeStore = defineStore('theme', {
     },
     setPrimaryColor(value: ThemeStoreState['primaryColor']) {
       this.primaryColor = value
-      document.body.style.setProperty('--primary-color', value)
     },
   },
 })
