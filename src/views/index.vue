@@ -1,8 +1,19 @@
 <script setup lang="ts">
+import { useDark, useToggle } from '@vueuse/core'
 import { useMessage, useModal } from '@/hooks'
-import { useAppStore } from '@/store'
+import { useAppStore, useThemeStore } from '@/store'
 
 const appStore = useAppStore()
+const themeStore = useThemeStore()
+
+// 主题
+const isDark = useDark({
+  onChanged(dark: boolean) {
+    themeStore.setThemeDark(dark ? 'dark' : 'light')
+  },
+})
+
+const toggleDark = useToggle(isDark)
 
 const { msgSuccess } = useMessage()
 function handelMsg() {
@@ -17,6 +28,10 @@ function handelModal() {
     title: 'modalWarning',
     content: 'Hello modalWarning!',
   })
+}
+
+function handelChangeThemeMode() {
+  toggleDark()
 }
 </script>
 
@@ -51,6 +66,9 @@ function handelModal() {
           icon="line-md:my-location"
         />
 
+        <AButton type="primary" @click="handelChangeThemeMode">
+          {{ themeStore.getThemeDark }}
+        </AButton>
         <AButton type="primary" @click="handelMsg">
           消息
         </AButton>
