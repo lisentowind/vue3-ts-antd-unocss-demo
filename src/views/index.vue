@@ -53,32 +53,32 @@ watch(
 </script>
 
 <template>
-  <div class="bg-bgPrimary h-100vh w-100vw flex items-center justify-center">
+  <div class="h-100vh w-100vw flex items-center justify-center bg-bgPrimary">
     <div
       v-glow-border="themeStore.getPrimaryColor"
-      class="bg-bgPrimary h-500px w-500px flex flex flex-col cursor-pointer items-center justify-center rounded-md shadow-xl"
+      class="h-500px w-500px flex flex flex-col cursor-pointer items-center justify-center rounded-md bg-bgPrimary shadow-xl"
     >
       <ASpace class="mb-20px">
-        <span class="color-textBaseColor text-30px transition-all hover:color-primary">{{
+        <span class="text-30px color-textBaseColor transition-all hover:color-primary">{{
           appStore.getAppName
         }}</span>
         <CustomIcon
-          class="color-textBaseColor cursor-pointer transition-all ease-in hover:color-primary"
+          class="cursor-pointer color-textBaseColor transition-all ease-in hover:color-primary"
           size="30px"
           icon="tabler:lock"
         />
         <CustomIcon
-          class="color-textBaseColor cursor-pointer transition-all ease-in hover:color-primary"
+          class="cursor-pointer color-textBaseColor transition-all ease-in hover:color-primary"
           size="30px"
           icon="tabler:lock-open"
         />
         <CustomIcon
-          class="color-textBaseColor cursor-pointer transition-all ease-in hover:color-primary"
+          class="cursor-pointer color-textBaseColor transition-all ease-in hover:color-primary"
           size="30px"
           icon="line-md:github"
         />
         <CustomIcon
-          class="color-textBaseColor animate-duration-none cursor-pointer transition-all ease-in hover:scale-150 hover:color-primary"
+          class="animate-duration-none cursor-pointer color-textBaseColor transition-all ease-in hover:scale-150 hover:color-primary"
           size="30px"
           icon="line-md:my-location"
         />
