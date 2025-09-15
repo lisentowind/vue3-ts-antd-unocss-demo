@@ -21,9 +21,7 @@ export const useThemeStore = defineStore('theme', {
     getThemeDark: state => state.themeMode,
     getPrimaryColor: state => state.primaryColor,
   },
-  persist: {
-    storage: localStorage,
-  },
+  persist: true,
   actions: {
     setThemeDark(value: ThemeStoreState['themeMode']) {
       this.themeMode = value
@@ -31,6 +29,7 @@ export const useThemeStore = defineStore('theme', {
     },
     setPrimaryColor(value: ThemeStoreState['primaryColor']) {
       this.primaryColor = value
+      document.body.style.setProperty('--color-primary', value)
     },
   },
 })

@@ -19,6 +19,9 @@ export default defineConfig({
   ],
   transformers: [transformerDirectives(), transformerVariantGroup()],
   theme: {
+    colors: {
+      primary: `var(--color-primary)`, // 动态主题色
+    },
     breakpoints: {
       sm: '640px',
       md: '768px',
