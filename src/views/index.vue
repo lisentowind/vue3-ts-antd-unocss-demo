@@ -2,11 +2,14 @@
 import { useDark, useToggle } from '@vueuse/core'
 import { debounce } from 'lodash'
 import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { useMessage, useModal } from '@/hooks'
 import { useAppStore, useThemeStore } from '@/store'
+import { AppEventEmitter } from '@/utils'
 
 const appStore = useAppStore()
 const themeStore = useThemeStore()
+const route = useRoute()
 
 const color = ref(themeStore.getPrimaryColor)
 
@@ -38,6 +41,12 @@ function handelChangeThemeMode() {
   toggleDark()
 }
 
+function handelRefreshPage() {
+  AppEventEmitter.emit('refreshPage', {
+    path: route.path,
+  })
+}
+
 const updateColor = debounce((v: string) => {
   themeStore.setPrimaryColor(v)
 }, 200)
@@ -45,7 +54,6 @@ const updateColor = debounce((v: string) => {
 watch(
   () => color.value,
   (v) => {
-    console.log('🚀 ~ v:', v)
     updateColor(v)
   },
   { flush: 'post' },
@@ -78,6 +86,9 @@ watch(
         </AButton>
       </ASpace>
       <ASpace>
+        <AButton type="primary" @click="handelRefreshPage">
+          事件总线刷新页面
+        </AButton>
         <AInput v-model:value="color" type="color" class="h-50px w-40px" />
       </ASpace>
     </div>

@@ -41,6 +41,7 @@ export default antfu(
       ],
       'no-console': 'off',
       'prefer-arrow-callback': 'off',
+      '@typescript-eslint/consistent-type-definitions': 'off',
     },
   },
 )
