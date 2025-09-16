@@ -1,5 +1,6 @@
 import legacy from '@vitejs/plugin-legacy'
 import { mergeConfig } from 'vite'
+import { compression } from 'vite-plugin-compression2'
 
 import baseConfig from './vite.config.base'
 
@@ -7,6 +8,9 @@ export default mergeConfig(
   {
     mode: 'production',
     plugins: [
+      compression({
+        algorithms: ['gzip'],
+      }),
       legacy({
         targets: ['> 0.2%', 'not dead', 'not op_mini all'],
       }),
@@ -26,6 +30,17 @@ export default mergeConfig(
       sourcemap: false, // 这个生产环境一定要关闭，不然打包的产物会很大
       rollupOptions: {
         output: {
+          // 开启后可以手动分包但是遇到单个库大的包会很大
+          manualChunks(id: any) {
+            if (id.includes('node_modules')) {
+              return (
+                id
+                  .toString()
+                  .match(/node_modules\/(?!.pnpm)(?<moduleName>[^/]*)\//)
+                  ?.groups!.moduleName ?? 'vendor'
+              )
+            }
+          },
           // 核心配置：按类型分目录
           assetFileNames: (assetInfo: { name: string }) => {
             // 将 CSS 文件放入 css 目录
