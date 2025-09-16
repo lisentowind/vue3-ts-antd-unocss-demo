@@ -8,7 +8,7 @@ const props = defineProps<CustomIconProps>()
 </script>
 
 <template>
-  <Icon v-bind="{ ...props }" />
+  <Icon v-bind="{ ...props }" class="icon-default" />
 </template>
 
 <style lang="less" scoped></style>

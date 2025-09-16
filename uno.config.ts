@@ -18,6 +18,16 @@ export default defineConfig({
     }),
   ],
   transformers: [transformerDirectives(), transformerVariantGroup()],
+  rules: [
+    // 样式规则
+  ],
+  shortcuts: [
+    {
+      // 默认图标样式
+      'icon-default':
+        'color-textBaseColor cursor-pointer transition-all ease-in active:scale-80 hover:color-primary',
+    },
+  ],
   theme: {
     colors: {
       // 动态主题色

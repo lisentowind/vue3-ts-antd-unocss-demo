@@ -50,7 +50,8 @@ function applyGlow(el: HTMLElement, color: string) {
         ${withAlpha(color, 0.2)}
       );
       border-radius: 7px;
-      z-index: -1;
+      z-index: 1;
+      pointer-events: none;
       opacity: 1;
       transition: all 1s ease;
       clip-path: inset(0 0 98% 0);
@@ -75,7 +76,8 @@ function applyGlow(el: HTMLElement, color: string) {
         ${withAlpha(color, 0.2)}
       );
       border-radius: 7px;
-      z-index: -1;
+      z-index: 1;
+      pointer-events: none;
       opacity: 1;
       transition: all 1s ease;
       clip-path: inset(98% 0 0 0);

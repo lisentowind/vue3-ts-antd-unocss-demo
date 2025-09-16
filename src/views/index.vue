@@ -56,32 +56,16 @@ watch(
   <div class="h-100vh w-100vw flex items-center justify-center bg-bgPrimary">
     <div
       v-glow-border="themeStore.getPrimaryColor"
-      class="h-500px w-500px flex flex flex-col cursor-pointer items-center justify-center rounded-md bg-bgPrimary shadow-xl"
+      class="h-500px w-500px flex flex-col cursor-pointer items-center justify-center rounded-md bg-bgPrimary shadow-xl"
     >
       <ASpace class="mb-20px">
-        <span class="text-30px color-textBaseColor transition-all hover:color-primary">{{
-          appStore.getAppName
-        }}</span>
-        <CustomIcon
-          class="cursor-pointer color-textBaseColor transition-all ease-in hover:color-primary"
-          size="30px"
-          icon="tabler:lock"
-        />
-        <CustomIcon
-          class="cursor-pointer color-textBaseColor transition-all ease-in hover:color-primary"
-          size="30px"
-          icon="tabler:lock-open"
-        />
-        <CustomIcon
-          class="cursor-pointer color-textBaseColor transition-all ease-in hover:color-primary"
-          size="30px"
-          icon="line-md:github"
-        />
-        <CustomIcon
-          class="animate-duration-none cursor-pointer color-textBaseColor transition-all ease-in hover:scale-150 hover:color-primary"
-          size="30px"
-          icon="line-md:my-location"
-        />
+        <span
+          class="text-30px color-textBaseColor transition-all hover:color-primary"
+        >{{ appStore.getAppName }}</span>
+        <CustomIcon size="30px" icon="tabler:lock" />
+        <CustomIcon size="30px" icon="tabler:lock-open" />
+        <CustomIcon size="30px" icon="line-md:github" />
+        <CustomIcon size="30px" icon="line-md:my-location" />
 
         <AButton type="primary" @click="handelChangeThemeMode">
           {{ themeStore.getThemeDark }}
