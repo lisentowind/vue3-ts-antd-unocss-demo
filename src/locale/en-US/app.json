@@ -1,0 +1,8 @@
+{
+  "app.action.locale": "Switch To English",
+  "app.event.reload": "Refresh event",
+  "app.event.reload.front": "Refreshing soon",
+  "app.event.reload.back": "Routing page",
+  "app.btn.msg": "Global information",
+  "app.btn.modal": "Function pop-up window"
+}

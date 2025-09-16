@@ -3,6 +3,7 @@ import { setGlobalOptions } from 'vue-request'
 import App from './App.vue'
 import GlobalComponents from './components'
 import directives from './directives'
+import i18n from './locale'
 import router from './router'
 import pinia from './store'
 import 'virtual:uno.css'
@@ -23,5 +24,6 @@ setGlobalOptions({
 app.use(GlobalComponents)
 app.use(router)
 app.use(pinia)
+app.use(i18n)
 app.use(directives)
 app.mount('#app')

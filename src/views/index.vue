@@ -4,33 +4,37 @@ import { debounce } from 'lodash'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMessage, useModal } from '@/hooks'
+import useLocale from '@/hooks/modules/useLocale'
+import { LOCALE_OPTIONS } from '@/locale'
 import { useAppStore, useThemeStore } from '@/store'
 import { AppEventEmitter } from '@/utils'
 
 const appStore = useAppStore()
 const themeStore = useThemeStore()
 const route = useRoute()
-
+const { currentLocale, changeLocale } = useLocale()
 const color = ref(themeStore.getPrimaryColor)
 const date = ref()
-
+const localeLanguage = ref(currentLocale.value)
 // 主题
 const isDark = useDark({
   onChanged(dark: boolean) {
     themeStore.setThemeDark(dark ? 'dark' : 'light')
   },
 })
-
 const toggleDark = useToggle(isDark)
-
 const { msgSuccess } = useMessage()
+const updateColor = debounce((v: string) => {
+  themeStore.setPrimaryColor(v)
+}, 200)
+const { modalConfirm } = useModal()
+
 function handelMsg() {
   msgSuccess({
     content: 'Hello  msgSuccess!',
   })
 }
 
-const { modalConfirm } = useModal()
 function handelModal() {
   modalConfirm({
     title: 'modalWarning',
@@ -48,10 +52,6 @@ function handelRefreshPage() {
   })
 }
 
-const updateColor = debounce((v: string) => {
-  themeStore.setPrimaryColor(v)
-}, 200)
-
 watch(
   () => color.value,
   (v) => {
@@ -59,13 +59,20 @@ watch(
   },
   { flush: 'post' },
 )
+
+watch(
+  () => localeLanguage.value,
+  (v) => {
+    changeLocale(v)
+  },
+)
 </script>
 
 <template>
   <div class="h-100vh w-100vw flex items-center justify-center bg-bgPrimary">
     <div
       v-glow-border="themeStore.getPrimaryColor"
-      class="h-500px w-500px flex flex-col cursor-pointer items-center justify-center rounded-md bg-bgPrimary shadow-xl"
+      class="h-500px flex flex-col cursor-pointer items-center justify-center rounded-md bg-bgPrimary p-10px shadow-xl"
     >
       <ASpace class="mb-20px">
         <span
@@ -80,18 +87,23 @@ watch(
           {{ themeStore.getThemeDark }}
         </AButton>
         <AButton type="primary" @click="handelMsg">
-          消息
+          {{ $t('app.btn.msg') }}
         </AButton>
         <AButton type="primary" @click="handelModal">
-          函数弹窗
+          {{ $t('app.btn.modal') }}
         </AButton>
       </ASpace>
       <ASpace>
         <AButton type="primary" @click="handelRefreshPage">
-          事件总线刷新页面
+          {{ $t('app.event.reload') }}
         </AButton>
         <AInput v-model:value="color" type="color" class="h-50px w-40px" />
-        <ADatePicker v-model:value="date" class="w-200px" />
+        <ADatePicker v-model:value="date" class="w-150px" />
+        <ASelect
+          v-model:value="localeLanguage"
+          :options="LOCALE_OPTIONS"
+          class="w-150px"
+        />
       </ASpace>
     </div>
   </div>

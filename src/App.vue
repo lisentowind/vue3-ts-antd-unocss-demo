@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 import { theme } from 'ant-design-vue'
+import enUS from 'ant-design-vue/es/locale/en_US'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
+
 import dayjs from 'dayjs'
 import { computed, onBeforeUnmount, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useMessage, useModal } from './hooks'
+import useLocale from './hooks/modules/useLocale'
 import { useThemeColor } from './hooks/modules/useThemeColor'
 import { useThemeStore } from './store'
 import { AppEventEmitter } from './utils'
@@ -17,13 +21,26 @@ const themeStore = useThemeStore()
 const { msgContextHolder, msgSuccess } = useMessage()
 // 引入全局模态框组件 函数式的简单弹窗
 const { modalContextHolder } = useModal()
-
+// 引入全局语言包
+const { currentLocale } = useLocale()
+const { t } = useI18n()
 const isDark = computed(() => themeStore.themeMode === 'dark')
 const primaryColor = computed(() => themeStore.primaryColor)
 
 function setThemePrimaryColor(color: string) {
   document.body.style.setProperty('--color-primary', color)
 }
+
+const locale = computed(() => {
+  switch (currentLocale.value) {
+    case 'zh-CN':
+      return zhCN
+    case 'en-US':
+      return enUS
+    default:
+      return zhCN
+  }
+})
 
 onMounted(() => {
   useThemeColor()
@@ -32,7 +49,9 @@ onMounted(() => {
   AppEventEmitter.on('refreshPage', (val) => {
     if (val.path) {
       msgSuccess({
-        content: `即将刷新 ${val.path} 路由页面`,
+        content: `${t('app.event.reload.front')} ${val.path} ${t(
+          'app.event.reload.back',
+        )}`,
       })
       setTimeout(() => {
         location.reload()
@@ -54,7 +73,7 @@ onBeforeUnmount(() => {
         colorPrimary: primaryColor,
       },
     }"
-    :locale="zhCN"
+    :locale="locale"
   >
     <msgContextHolder />
     <modalContextHolder />

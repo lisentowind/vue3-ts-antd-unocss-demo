@@ -77,5 +77,10 @@
     "preitter",
     "tabler"
   ],
+  "i18n-ally.localesPaths": [
+    "src/locale"
+  ],
+  "i18n-ally.sourceLanguage": "zh-CN",
+  "i18n-ally.keystyle": "flat",
   "oxc.enable": true
 }
