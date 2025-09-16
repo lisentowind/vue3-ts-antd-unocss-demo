@@ -12,6 +12,7 @@ const themeStore = useThemeStore()
 const route = useRoute()
 
 const color = ref(themeStore.getPrimaryColor)
+const date = ref()
 
 // 主题
 const isDark = useDark({
@@ -90,6 +91,7 @@ watch(
           事件总线刷新页面
         </AButton>
         <AInput v-model:value="color" type="color" class="h-50px w-40px" />
+        <ADatePicker v-model:value="date" class="w-200px" />
       </ASpace>
     </div>
   </div>

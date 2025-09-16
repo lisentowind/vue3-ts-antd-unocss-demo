@@ -3,6 +3,7 @@ import type { App } from 'vue'
 import {
   Button,
   ConfigProvider,
+  DatePicker,
   Input,
   Modal,
   Radio,
@@ -18,6 +19,7 @@ import CustomIcon from '@/components/CustomIcon/CustomIcon.vue'
 const AntdComponents = {
   Button,
   ConfigProvider,
+  DatePicker,
   Input,
   Modal,
   Radio,

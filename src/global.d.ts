@@ -19,6 +19,7 @@ declare module 'vue' {
     ATable: typeof import('ant-design-vue')['Table']
     ATooltip: typeof import('ant-design-vue')['Tooltip']
     AInput: typeof import('ant-design-vue')['Input']
+    ADatePicker: typeof import('ant-design-vue')['DatePicker']
   }
   // 全局指令类型声明
   export interface ComponentCustomProperties {
