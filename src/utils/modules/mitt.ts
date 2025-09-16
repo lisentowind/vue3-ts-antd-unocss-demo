@@ -19,7 +19,7 @@ export type ApiEventMitt = {
   noInCodeWhiteErr: ApiEventPayload
   // 响应错误处理
   responseErr: {
-    res:  AxiosError
+    res: AxiosError
   }
 }
 export const ApiEventEmitter: Emitter<ApiEventMitt> = mitt<ApiEventMitt>()
