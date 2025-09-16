@@ -15,7 +15,11 @@ export default mergeConfig(
       },
     },
     plugins: [
-      eslintPlugin(),
+      eslintPlugin({
+        eslintOptions: {
+          cache: false,
+        },
+      }),
       // vue开发工具非必要不要开 有性能问题
       vueDevTools({
         // 默认打开vscode 可以设置为其他编辑器进行联动
