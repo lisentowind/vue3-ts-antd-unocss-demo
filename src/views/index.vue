@@ -2,7 +2,9 @@
 import { useDark, useToggle } from '@vueuse/core'
 import { debounce } from 'lodash'
 import { ref, watch } from 'vue'
+import { useRequest } from 'vue-request'
 import { useRoute } from 'vue-router'
+import { getPostInfo } from '@/apis/modules/mock'
 import { useMessage, useModal } from '@/hooks'
 import useLocale from '@/hooks/modules/useLocale'
 import { LOCALE_OPTIONS } from '@/locale'
@@ -29,6 +31,17 @@ const updateColor = debounce((v: string) => {
 }, 200)
 const { modalConfirm } = useModal()
 
+const { run, loading } = useRequest(getPostInfo, {
+  manual: true,
+  onSuccess(res) {
+    if (res.data) {
+      msgSuccess({
+        content: '接口响应成功!',
+      })
+    }
+  },
+})
+
 function handelMsg() {
   msgSuccess({
     content: 'Hello  msgSuccess!',
@@ -50,6 +63,10 @@ function handelRefreshPage() {
   AppEventEmitter.emit('refreshPage', {
     path: route.path,
   })
+}
+
+function handelFetch() {
+  run('1')
 }
 
 watch(
@@ -104,6 +121,9 @@ watch(
           :options="LOCALE_OPTIONS"
           class="w-150px"
         />
+        <AButton type="primary" :loading="loading" @click="handelFetch">
+          {{ $t('app.event.fetch') }}
+        </AButton>
       </ASpace>
     </div>
   </div>

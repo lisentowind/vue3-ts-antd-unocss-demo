@@ -6,6 +6,7 @@ import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import dayjs from 'dayjs'
 import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ApiEventHandle } from './apis/event'
 import { useMessage, useModal } from './hooks'
 import useLocale from './hooks/modules/useLocale'
 import { useThemeColor } from './hooks/modules/useThemeColor'
@@ -14,6 +15,7 @@ import { AppEventEmitter } from './utils'
 import 'dayjs/locale/zh-cn'
 
 dayjs.locale(zhCN.locale)
+ApiEventHandle()
 
 const themeStore = useThemeStore()
 

@@ -1,3 +1,4 @@
+import type { AxiosError, AxiosResponse } from 'axios'
 import type { Emitter } from 'mitt'
 import mitt from 'mitt'
 
@@ -8,6 +9,17 @@ export type AppEventMitt = {
   refreshPage: AppEventPayload
 }
 
-const AppEventEmitter: Emitter<AppEventMitt> = mitt<AppEventMitt>()
+export const AppEventEmitter: Emitter<AppEventMitt> = mitt<AppEventMitt>()
 
-export { AppEventEmitter }
+// api 接口响应事件处理
+
+export type ApiEventPayload = { res: AxiosResponse }
+export type ApiEventMitt = {
+  // 响应的 code 不在白名单中，视为失败
+  noInCodeWhiteErr: ApiEventPayload
+  // 响应错误处理
+  responseErr: {
+    res:  AxiosError
+  }
+}
+export const ApiEventEmitter: Emitter<ApiEventMitt> = mitt<ApiEventMitt>()

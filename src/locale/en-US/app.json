@@ -4,5 +4,6 @@
   "app.event.reload.front": "Refreshing soon",
   "app.event.reload.back": "Routing page",
   "app.btn.msg": "Global information",
-  "app.btn.modal": "Function pop-up window"
+  "app.btn.modal": "Function pop-up window",
+  "app.event.fetch": "Send a simulation request"
 }
