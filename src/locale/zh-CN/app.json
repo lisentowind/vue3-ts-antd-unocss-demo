@@ -5,5 +5,7 @@
   "app.event.reload.back": "路由页面",
   "app.btn.msg": "全局信息",
   "app.btn.modal": "函数弹窗",
-  "app.event.fetch": "发送模拟请求"
+  "app.event.fetch": "发送模拟请求",
+  "app.action.confirm": "确认",
+  "app.action.cancel": "取消"
 }

@@ -61,5 +61,6 @@ export function useMessage() {
     msgWarning,
     msgLoading,
     msgContextHolder: contextHolder,
+    destroyAll: () => message.destroy(),
   }
 }

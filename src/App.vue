@@ -24,10 +24,10 @@ ApiEventHandle()
 const themeStore = useThemeStore()
 
 // 引入全局消息组件
-const { msgContextHolder, msgSuccess } = useMessage()
+const { msgContextHolder, destroyAll: msgDestroyAll, msgSuccess } = useMessage()
 
 // 引入全局模态框组件 函数式的简单弹窗
-const { modalContextHolder } = useModal()
+const { modalContextHolder, destroyAll: modalDestroyAll } = useModal()
 
 // 引入全局语言包
 const { currentLocale } = useLocale()
@@ -73,6 +73,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   AppEventEmitter.off('refreshPage')
+  msgDestroyAll()
+  modalDestroyAll()
 })
 </script>
 
