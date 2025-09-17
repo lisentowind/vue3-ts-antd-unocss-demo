@@ -72,10 +72,12 @@
   ],
   "cSpell.words": [
     "Attributify",
+    "childs",
     "iconify",
     "nabla",
     "preitter",
-    "tabler"
+    "tabler",
+    "Tweens"
   ],
   "i18n-ally.localesPaths": [
     "src/locale"

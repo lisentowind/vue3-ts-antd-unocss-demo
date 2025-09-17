@@ -1,3 +1,4 @@
+export * from './modules/useGsap'
 export * from './modules/useLocalStorage'
 export * from './modules/useMessage'
 export * from './modules/useModal'

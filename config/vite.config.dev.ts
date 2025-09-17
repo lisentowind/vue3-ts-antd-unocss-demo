@@ -1,6 +1,6 @@
 import eslintPlugin from '@nabla/vite-plugin-eslint'
 import { mergeConfig } from 'vite'
-import vueDevTools from 'vite-plugin-vue-devtools'
+// import vueDevTools from 'vite-plugin-vue-devtools'
 import baseConfig from './vite.config.base'
 
 export default mergeConfig(
@@ -21,10 +21,10 @@ export default mergeConfig(
         },
       }),
       // vue开发工具非必要不要开 有性能问题
-      vueDevTools({
-        // 默认打开vscode 可以设置为其他编辑器进行联动
-        launchEditor: 'code',
-      }),
+      // vueDevTools({
+      //   // 默认打开vscode 可以设置为其他编辑器进行联动
+      //   launchEditor: 'code',
+      // }),
     ],
   },
 

@@ -89,9 +89,14 @@ watch(
   <div class="h-100vh w-100vw flex items-center justify-center bg-bgPrimary">
     <div
       v-glow-border="themeStore.getPrimaryColor"
-      class="h-500px flex flex-col cursor-pointer items-center justify-center rounded-md bg-bgPrimary p-10px shadow-xl"
+      class="h-200px flex flex-col cursor-pointer items-center justify-center rounded-md bg-bgPrimary p-10px pl-20px pr-20px shadow-xl"
     >
-      <ASpace class="mb-20px">
+      <ASpace
+        v-gsap="{
+          options: { duration: 0.3, y: -15, x: 0 },
+        }"
+        class="mb-20px"
+      >
         <span
           class="text-30px color-textBaseColor transition-all hover:color-primary"
         >{{ appStore.getAppName }}</span>
@@ -110,7 +115,11 @@ watch(
           {{ $t('app.btn.modal') }}
         </AButton>
       </ASpace>
-      <ASpace>
+      <ASpace
+        v-gsap="{
+          options: { duration: 0.3, y: 15, x: 0 },
+        }"
+      >
         <AButton type="primary" @click="handelRefreshPage">
           {{ $t('app.event.reload') }}
         </AButton>
