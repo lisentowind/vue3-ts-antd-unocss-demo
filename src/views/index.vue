@@ -103,7 +103,7 @@ watch(
         <span
           class="text-30px color-textBaseColor transition-all hover:color-primary"
         >{{ appStore.getAppName }}</span>
-        <CustomIcon size="30px" icon="tabler:lock" />
+        <CustomIcon :has-default-class="false" class="color-primary" size="30px" icon="tabler:lock" />
         <CustomIcon size="30px" icon="tabler:lock-open" />
         <CustomIcon size="30px" icon="line-md:github" />
         <CustomIcon size="30px" icon="line-md:my-location" />

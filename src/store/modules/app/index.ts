@@ -7,7 +7,7 @@ export interface AppState {
 
 export const useAppStore = defineStore('app', {
   state: (): AppState => ({
-    name: 'app',
+    name: 'App',
   }),
   persist: true,
   getters: {
