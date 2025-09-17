@@ -2,6 +2,11 @@ import type { DirectiveBinding } from 'vue'
 import { colord } from 'colord'
 import { nanoid } from 'nanoid'
 
+export type GlowBorderOptions = {
+  color?: string
+  radius?: string
+}
+
 function withAlpha(color: string, alpha: number) {
   return colord(color).alpha(alpha).toRgbString()
 }
@@ -23,7 +28,7 @@ function removeStyle(el: HTMLElement) {
 }
 
 // ✅ 把 mounted 逻辑提取成独立函数
-function applyGlow(el: HTMLElement, color: string) {
+function applyGlow(el: HTMLElement, color: string, radius = '7px') {
   removeStyle(el)
   const uniqueClass = `glow-border-${nanoid()}`
   el.classList.add(uniqueClass)
@@ -49,7 +54,7 @@ function applyGlow(el: HTMLElement, color: string) {
         ${withAlpha(color, 0.6)},
         ${withAlpha(color, 0.2)}
       );
-      border-radius: 7px;
+      border-radius: ${radius};
       z-index: 1;
       pointer-events: none;
       opacity: 1;
@@ -75,7 +80,7 @@ function applyGlow(el: HTMLElement, color: string) {
         ${withAlpha(color, 0.6)},
         ${withAlpha(color, 0.2)}
       );
-      border-radius: 7px;
+      border-radius: ${radius};
       z-index: 1;
       pointer-events: none;
       opacity: 1;
@@ -125,13 +130,21 @@ function applyGlow(el: HTMLElement, color: string) {
 }
 
 export default {
-  mounted(el: HTMLElement, binding: DirectiveBinding<string>) {
-    applyGlow(el, binding.value || 'rgba(85, 239, 196, 1)')
+  mounted(el: HTMLElement, binding: DirectiveBinding<GlowBorderOptions>) {
+    applyGlow(
+      el,
+      binding.value.color || 'rgba(85, 239, 196, 1)',
+      binding.value.radius,
+    )
   },
 
-  updated(el: HTMLElement, binding: DirectiveBinding<string>) {
+  updated(el: HTMLElement, binding: DirectiveBinding<GlowBorderOptions>) {
     if (binding.oldValue !== binding.value) {
-      applyGlow(el, binding.value || 'rgba(85, 239, 196, 1)')
+      applyGlow(
+        el,
+        binding.value.color || 'rgba(85, 239, 196, 1)',
+        binding.value.radius,
+      )
     }
   },
 

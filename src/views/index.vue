@@ -88,8 +88,11 @@ watch(
 <template>
   <div class="h-100vh w-100vw flex items-center justify-center bg-bgPrimary">
     <div
-      v-glow-border="themeStore.getPrimaryColor"
-      class="h-200px flex flex-col cursor-pointer items-center justify-center rounded-md bg-bgPrimary p-10px pl-20px pr-20px shadow-xl"
+      v-glow-border="{
+        color: themeStore.getPrimaryColor,
+        radius: '10%',
+      }"
+      class="h-600px flex flex-col cursor-pointer items-center justify-center rounded-10% bg-bgPrimary p-10px pl-20px pr-20px shadow-xl"
     >
       <ASpace
         v-gsap="{
@@ -138,17 +141,4 @@ watch(
   </div>
 </template>
 
-<style scoped lang="less">
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+<style scoped lang="less"></style>

@@ -14,19 +14,28 @@ import { useThemeStore } from './store'
 import { AppEventEmitter } from './utils'
 import 'dayjs/locale/zh-cn'
 
+// 引入dayjs全局语言包
 dayjs.locale(zhCN.locale)
+
+// 引入全局事件监听
 ApiEventHandle()
 
+// 引入全局主题颜色
 const themeStore = useThemeStore()
 
 // 引入全局消息组件
 const { msgContextHolder, msgSuccess } = useMessage()
+
 // 引入全局模态框组件 函数式的简单弹窗
 const { modalContextHolder } = useModal()
+
 // 引入全局语言包
 const { currentLocale } = useLocale()
+
 const { t } = useI18n()
+
 const isDark = computed(() => themeStore.themeMode === 'dark')
+
 const primaryColor = computed(() => themeStore.primaryColor)
 
 function setThemePrimaryColor(color: string) {
