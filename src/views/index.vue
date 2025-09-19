@@ -95,7 +95,7 @@ watch(
         color: themeStore.getPrimaryColor,
         radius: '10%',
       }"
-      class="flex flex-col cursor-pointer items-center justify-center rounded-10% bg-bgPrimary p-30px shadow-xl"
+      class="flex flex-col items-center justify-center rounded-10% bg-bgPrimary p-30px shadow-xl"
     >
       <ASpace
         v-gsap="{

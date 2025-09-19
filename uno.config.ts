@@ -25,7 +25,7 @@ export default defineConfig({
     {
       // 默认图标样式
       'icon-default':
-        'color-textBaseColor cursor-pointer transition-all ease-in active:scale-80 hover:color-primary',
+        'color-textBaseColor transition-all ease-in active:scale-80 hover:color-primary',
     },
   ],
   theme: {

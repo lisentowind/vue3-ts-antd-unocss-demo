@@ -1,5 +1,4 @@
 // 自定义组件
-import type CustomIcon from './components/CustomIcon/CustomIcon.vue'
 import type vGlowBorder from './directives/modules/v-glowBorder'
 import type vGsap from './directives/modules/v-gsap'
 
@@ -8,7 +7,8 @@ declare module 'vue' {
   // 全局注册组件
   export interface GlobalComponents {
     // 自定义组件
-    CustomIcon: typeof CustomIcon
+    CustomIcon: typeof import('@/components/CustomIcon/CustomIcon.vue')['default']
+    CustomMouse: typeof import('@/components/other/custom-mouse.vue')['default']
     // ant-design-vue组件
     AButton: typeof import('ant-design-vue')['Button']
     AConfigProvider: typeof import('ant-design-vue')['ConfigProvider']

@@ -15,6 +15,7 @@ import {
 } from 'ant-design-vue'
 // 自定义组件
 import CustomIcon from '@/components/CustomIcon/CustomIcon.vue'
+import CustomMouse from './other/custom-mouse.vue'
 
 const AntdComponents = {
   Button,
@@ -35,6 +36,7 @@ export default {
   install(Vue: App) {
     // 自定义组件
     Vue.component('CustomIcon', CustomIcon)
+    Vue.component('CustomMouse', CustomMouse)
     // ant-design-vue组件
     Object.entries(AntdComponents).forEach(([key, component]) => {
       Vue.component(`A${key}`, component)
