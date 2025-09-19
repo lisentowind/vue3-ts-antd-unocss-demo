@@ -93,7 +93,8 @@ onUnmounted(() => {
   position: fixed;
   top: 0;
   left: 0;
-  box-shadow: 0 0 2px 1px var(--color-primary);
+  // box-shadow: 0 1px 10px 2px var(--color-primary);
+  border: 5px solid var(--color-primary);
   backdrop-filter: blur(5px);
   z-index: 999999;
   will-change: transform;
