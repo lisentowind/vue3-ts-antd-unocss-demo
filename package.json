@@ -17,6 +17,7 @@
     "@vueuse/core": "^13.9.0",
     "ant-design-vue": "~4.2.6",
     "axios": "^1.12.1",
+    "echarts": "^6.0.0",
     "mitt": "^3.0.1",
     "nprogress": "^0.2.0",
     "pinia": "^3.0.3",

@@ -5,6 +5,7 @@ import { ref, watch } from 'vue'
 import { useRequest } from 'vue-request'
 import { useRoute } from 'vue-router'
 import { getPostInfo } from '@/apis/modules/mock'
+import EchartsIndex from '@/components/echarts/echarts-index.vue'
 import { useMessage, useModal } from '@/hooks'
 import useLocale from '@/hooks/modules/useLocale'
 import { LOCALE_OPTIONS } from '@/locale'
@@ -103,7 +104,12 @@ watch(
         <span
           class="text-30px color-textBaseColor transition-all hover:color-primary"
         >{{ appStore.getAppName }}</span>
-        <CustomIcon :has-default-class="false" class="color-primary" size="30px" icon="tabler:lock" />
+        <CustomIcon
+          :has-default-class="false"
+          class="color-primary"
+          size="30px"
+          icon="tabler:lock"
+        />
         <CustomIcon size="30px" icon="tabler:lock-open" />
         <CustomIcon size="30px" icon="line-md:github" />
         <CustomIcon size="30px" icon="line-md:my-location" />
@@ -122,6 +128,7 @@ watch(
         v-gsap="{
           options: { duration: 0.3, y: 15, x: 0 },
         }"
+        class="mb-20px"
       >
         <AButton type="primary" @click="handelRefreshPage">
           {{ $t('app.event.reload') }}
@@ -137,6 +144,11 @@ watch(
           {{ $t('app.event.fetch') }}
         </AButton>
       </ASpace>
+      <EchartsIndex
+        v-gsap="{
+          options: { duration: 0.3, y: 15, x: 0 },
+        }"
+      />
     </div>
   </div>
 </template>

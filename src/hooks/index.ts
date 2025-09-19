@@ -1,3 +1,4 @@
+export * from './modules/useEcharts'
 export * from './modules/useGsap'
 export * from './modules/useLocalStorage'
 export * from './modules/useMessage'
