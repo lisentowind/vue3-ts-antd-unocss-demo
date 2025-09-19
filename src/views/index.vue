@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import type CustomIcon from '@/components/CustomIcon/CustomIcon.vue'
 import { useDark, useToggle } from '@vueuse/core'
 import { debounce } from 'lodash'
 import { ref, watch } from 'vue'
 import { useRequest } from 'vue-request'
 import { useRoute } from 'vue-router'
 import { getPostInfo } from '@/apis/modules/mock'
+import EchartsArea from '@/components/echarts/echarts-area.vue'
 import EchartsIndex from '@/components/echarts/echarts-index.vue'
 import { useMessage, useModal } from '@/hooks'
 import useLocale from '@/hooks/modules/useLocale'
@@ -93,7 +95,7 @@ watch(
         color: themeStore.getPrimaryColor,
         radius: '10%',
       }"
-      class="h-600px flex flex-col cursor-pointer items-center justify-center rounded-10% bg-bgPrimary p-10px pl-20px pr-20px shadow-xl"
+      class="flex flex-col cursor-pointer items-center justify-center rounded-10% bg-bgPrimary p-30px shadow-xl"
     >
       <ASpace
         v-gsap="{
@@ -149,6 +151,7 @@ watch(
           options: { duration: 0.3, y: 15, x: 0 },
         }"
       />
+      <EchartsArea />
     </div>
   </div>
 </template>

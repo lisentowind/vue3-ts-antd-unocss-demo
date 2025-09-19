@@ -23,6 +23,13 @@ export interface EchartsInfo
 
 echarts.registerTheme('myDark', { ...myDarkConfig })
 
+/**
+ * @description 描述 创建echarts
+ * @date 2025-09-19 14:24:20
+ * @author tingfeng
+ *
+ * @export
+ */
 export function useEcharts() {
   const themeStore = useThemeStore()
   const echartsInfo = ref<EchartsInfo | null>(null)
@@ -45,7 +52,6 @@ export function useEcharts() {
   const resizeHandler = debounce(() => {
     if (instance.value && !instance.value.isDisposed()) {
       instance.value.resize()
-      console.log('resize')
     }
   }, 500)
 

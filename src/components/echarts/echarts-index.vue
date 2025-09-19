@@ -1,8 +1,18 @@
 <script setup lang="ts">
-import { computed, onMounted, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useEcharts } from '@/hooks'
 
 const { init, setOptions } = useEcharts()
+
+const mockData = ref(
+  Array.from({ length: 7 }).map(() => {
+    return Array.from({ length: 7 }).map(() => {
+      return Math.round(Math.random() * 1000)
+    })
+  }),
+)
+
+let timer: any = null
 
 const options = computed(() => {
   return {
@@ -51,7 +61,7 @@ const options = computed(() => {
         emphasis: {
           focus: 'series',
         },
-        data: [120, 132, 101, 134, 90, 230, 210],
+        data: mockData.value[0],
       },
       {
         name: 'Union Ads',
@@ -61,7 +71,7 @@ const options = computed(() => {
         emphasis: {
           focus: 'series',
         },
-        data: [220, 182, 191, 234, 290, 330, 310],
+        data: mockData.value[1],
       },
       {
         name: 'Video Ads',
@@ -71,7 +81,7 @@ const options = computed(() => {
         emphasis: {
           focus: 'series',
         },
-        data: [150, 232, 201, 154, 190, 330, 410],
+        data: mockData.value[2],
       },
       {
         name: 'Direct',
@@ -81,7 +91,7 @@ const options = computed(() => {
         emphasis: {
           focus: 'series',
         },
-        data: [320, 332, 301, 334, 390, 330, 320],
+        data: mockData.value[3],
       },
       {
         name: 'Search Engine',
@@ -95,7 +105,7 @@ const options = computed(() => {
         emphasis: {
           focus: 'series',
         },
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
+        data: mockData.value[4],
       },
     ],
   } as echarts.EChartsOption
@@ -105,7 +115,18 @@ function renderEcharts() {
   init({
     id: 'echarts-index',
     el: 'myChart',
+    opts: {
+      width: 600,
+      height: 300,
+    },
   })
+  timer = setInterval(() => {
+    mockData.value = Array.from({ length: 7 }).map(() => {
+      return Array.from({ length: 7 }).map(() => {
+        return Math.round(Math.random() * 1000)
+      })
+    })
+  }, 3500)
   setOptions(options.value)
 }
 
@@ -117,10 +138,15 @@ watch(
 )
 
 onMounted(() => {
+  console.log('renderEcharts')
   renderEcharts()
+})
+
+onBeforeUnmount(() => {
+  clearTimeout(timer)
 })
 </script>
 
 <template>
-  <div id="myChart" style="width: 600px; height: 400px"></div>
+  <div id="myChart"></div>
 </template>
