@@ -24,10 +24,10 @@ ApiEventHandle()
 const themeStore = useThemeStore()
 
 // 引入全局消息组件
-const { msgContextHolder, destroyAll: msgDestroyAll, msgSuccess } = useMessage()
+const { msgContextHolder: MsgContextHolder, destroyAll: msgDestroyAll, msgSuccess } = useMessage()
 
 // 引入全局模态框组件 函数式的简单弹窗
-const { modalContextHolder, destroyAll: modalDestroyAll } = useModal()
+const { modalContextHolder: ModalContextHolder, destroyAll: modalDestroyAll } = useModal()
 
 // 引入全局语言包
 const { currentLocale } = useLocale()
@@ -79,7 +79,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <a-config-provider
+  <AConfigProvider
     :theme="{
       algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
       token: {
@@ -88,15 +88,15 @@ onBeforeUnmount(() => {
     }"
     :locale="locale"
   >
-    <msgContextHolder />
-    <modalContextHolder />
+    <MsgContextHolder />
+    <ModalContextHolder />
     <CustomMouse />
-    <router-view v-slot="{ Component }">
-      <transition mode="out-in" name="fade">
+    <RouterView v-slot="{ Component }">
+      <Transition mode="out-in" name="fade">
         <component :is="Component" />
-      </transition>
-    </router-view>
-  </a-config-provider>
+      </Transition>
+    </RouterView>
+  </AConfigProvider>
 </template>
 
 <style lang="less" scoped></style>

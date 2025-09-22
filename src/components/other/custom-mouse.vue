@@ -8,7 +8,7 @@ export interface CursorProps {
 }
 
 const props = withDefaults(defineProps<CursorProps>(), {
-  radius: 13,
+  radius: 10,
 })
 
 const themeStore = useThemeStore()
@@ -19,6 +19,7 @@ function withAlpha(color: string, alpha: number) {
 
 const color = computed(() => withAlpha(themeStore.primaryColor, 0.2))
 
+// 外层（负责移动）
 const mouseEl = ref<HTMLDivElement | null>(null)
 const visible = ref(true)
 
@@ -31,8 +32,19 @@ function handleMouseMove(e: MouseEvent) {
   }px, 0)`
 }
 
+// 点击时触发缩放动画（内层元素）
+function handleClick() {
+  const circle = mouseEl.value?.querySelector<HTMLDivElement>('.cursor-circle')
+  if (!circle)
+    return
+
+  circle.style.transform = 'scale(0.8)'
+  setTimeout(() => {
+    circle.style.transform = 'scale(1)'
+  }, 150) // 回弹时间和 transition 保持一致
+}
+
 function handleLeave(e: MouseEvent) {
-  // 当鼠标移出窗口（relatedTarget 为 null）隐藏
   if (!e.relatedTarget)
     visible.value = false
 }
@@ -41,8 +53,39 @@ function handleEnter() {
   visible.value = true
 }
 
+type Handler<K extends keyof DocumentEventMap> = (
+  ev: DocumentEventMap[K],
+) => void
+
+// 原始事件处理函数
+const rawEventMap: Map<keyof DocumentEventMap, Handler<any>> = new Map([
+  ['mousemove', handleMouseMove],
+  ['mouseout', handleLeave],
+  ['mouseover', handleEnter],
+  ['click', handleClick],
+  ['dblclick', handleClick],
+])
+
+// 包装后的监听器，用于 addEventListener/removeEventListener
+const listenerMap = new Map<keyof DocumentEventMap, EventListener>()
+
+function addListener<K extends keyof DocumentEventMap>(
+  event: K,
+  handler: Handler<K>,
+) {
+  const wrapped: EventListener = e => handler(e as DocumentEventMap[K])
+  listenerMap.set(event, wrapped)
+  document.addEventListener(event, wrapped)
+}
+
+function removeAllListeners() {
+  listenerMap.forEach((wrapped, event) => {
+    document.removeEventListener(event, wrapped)
+  })
+  listenerMap.clear()
+}
+
 onMounted(() => {
-  // 添加隐藏系统光标样式
   const style = document.createElement('style')
   style.innerHTML = `
     body, body * {
@@ -51,18 +94,15 @@ onMounted(() => {
   `
   document.head.appendChild(style)
 
-  // 鼠标事件
-  document.addEventListener('mousemove', handleMouseMove)
-  document.addEventListener('mouseout', handleLeave)
-  document.addEventListener('mouseover', handleEnter)
+  // 统一绑定事件
+  rawEventMap.forEach((handler, event) => {
+    addListener(event, handler)
+  })
 })
 
 onUnmounted(() => {
-  document.removeEventListener('mousemove', handleMouseMove)
-  document.removeEventListener('mouseout', handleLeave)
-  document.removeEventListener('mouseover', handleEnter)
+  removeAllListeners()
 
-  // 移除自定义样式
   const styles = document.querySelectorAll('style')
   styles.forEach((style) => {
     if (style.innerHTML.includes('cursor: none'))
@@ -73,6 +113,7 @@ onUnmounted(() => {
 
 <template>
   <teleport to="body">
+    <!-- 外层：负责位置 -->
     <div
       ref="mouseEl"
       class="custom-mouse"
@@ -80,30 +121,34 @@ onUnmounted(() => {
         display: visible ? 'block' : 'none',
         width: `${props.radius * 2}px`,
         height: `${props.radius * 2}px`,
-        backgroundColor: color,
       }"
-    ></div>
+    >
+      <!-- 内层：负责缩放和颜色 -->
+      <div class="cursor-circle" :style="{ backgroundColor: color }"></div>
+    </div>
   </teleport>
 </template>
 
 <style lang="less" scoped>
 .custom-mouse {
-  border-radius: 50%;
   pointer-events: none;
   position: fixed;
   top: 0;
   left: 0;
-  // box-shadow: 0 1px 10px 2px var(--color-primary);
-  border: 5px solid var(--color-primary);
-  backdrop-filter: blur(5px);
   z-index: 999999;
   will-change: transform;
   transform: translate3d(0, 0, 0);
 
-  /* CSS 平滑跟随 */
-  transition:
-    transform 0.08s ease-out,
-    width 0.02s ease-in-out,
-    height 0.02s ease-in-out;
+  transition: transform 0.3s cubic-bezier(0.07, 1.19, 0.44, 1.07); // 平滑跟随
+}
+
+.cursor-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid var(--color-primary);
+  backdrop-filter: blur(3px);
+
+  transition: transform 0.15s cubic-bezier(0.3, 0.7, 0.4, 1); // 点击缩放
 }
 </style>
