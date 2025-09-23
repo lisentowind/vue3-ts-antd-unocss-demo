@@ -1,4 +1,5 @@
 export * from './modules/auth'
 export * from './modules/browserTaskQueue'
 export * from './modules/echarts'
+export * from './modules/getNowEnv'
 export * from './modules/mitt'

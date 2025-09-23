@@ -4,9 +4,9 @@ import type {
   InternalAxiosRequestConfig,
 } from 'axios'
 import axios from 'axios'
-import { ApiEventEmitter } from '@/utils'
+import { ApiEventEmitter, getEnvData } from '@/utils'
 
-const { VITE_API_BASE_URL } = import.meta.env
+const { VITE_API_BASE_URL } = getEnvData()
 
 const codeWhite = [20000, 200, 1001]
 const tokenWhite = ['/login']

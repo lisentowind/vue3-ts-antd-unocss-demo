@@ -5,7 +5,16 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + Vue + TS</title>
+    <script>
+      window.__VITE_APP_CONFIG__ = null
+      fetch(`/config.json?v=${Date.now()}`)
+        .then((res) => res.json())
+        .then((config) => {
+          window.__VITE_APP_CONFIG__ = config
+        })
+    </script>
   </head>
+
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
