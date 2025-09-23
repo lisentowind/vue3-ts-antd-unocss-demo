@@ -4,7 +4,7 @@ import enUS from 'ant-design-vue/es/locale/en_US'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 
 import dayjs from 'dayjs'
-import { computed, onBeforeUnmount, onMounted } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ApiEventHandle } from './apis/event'
 import { useMessage, useModal } from './hooks'
@@ -24,10 +24,15 @@ ApiEventHandle()
 const themeStore = useThemeStore()
 
 // 引入全局消息组件
-const { msgContextHolder: MsgContextHolder, destroyAll: msgDestroyAll, msgSuccess } = useMessage()
+const {
+  msgContextHolder: MsgContextHolder,
+  destroyAll: msgDestroyAll,
+  msgSuccess,
+} = useMessage()
 
 // 引入全局模态框组件 函数式的简单弹窗
-const { modalContextHolder: ModalContextHolder, destroyAll: modalDestroyAll } = useModal()
+const { modalContextHolder: ModalContextHolder, destroyAll: modalDestroyAll }
+  = useModal()
 
 // 引入全局语言包
 const { currentLocale } = useLocale()
@@ -41,6 +46,8 @@ const primaryColor = computed(() => themeStore.primaryColor)
 function setThemePrimaryColor(color: string) {
   document.body.style.setProperty('--color-primary', color)
 }
+
+const useCustomMouse = ref(false)
 
 const locale = computed(() => {
   switch (currentLocale.value) {
@@ -90,7 +97,7 @@ onBeforeUnmount(() => {
   >
     <MsgContextHolder />
     <ModalContextHolder />
-    <CustomMouse />
+    <CustomMouse v-if="useCustomMouse" />
     <RouterView v-slot="{ Component }">
       <Transition mode="out-in" name="fade">
         <component :is="Component" />
