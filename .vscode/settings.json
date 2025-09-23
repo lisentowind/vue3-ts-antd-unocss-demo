@@ -91,5 +91,40 @@
   ],
   "i18n-ally.sourceLanguage": "zh-CN",
   "i18n-ally.keystyle": "flat",
-  "oxc.enable": true
+  "oxc.enable": true,
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "/public/config.json"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "VITE_API_BASE_URL": {
+            "type": "string",
+            "description": "后端接口地址"
+          },
+          "VITE_APP_NAME": {
+            "type": "string",
+            "description": "应用名称"
+          },
+          "VITE_APP_TOKEN_KEY": {
+            "type": "string",
+            "description": "应用的存放 token 存储时的 key"
+          },
+          "VITE_IS_ELE": {
+            "type": "string",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "description": "应用是否运行在 Electron 框架中"
+          }
+        },
+        "required": [
+          "VITE_API_BASE_URL"
+        ]
+      }
+    }
+  ]
 }
