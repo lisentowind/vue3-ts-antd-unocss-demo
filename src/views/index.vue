@@ -93,15 +93,35 @@ watch(
     <div
       v-glow-border="{
         color: themeStore.getPrimaryColor,
-        radius: '10%',
+        radius: '15px',
       }"
-      class="flex flex-col items-center justify-center rounded-10% bg-bgPrimary p-30px shadow-xl"
+      class="flex flex-col items-center justify-center rounded-15px bg-bgPrimary p-30px shadow-xl"
     >
+      <h1
+        v-gsap="{
+          options: { delay: 0.1, duration: 0.3, y: 35, x: 0 },
+        }"
+        class="color-primary"
+      >
+        基础功能演示
+      </h1>
       <ASpace
         v-gsap="{
-          options: { duration: 0.3, y: -15, x: 0 },
+          options: { delay: 0.1, duration: 0.3, y: 35, x: 0 },
         }"
-        class="mb-20px"
+      >
+        <CustomIcon size="30px" icon="tabler:lock-open" />
+        <CustomIcon size="30px" icon="line-md:github" />
+        <CustomIcon size="30px" icon="line-md:my-location" />
+      </ASpace>
+
+      <ASpace
+        v-gsap="{
+          options: { delay: 0.3, duration: 0.3, y: 35, x: 0 },
+          children: false,
+        }"
+        wrap
+        class="m-[20px_0px]"
       >
         <span
           class="text-30px color-textBaseColor transition-all hover:color-primary"
@@ -115,9 +135,8 @@ watch(
         <CustomIcon size="30px" icon="tabler:lock-open" />
         <CustomIcon size="30px" icon="line-md:github" />
         <CustomIcon size="30px" icon="line-md:my-location" />
-
         <AButton type="primary" @click="handelChangeThemeMode">
-          {{ themeStore.getThemeDark }}
+          {{ themeStore.getThemeDark }}主题
         </AButton>
         <AButton type="primary" @click="handelMsg">
           {{ $t('app.btn.msg') }}
@@ -125,17 +144,15 @@ watch(
         <AButton type="primary" @click="handelModal">
           {{ $t('app.btn.modal') }}
         </AButton>
-      </ASpace>
-      <ASpace
-        v-gsap="{
-          options: { duration: 0.3, y: 15, x: 0 },
-        }"
-        class="mb-20px"
-      >
         <AButton type="primary" @click="handelRefreshPage">
           {{ $t('app.event.reload') }}
         </AButton>
-        <AInput v-model:value="color" type="color" class="h-50px w-40px" />
+        <AInput
+          v-model:value="color"
+          type="color"
+          class="h-40px w-40px"
+          placeholder="自定义主色"
+        />
         <ADatePicker v-model:value="date" class="w-150px" />
         <ASelect
           v-model:value="localeLanguage"
@@ -146,12 +163,17 @@ watch(
           {{ $t('app.event.fetch') }}
         </AButton>
       </ASpace>
-      <EchartsIndex
+      <ASpace
         v-gsap="{
-          options: { duration: 0.3, y: 15, x: 0 },
+          options: { delay: 0.5, duration: 0.3, y: 35, x: 0 },
+          children: false,
         }"
-      />
-      <EchartsArea />
+        wrap
+        class="m-[20px_0px]"
+      >
+        <EchartsIndex />
+        <EchartsArea />
+      </ASpace>
     </div>
   </div>
 </template>

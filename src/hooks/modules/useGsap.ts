@@ -50,10 +50,12 @@ export async function useGsap({
       onComplete: () => {
         gsap.set(ele!, { willChange: 'auto' })
         resolve(true)
+        timeline.kill()
       },
       onReverseComplete: () => {
         gsap.set(ele!, { willChange: 'auto' })
         reject(new Error('animation reversed'))
+        timeline.kill()
       },
     })
 
