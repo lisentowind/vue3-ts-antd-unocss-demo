@@ -12,7 +12,7 @@ const codeWhite = [20000, 200, 1001]
 const tokenWhite = ['/login']
 
 const baseAxios = axios.create({
-  timeout: 1000 * 60 * 5,
+  timeout: 1000 * 60 * 0.5,
 })
 
 // 设置 baseAxios 基本 URL
