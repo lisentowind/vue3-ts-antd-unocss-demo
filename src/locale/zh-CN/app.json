@@ -7,5 +7,6 @@
   "app.btn.modal": "函数弹窗",
   "app.event.fetch": "发送模拟请求",
   "app.action.confirm": "确认",
-  "app.action.cancel": "取消"
+  "app.action.cancel": "取消",
+  "app.theme": "主题"
 }

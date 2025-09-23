@@ -7,5 +7,6 @@
   "app.btn.modal": "Function pop-up window",
   "app.event.fetch": "Send a simulation request",
   "app.action.confirm": "confirm",
-  "app.action.cancel": "Cancel"
+  "app.action.cancel": "Cancel",
+  "app.theme": "theme"
 }

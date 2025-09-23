@@ -136,7 +136,7 @@ watch(
         <CustomIcon size="30px" icon="line-md:github" />
         <CustomIcon size="30px" icon="line-md:my-location" />
         <AButton type="primary" @click="handelChangeThemeMode">
-          {{ themeStore.getThemeDark }}主题
+          {{ themeStore.getThemeDark }} {{ $t('app.theme') }}
         </AButton>
         <AButton type="primary" @click="handelMsg">
           {{ $t('app.btn.msg') }}
