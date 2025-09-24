@@ -13,5 +13,6 @@
   "app.tabs.button": "按钮",
   "app.tabs.locale": "国际化",
   "app.tabs.api": "请求",
-  "app.tabs.echarts": "图表"
+  "app.tabs.echarts": "图表",
+  "app.tabs.upload": "上传"
 }

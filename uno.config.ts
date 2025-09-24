@@ -31,10 +31,19 @@ export default defineConfig({
   theme: {
     colors: {
       // 动态主题色
-      primary: `var(--color-primary)`,
+      'primary': `var(--color-primary)`,
+      'primary-1': `rgb(var(--color-primary-value) / 0.1)`,
+      'primary-2': `rgb(var(--color-primary-value) / 0.2)`,
+      'primary-3': `rgb(var(--color-primary-value) / 0.3)`,
+      'primary-4': `rgb(var(--color-primary-value) / 0.4)`,
+      'primary-5': `rgb(var(--color-primary-value) / 0.5)`,
+      'primary-6': `rgb(var(--color-primary-value) / 0.6)`,
+      'primary-7': `rgb(var(--color-primary-value) / 0.7)`,
+      'primary-8': `rgb(var(--color-primary-value) / 0.8)`,
+      'primary-9': `rgb(var(--color-primary-value) / 0.9)`,
       // 从antd获取的变量值
-      bgPrimary: `var(--colorBgContainer)`,
-      textBaseColor: `var(--colorTextBase)`,
+      'bgPrimary': `var(--colorBgContainer)`,
+      'textBaseColor': `var(--colorTextBase)`,
     },
     breakpoints: {
       sm: '640px',

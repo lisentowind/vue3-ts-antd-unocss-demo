@@ -5,12 +5,12 @@ import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMessage, useModal } from '@/hooks'
 import { useThemeStore } from '@/store'
-import { AppEventEmitter } from '@/utils'
+import { AppEventEmitter, rgbaToHex } from '@/utils'
 
 const themeStore = useThemeStore()
 const route = useRoute()
 const date = ref()
-const color = ref(themeStore.getPrimaryColor)
+const color = ref(rgbaToHex(themeStore.getPrimaryColor))
 
 // 主题
 const isDark = useDark({

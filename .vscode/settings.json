@@ -79,12 +79,20 @@
     "iconify",
     "lerp",
     "msie",
+    "msword",
     "nabla",
+    "nums",
+    "officedocument",
+    "openxmlformats",
     "preitter",
     "rgba",
+    "rrggbb",
+    "rrggbbaa",
     "Seperate",
+    "spreadsheetml",
     "tabler",
-    "Tweens"
+    "Tweens",
+    "wordprocessingml"
   ],
   "i18n-ally.localesPaths": [
     "src/locale"

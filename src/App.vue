@@ -44,7 +44,7 @@ const isDark = computed(() => themeStore.themeMode === 'dark')
 const primaryColor = computed(() => themeStore.primaryColor)
 
 function setThemePrimaryColor(color: string) {
-  document.body.style.setProperty('--color-primary', color)
+  themeStore.setPrimaryColor(color)
 }
 
 const useCustomMouse = ref(false)

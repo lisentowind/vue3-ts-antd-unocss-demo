@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { toRgb, toRgbVar } from '@/utils'
 
 type ThemeMode = 'light' | 'dark'
 
@@ -15,11 +16,11 @@ export interface ThemeStoreState {
 export const useThemeStore = defineStore('theme', {
   state: (): ThemeStoreState => ({
     themeMode: 'light',
-    primaryColor: '#00b96b',
+    primaryColor: 'rgba(20,143,22,1)',
   }),
   getters: {
-    getThemeDark: state => state.themeMode,
-    getPrimaryColor: state => state.primaryColor,
+    getThemeDark: (state) => state.themeMode,
+    getPrimaryColor: (state) => state.primaryColor,
   },
   persist: true,
   actions: {
@@ -28,8 +29,11 @@ export const useThemeStore = defineStore('theme', {
       document.body.setAttribute('data-theme', value)
     },
     setPrimaryColor(value: ThemeStoreState['primaryColor']) {
-      this.primaryColor = value
-      document.body.style.setProperty('--color-primary', value)
+      const finalColor = toRgb(value)
+      const colorValueStr = toRgbVar(value)
+      this.primaryColor = finalColor
+      document.body.style.setProperty('--color-primary', finalColor)
+      document.body.style.setProperty('--color-primary-value', colorValueStr)
     },
   },
 })

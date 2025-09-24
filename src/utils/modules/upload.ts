@@ -1,3 +1,3 @@
-export function uploadFile(){
+export function uploadFile() {
 
 }

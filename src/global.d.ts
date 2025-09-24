@@ -9,6 +9,7 @@ declare module 'vue' {
     // 自定义组件
     CustomIcon: typeof import('@/components/CustomIcon/CustomIcon.vue')['default']
     CustomMouse: typeof import('@/components/other/custom-mouse.vue')['default']
+    CustomUpload: typeof import('@/components/upload/customUpload.vue')['default']
     // ant-design-vue组件
     AButton: typeof import('ant-design-vue')['Button']
     AConfigProvider: typeof import('ant-design-vue')['ConfigProvider']
@@ -23,6 +24,10 @@ declare module 'vue' {
     ADatePicker: typeof import('ant-design-vue')['DatePicker']
     ATabs: typeof import('ant-design-vue')['Tabs']
     ATabPane: typeof import('ant-design-vue')['TabPane']
+    AUpload: typeof import('ant-design-vue')['Upload']
+    ARow: typeof import('ant-design-vue')['Row']
+    ACol: typeof import('ant-design-vue')['Col']
+    ATypographyText: typeof import('ant-design-vue')['TypographyText']
   }
   // 全局指令类型声明
   export interface ComponentCustomProperties {

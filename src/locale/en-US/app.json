@@ -13,5 +13,6 @@
   "app.tabs.button": "Button",
   "app.tabs.locale": "Internationalization",
   "app.tabs.api": "ask",
-  "app.tabs.echarts": "chart"
+  "app.tabs.echarts": "chart",
+  "app.tabs.upload": "Upload"
 }

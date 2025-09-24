@@ -8,8 +8,9 @@ import BtnDemo from './components/btn-demo.vue'
 import EchartsDemo from './components/echarts-demo.vue'
 import IconDemo from './components/icon-demo.vue'
 import LocalDemo from './components/local-demo.vue'
+import UploadDemo from './components/upload-demo.vue'
 
-const activeKey = ref('1')
+const activeKey = ref('6')
 
 const themeStore = useThemeStore()
 </script>
@@ -21,11 +22,12 @@ const themeStore = useThemeStore()
         color: themeStore.getPrimaryColor,
         radius: '15px',
       }"
-      class="h-50vh w-80% flex flex-col items-center justify-center rounded-15px bg-bgPrimary p-30px shadow-xl"
+      class="flex flex-col items-center justify-center rounded-15px bg-bgPrimary p-30px shadow-xl"
     >
       <h1
         v-gsap="{
           options: { delay: 0.1, duration: 0.3, y: 35, x: 0 },
+          children:false
         }"
         class="color-primary"
       >
@@ -47,6 +49,9 @@ const themeStore = useThemeStore()
         </ATabPane>
         <ATabPane key="5" :tab="$t('app.tabs.echarts')">
           <EchartsDemo />
+        </ATabPane>
+        <ATabPane key="6" :tab="$t('app.tabs.upload')">
+          <UploadDemo />
         </ATabPane>
       </ATabs>
     </div>
