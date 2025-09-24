@@ -19,8 +19,8 @@ export const useThemeStore = defineStore('theme', {
     primaryColor: 'rgba(20,143,22,1)',
   }),
   getters: {
-    getThemeDark: (state) => state.themeMode,
-    getPrimaryColor: (state) => state.primaryColor,
+    getThemeDark: state => state.themeMode,
+    getPrimaryColor: state => state.primaryColor,
   },
   persist: true,
   actions: {

@@ -27,7 +27,7 @@ const themeStore = useThemeStore()
       <h1
         v-gsap="{
           options: { delay: 0.1, duration: 0.3, y: 35, x: 0 },
-          children:false
+          children: false,
         }"
         class="color-primary"
       >
