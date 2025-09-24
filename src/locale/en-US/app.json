@@ -8,5 +8,10 @@
   "app.event.fetch": "Send a simulation request",
   "app.action.confirm": "confirm",
   "app.action.cancel": "Cancel",
-  "app.theme": "theme"
+  "app.theme": "theme",
+  "app.tabs.icon": "icon",
+  "app.tabs.button": "Button",
+  "app.tabs.locale": "Internationalization",
+  "app.tabs.api": "ask",
+  "app.tabs.echarts": "chart"
 }

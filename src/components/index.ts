@@ -11,6 +11,8 @@ import {
   Space,
   Switch,
   Table,
+  TabPane,
+  Tabs,
   Tooltip,
 } from 'ant-design-vue'
 // 自定义组件
@@ -28,6 +30,8 @@ const AntdComponents = {
   Space,
   Switch,
   Table,
+  Tabs,
+  TabPane,
   Tooltip,
 }
 
