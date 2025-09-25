@@ -108,7 +108,7 @@ const options = computed(() => {
         data: mockData.value[4],
       },
     ],
-  } as echarts.EChartsOption
+  } satisfies echarts.EChartsOption
 })
 
 function renderEcharts() {

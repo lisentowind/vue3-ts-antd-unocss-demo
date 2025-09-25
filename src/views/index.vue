@@ -16,13 +16,15 @@ const themeStore = useThemeStore()
 </script>
 
 <template>
-  <div class="h-100vh w-100vw flex items-center justify-center bg-bgPrimary">
+  <div
+    class="min-h-100vh w-100vw flex items-center justify-center overflow-hidden overflow-y-auto bg-bgPrimary p-[20px_0]"
+  >
     <div
       v-glow-border="{
         color: themeStore.getPrimaryColor,
         radius: '15px',
       }"
-      class="flex flex-col items-center justify-center rounded-15px bg-bgPrimary p-30px shadow-xl"
+      class="min-w-40vw flex flex-col items-center justify-center rounded-15px bg-bgPrimary p-30px shadow-xl"
     >
       <h1
         v-gsap="{
@@ -34,7 +36,7 @@ const themeStore = useThemeStore()
         基础功能演示
       </h1>
 
-      <ATabs v-model:active-key="activeKey">
+      <ATabs v-model:active-key="activeKey" class="w-100%">
         <ATabPane key="1" :tab="$t('app.tabs.icon')">
           <IconDemo />
         </ATabPane>

@@ -9,6 +9,7 @@ import pinia from './store'
 import 'virtual:uno.css'
 import 'ant-design-vue/dist/reset.css'
 import '@/assets/style/global.less'
+import '@/assets/style/transition.less'
 import '@/utils/modules/echarts'
 
 const app = createApp(App)

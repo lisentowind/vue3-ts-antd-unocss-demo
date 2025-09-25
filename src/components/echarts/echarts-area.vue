@@ -182,7 +182,7 @@ const options = computed(() => {
         data: [220, 302, 181, 234, 210, 290, 150],
       },
     ],
-  } as echarts.EChartsOption
+  } satisfies echarts.EChartsOption
 })
 
 function renderEcharts() {

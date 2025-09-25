@@ -7,6 +7,7 @@ import {
   DatePicker,
   Input,
   Modal,
+  Progress,
   Radio,
   Row,
   Select,
@@ -42,6 +43,7 @@ const AntdComponents = {
   Row,
   Col,
   TypographyText,
+  Progress,
 }
 
 // 全局注册组件  类型提示需要去global.d.ts中添加
