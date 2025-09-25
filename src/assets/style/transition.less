@@ -1,214 +1,44 @@
-/* fade */
+// 用在 Vue3 的 <TransitionGroup> 的动画
+/* 1. 声明过渡效果 */
+.fade-move,
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease-in-out;
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
 }
 
+/* 2. 声明进入和离开的状态 */
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+  transform: scaleY(0.01) translate(30px, 0);
 }
 
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
+/* 3. 确保离开的项目被移除出了布局流
+      以便正确地计算移动时的动画效果。 */
+.fade-leave-active {
+  position: absolute;
 }
 
-.list-enter-from,
-.list-leave-to {
+.scale-list-move,
+.scale-list-enter-active,
+.scale-list-leave-active {
+  transition: all 0.4s ease;
+}
+
+.scale-list-enter-from,
+.scale-list-leave-to {
   opacity: 0;
-  transform: translateX(30px);
-}
-
-/* fade-slide */
-.fade-slide-leave-active,
-.fade-slide-enter-active {
-  transition: all 0.3s;
-}
-
-.fade-slide-enter-from {
-  transform: translateX(-30px);
-  opacity: 0;
-}
-
-.fade-slide-leave-to {
-  transform: translateX(30px);
-  opacity: 0;
-}
-
-/* fade-bottom */
-.fade-bottom-enter-active,
-.fade-bottom-leave-active {
-  transition: opacity 0.25s, transform 0.3s;
-}
-
-.fade-bottom-enter-from {
-  transform: translateY(-10%);
-  opacity: 0;
-}
-
-.fade-bottom-leave-to {
-  transform: translateY(10%);
-  opacity: 0;
-}
-
-/* fade-scale */
-.fade-scale-leave-active,
-.fade-scale-enter-active {
-  transition: all 0.28s;
-}
-
-.fade-scale-enter-from {
-  transform: scale(1.2);
-  opacity: 0;
-}
-
-.fade-scale-leave-to {
   transform: scale(0.8);
-  opacity: 0;
 }
 
-/* zoom-fade */
-.zoom-fade-enter-active,
-.zoom-fade-leave-active {
-  transition: transform 0.2s, opacity 0.3s ease-out;
-}
-
-.zoom-fade-enter-from {
-  transform: scale(0.92);
-  opacity: 0;
-}
-
-.zoom-fade-leave-to {
-  transform: scale(1.06);
-  opacity: 0;
-}
-
-/* zoom-out */
-.zoom-out-enter-active,
-.zoom-out-leave-active {
-  transition: opacity 0.1s ease-in-out, transform 0.15s ease-out;
-}
-
-.zoom-out-enter-from,
-.zoom-out-leave-to {
-  transform: scale(0);
-  opacity: 0;
-}
-
-.fade-list-move,
-.fade-list-enter-active,
-.fade-list-leave-active {
-  transition: all 0.5s ease;
-}
-
-.fade-list-enter-from,
-.fade-list-leave-to {
-  opacity: 0;
-}
-
-/* 确保将离开的元素从布局流中删除
-  以便能够正确地计算移动的动画。 */
-.fade-list-leave-active {
+.scale-list-leave-active {
   position: absolute;
 }
 
 .list-move,
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.5s ease;
-}
-
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-}
-
-/* 确保将离开的元素从布局流中删除
-  以便能够正确地计算移动的动画。 */
-.list-leave-active {
-  position: absolute;
-}
-
-.fade-in-left {
-  -webkit-animation: fade-in-left 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation: fade-in-left 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation-delay: 0.4s;
-}
-
-.fade-in-right {
-  -webkit-animation: fade-in-right 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation: fade-in-right 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation-delay: 0.4s;
-}
-
-.fade-in-bottom {
-  -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation: fade-in-bottom 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
-
-.fade-in-top {
-  -webkit-animation: fade-in-top 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation: fade-in-top 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
-
-.fade-out-left {
-  -webkit-animation: fade-out-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  animation: fade-out-left 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-.fade-out-right {
-  -webkit-animation: fade-out-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  animation: fade-out-right 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-.custom-left-enter-active {
-  -webkit-animation: fade-in-left 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation: fade-in-left 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation-delay: 0.8s;
-}
-
-.custom-left-nodelay-enter-active {
-  -webkit-animation: fade-in-left 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation: fade-in-left 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
-
-.custom-left-leave-active {
-  -webkit-animation: fade-out-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  animation: fade-out-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-.custom-left-nodelay-leave-active {
-  -webkit-animation: fade-out-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  animation: fade-out-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-.custom-right-enter-active {
-  -webkit-animation: fade-in-right 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation: fade-in-right 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation-delay: 0.8s;
-}
-
-.custom-right-leave-active {
-  -webkit-animation: fade-out-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  animation: fade-out-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-.custom-left-enter-from,
-.custom-left-leave-to {
-  transform: translateX(-30px);
-  opacity: 0;
-}
-
-.custom-right-enter-from,
-.custom-right-leave-to {
-  transform: translateX(30px);
-  opacity: 0;
-}
-
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
+  transition: all 0.4s ease;
 }
 
 .list-enter-from,
@@ -217,345 +47,54 @@
   transform: translateX(30px);
 }
 
-.list-y-move,
-.list-y-enter-active,
-.list-y-leave-active {
-  transition: all 0.3s ease;
+.list-leave-active {
+  position: absolute;
+}
+.up-list-move,
+.up-list-enter-active,
+.up-list-leave-active {
+  transition: all 0.4s ease;
 }
 
-.list-y-enter-from,
-.list-y-leave-to {
+.up-list-enter-from,
+.up-list-leave-to {
   opacity: 0;
+  transform: translateY(30px);
 }
 
-/* 确保将离开的元素从布局流中删除
-  以便能够正确地计算移动的动画。 */
-.list-y-leave-active {
+.up-list-leave-active {
   position: absolute;
 }
 
-.list-y-enter-active,
-.list-y-leave-active {
-  transition: all 0.3s ease;
+.flip-list-move,
+.flip-list-enter-active,
+.flip-list-leave-active {
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.list-y-enter-from,
-.list-y-leave-to {
+.flip-list-enter-from,
+.flip-list-leave-to {
   opacity: 0;
-  transform: translateY(5px);
+  transform: rotateY(90deg);
+  transform-origin: left center;
 }
 
-/**
-* ----------------------------------------
-* animation fade-out-right
-* ----------------------------------------
-*/
-@-webkit-keyframes fade-out-right {
-  0% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  100% {
-    -webkit-transform: translateX(50px);
-    transform: translateX(50px);
-    opacity: 0;
-    display: none;
-  }
+.flip-list-leave-active {
+  position: absolute;
 }
 
-@keyframes fade-out-right {
-  0% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  100% {
-    -webkit-transform: translateX(50px);
-    transform: translateX(50px);
-    opacity: 0;
-    display: none;
-  }
+.bounce-list-move,
+.bounce-list-enter-active,
+.bounce-list-leave-active {
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/**
-* ----------------------------------------
-* animation fade-out-left
-* ----------------------------------------
-*/
-@-webkit-keyframes fade-out-left {
-  0% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  100% {
-    -webkit-transform: translateX(-50px);
-    transform: translateX(-50px);
-    opacity: 0;
-    display: none;
-  }
+.bounce-list-enter-from,
+.bounce-list-leave-to {
+  opacity: 0;
+  transform: scale(0.6);
 }
 
-@keyframes fade-out-left {
-  0% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  100% {
-    -webkit-transform: translateX(-50px);
-    transform: translateX(-50px);
-    opacity: 0;
-    display: none;
-  }
-}
-
-/**
- * ----------------------------------------
- * animation fade-in-top
- * ----------------------------------------
- */
-@-webkit-keyframes fade-in-top {
-  0% {
-    -webkit-transform: translateY(-50px);
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in-top {
-  0% {
-    -webkit-transform: translateY(-50px);
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes fade-in-bottom {
-  0% {
-    -webkit-transform: translateY(50px);
-    transform: translateY(50px);
-    opacity: 0;
-  }
-
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in-bottom {
-  0% {
-    -webkit-transform: translateY(50px);
-    transform: translateY(50px);
-    opacity: 0;
-  }
-
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes fade-in-right {
-  0% {
-    -webkit-transform: translateX(50px);
-    transform: translateX(50px);
-    opacity: 0;
-  }
-
-  100% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in-right {
-  0% {
-    -webkit-transform: translateX(50px);
-    transform: translateX(50px);
-    opacity: 0;
-  }
-
-  100% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes fade-in-left {
-  0% {
-    -webkit-transform: translateX(-50px);
-    transform: translateX(-50px);
-    opacity: 0;
-  }
-
-  100% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in-left {
-  0% {
-    -webkit-transform: translateX(-50px);
-    transform: translateX(-50px);
-    opacity: 0;
-  }
-
-  100% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-/**
-  map地图按钮动画
-*/
-// 动画1
-@keyframes circle-one {
-  0% {
-    transform: rotate(0deg) scale(1);
-    opacity: 0.8;
-  }
-
-  50% {
-    transform: rotate(180deg) scale(1.1);
-    opacity: 0.5;
-  }
-
-  100% {
-    transform: rotate(360deg) scale(1);
-    opacity: 0.8;
-  }
-}
-
-// 动画2
-@keyframes circle-two {
-  0% {
-    transform: scale(1);
-  }
-
-  25% {
-    transform: scale(1.05);
-  }
-
-  50% {
-    transform: scale(1.1);
-  }
-
-  75% {
-    transform: scale(1.05);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-// 动画3
-@keyframes circle-three {
-  0% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-
-  25% {
-    transform: scale(1.05);
-    opacity: 0.6;
-  }
-
-  50% {
-    transform: scale(1.1);
-    opacity: 0.3;
-  }
-
-  75% {
-    transform: scale(1.05);
-    opacity: 0.6;
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-}
-
-// 波纹动画
-
-@keyframes warn {
-  0% {
-    transform: scale(1.1);
-    opacity: 0;
-  }
-
-  25% {
-    transform: scale(1.2);
-    opacity: 0.1;
-  }
-
-  50% {
-    transform: scale(1.3);
-    opacity: 0.3;
-  }
-
-  75% {
-    transform: scale(1.4);
-    opacity: 0.5;
-  }
-
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
-}
-
-@keyframes warn2 {
-  0% {
-    transform: scale(1);
-    opacity: 0;
-  }
-
-  25% {
-    transform: scale(1.1);
-    opacity: 0.1;
-  }
-
-  50% {
-    transform: scale(1.2);
-    opacity: 0.3;
-  }
-
-  75% {
-    transform: scale(1.3);
-    opacity: 0.5;
-  }
-
-  100% {
-    transform: scale(1.4);
-    opacity: 0;
-  }
+.bounce-list-leave-active {
+  position: absolute;
 }

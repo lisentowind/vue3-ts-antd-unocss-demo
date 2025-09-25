@@ -29,28 +29,14 @@ const defaultBtn = computed<ListControlBtn[]>(() => [
     emit: 'download',
   },
   {
-    id: 'continue',
-    icon: 'uil:play',
-    sort: 3,
-    name: '继续/开始',
-    emit: 'continue',
-  },
-  {
-    id: 'pause',
-    icon: 'material-symbols:pause',
-    sort: 3,
-    name: '暂停',
-    emit: 'pause',
-  },
-  {
     id: 'cancel',
     icon: 'hugeicons:cancel-01',
-    sort: 4,
+    sort: 3,
     name: '取消',
     emit: 'cancel',
   },
-  { id: 'reTry', icon: 'mynaui:redo', sort: 5, name: '重试', emit: 'reTry' },
-  { id: 'delete', icon: 'mi:delete', sort: 6, name: '删除', emit: 'delete' },
+  { id: 'reTry', icon: 'mynaui:redo', sort: 4, name: '重试', emit: 'reTry' },
+  { id: 'delete', icon: 'mi:delete', sort: 5, name: '删除', emit: 'delete' },
 ])
 
 // 获取后缀名称对应的文件类型
@@ -64,10 +50,10 @@ function getFileExt(fileName: string) {
 }
 
 function getBtnArr(status: FileListItem['status']) {
-  const allBtn: ListControlBtn[] = [defaultBtn.value[6]] // delete 永远显示
+  const allBtn: ListControlBtn[] = [defaultBtn.value[4]] // delete 永远显示
   const map: Record<string, number[]> = {
     uploading: [3, 4],
-    error: [4, 5, 6],
+    error: [4],
     done: [1, 2],
   }
   const sorts = map[status] || []
@@ -83,6 +69,12 @@ function getBtnArr(status: FileListItem['status']) {
   <div
     class="relative flex cursor-pointer items-center justify-center border-1px border-primary rounded-md border-solid p-5px transition-all hover:border-primary hover:bg-primary-1"
     :style="{ width: props.width, height: props.height }"
+    :class="{
+      'bg-red-1': props.list.status === 'error',
+      'hover:bg-red-1': props.list.status === 'error',
+      'border-red-1': props.list.status === 'error',
+      'hover:border-red-1': props.list.status === 'error',
+    }"
   >
     <ASpace
       direction="vertical"
@@ -90,12 +82,20 @@ function getBtnArr(status: FileListItem['status']) {
     >
       <AProgress
         class="progress-right mr-0"
-        :status="props.list.status !== 'done' ? 'active' : 'success'"
         type="circle"
         :size="18"
-        :percent="props.list.percent"
         :show-info="false"
-        :stroke-color="themeStore.getPrimaryColor"
+        :status="
+          props.list.status === 'uploading'
+            ? 'active'
+            : props.list.status === 'error'
+              ? 'exception'
+              : 'success'
+        "
+        :percent="props.list.percent"
+        :stroke-color="
+          props.list.status === 'error' ? 'red' : themeStore.getPrimaryColor
+        "
       />
       <CustomIcon
         :icon="`vscode-icons:file-type-${getFileExt(props.list.name)}`"
@@ -115,16 +115,16 @@ function getBtnArr(status: FileListItem['status']) {
       :style="{ width: props.width, height: props.height }"
     >
       <ASpace wrap>
-        <template v-for="btn in getBtnArr(props.list.status)" :key="btn.name">
+        <template v-for="btn in getBtnArr(props.list.status)" :key="btn">
           <AButton
             size="small"
             type="primary"
             shape="circle"
             class="flex items-center justify-center"
-            :title="btn.name"
+            :title="btn?.name"
             @click="() => emits(btn.emit, props.list)"
           >
-            <CustomIcon :icon="btn.icon" color="currentColor" />
+            <CustomIcon :icon="btn?.icon || ''" color="currentColor" />
           </AButton>
         </template>
       </ASpace>

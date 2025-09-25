@@ -5,14 +5,16 @@ import type { CustomUploadProps, FileListItem } from '../customUpload.vue'
 import UploadListCard from './upload-list-card.vue'
 
 interface UploadSelectProps
-  extends Pick<CustomUploadProps, 'width' | 'height'> {
+  extends Pick<CustomUploadProps, 'width' | 'height' | 'maxFile'> {
   listType: UploadProps['listType']
   text: string
   showText: boolean
   fileList: FileListItem[]
 }
 
-const props = withDefaults(defineProps<UploadSelectProps>(), {})
+const props = withDefaults(defineProps<UploadSelectProps>(), {
+  maxFile: 5,
+})
 
 const emits = defineEmits<{
   (e: 'selectClick'): void
@@ -49,8 +51,11 @@ function handleAction(type: FileActionEvent, item: FileListItem) {
         {{ props.text }}
       </AButton>
 
-      <div v-else class="card flex flex-wrap items-center justify-start gap-10px">
-        <TransitionGroup name="list-y">
+      <div
+        v-else
+        class="card flex flex-wrap items-center justify-start gap-10px"
+      >
+        <TransitionGroup name="bounce-list">
           <!-- card -->
           <UploadListCard
             v-for="file in props.fileList"
@@ -66,8 +71,8 @@ function handleAction(type: FileActionEvent, item: FileListItem) {
             @re-try="(v) => handleAction('reTry', v)"
             @delete="(v) => handleAction('delete', v)"
           />
-
           <div
+            v-if="props.fileList.length < props.maxFile"
             :key="new Date().getTime()"
             class="group h-100px w-100px flex cursor-pointer items-center justify-center border-1px border-gray rounded-md border-dashed transition-all hover:border-primary"
             @click="handelSelectClick"

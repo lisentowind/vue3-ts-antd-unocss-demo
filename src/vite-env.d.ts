@@ -5,6 +5,7 @@ type ViteEnvBoolean = 'true' | 'false'
 interface ImportMetaEnv {
   readonly VITE_APP_NAME: string
   readonly VITE_API_BASE_URL: string
+  readonly VITE_API_UPLOAD_URL: string
   readonly VITE_APP_TOKEN_KEY: string
   readonly VITE_IS_ELE: ViteEnvBoolean
   // 环境变量是否来自外部配置文件

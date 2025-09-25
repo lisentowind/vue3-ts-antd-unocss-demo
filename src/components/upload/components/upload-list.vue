@@ -37,28 +37,14 @@ const defaultBtn = computed<ListControlBtn[]>(() => [
     emit: 'download',
   },
   {
-    id: 'continue',
-    icon: 'uil:play',
-    sort: 3,
-    name: '继续/开始',
-    emit: 'continue',
-  },
-  {
-    id: 'pause',
-    icon: 'material-symbols:pause',
-    sort: 3,
-    name: '暂停',
-    emit: 'pause',
-  },
-  {
     id: 'cancel',
     icon: 'hugeicons:cancel-01',
-    sort: 4,
+    sort: 3,
     name: '取消',
     emit: 'cancel',
   },
-  { id: 'reTry', icon: 'mynaui:redo', sort: 5, name: '重试', emit: 'reTry' },
-  { id: 'delete', icon: 'mi:delete', sort: 6, name: '删除', emit: 'delete' },
+  { id: 'reTry', icon: 'mynaui:redo', sort: 4, name: '重试', emit: 'reTry' },
+  { id: 'delete', icon: 'mi:delete', sort: 5, name: '删除', emit: 'delete' },
 ])
 
 // 获取后缀名称对应的文件类型
@@ -72,10 +58,10 @@ function getFileExt(fileName: string) {
 }
 
 function getBtnArr(status: FileListItem['status']) {
-  const allBtn: ListControlBtn[] = [defaultBtn.value[6]] // delete 永远显示
+  const allBtn: ListControlBtn[] = [defaultBtn.value[4]] // delete 永远显示
   const map: Record<string, number[]> = {
     uploading: [3, 4],
-    error: [4, 5, 6],
+    error: [4],
     done: [1, 2],
   }
   const sorts = map[status] || []
@@ -89,10 +75,14 @@ function getBtnArr(status: FileListItem['status']) {
 
 <template>
   <div class="w-100%">
-    <TransitionGroup name="list-y">
+    <TransitionGroup name="bounce-list">
       <template v-for="file in props.fileList" :key="file.uid">
         <ARow
           class="group m-[5px_0] w-100% cursor-pointer border-1px border-transparent rounded-[8px] border-solid p-[10px_15px] transition-all hover:border-primary hover:bg-primary-1"
+          :class="{
+            'bg-red-1': file.status === 'error',
+            'hover:bg-red-1': file.status === 'error',
+          }"
         >
           <ACol span="2" class="flex items-center justify-center">
             <CustomIcon
@@ -129,9 +119,17 @@ function getBtnArr(status: FileListItem['status']) {
           </ACol>
           <ACol span="6" offset="1" class="flex justify-end">
             <AProgress
-              :status="file.status !== 'done' ? 'active' : 'success'"
+              :status="
+                file.status === 'uploading'
+                  ? 'active'
+                  : file.status === 'error'
+                    ? 'exception'
+                    : 'success'
+              "
               :percent="file.percent"
-              :stroke-color="themeStore.getPrimaryColor"
+              :stroke-color="
+                file.status === 'error' ? 'red' : themeStore.getPrimaryColor
+              "
             />
           </ACol>
         </ARow>

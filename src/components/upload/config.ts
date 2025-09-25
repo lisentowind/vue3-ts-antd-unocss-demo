@@ -17,11 +17,11 @@ export const fileTypeMap = new Map([
   ['rar', 'zip'],
   ['7z', 'zip'],
 ])
-export type FileActionEvent =
-  | 'view'
-  | 'download'
-  | 'continue'
-  | 'pause'
-  | 'cancel'
-  | 'reTry'
-  | 'delete'
+export type FileActionEvent
+  = | 'view'
+    | 'download'
+    | 'continue'
+    | 'pause'
+    | 'cancel'
+    | 'reTry'
+    | 'delete'
