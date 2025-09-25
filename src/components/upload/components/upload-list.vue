@@ -80,8 +80,8 @@ function getBtnArr(status: FileListItem['status']) {
         <ARow
           class="group m-[5px_0] w-100% cursor-pointer border-1px border-transparent rounded-[8px] border-solid p-[10px_15px] transition-all hover:border-primary hover:bg-primary-1"
           :class="{
-            'bg-red-1': file.status === 'error',
-            'hover:bg-red-1': file.status === 'error',
+            'bg-error-1': file.status === 'error',
+            'hover:bg-error-1': file.status === 'error',
           }"
         >
           <ACol span="2" class="flex items-center justify-center">
@@ -128,7 +128,7 @@ function getBtnArr(status: FileListItem['status']) {
               "
               :percent="file.percent"
               :stroke-color="
-                file.status === 'error' ? 'red' : themeStore.getPrimaryColor
+                file.status === 'error' ? undefined : themeStore.getPrimaryColor
               "
             />
           </ACol>

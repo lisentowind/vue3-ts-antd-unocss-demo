@@ -70,10 +70,10 @@ function getBtnArr(status: FileListItem['status']) {
     class="relative flex cursor-pointer items-center justify-center border-1px border-primary rounded-md border-solid p-5px transition-all hover:border-primary hover:bg-primary-1"
     :style="{ width: props.width, height: props.height }"
     :class="{
-      'bg-red-1': props.list.status === 'error',
-      'hover:bg-red-1': props.list.status === 'error',
-      'border-red-1': props.list.status === 'error',
-      'hover:border-red-1': props.list.status === 'error',
+      'bg-error-1': props.list.status === 'error',
+      'hover:bg-error-1': props.list.status === 'error',
+      'border-error-1!': props.list.status === 'error',
+      'hover:border-error-1': props.list.status === 'error',
     }"
   >
     <ASpace
@@ -94,7 +94,7 @@ function getBtnArr(status: FileListItem['status']) {
         "
         :percent="props.list.percent"
         :stroke-color="
-          props.list.status === 'error' ? 'red' : themeStore.getPrimaryColor
+          props.list.status === 'error' ? undefined : themeStore.getPrimaryColor
         "
       />
       <CustomIcon
