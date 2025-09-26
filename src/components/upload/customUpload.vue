@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import type { FileActionEvent } from './config'
 import { useFileDialog, useVModel } from '@vueuse/core'
+import { cloneDeep } from 'lodash'
 import { nanoid } from 'nanoid'
 import { onMounted, ref, watch } from 'vue'
 import { uploadFile } from '@/apis/modules/upload'
 import { useCancelRequest, useMessage } from '@/hooks'
 import { AllRegExp, BrowserTaskQueue } from '@/utils'
-import { fetchDownload } from '@/utils/modules/fetch-download'
 
+import { fetchDownload } from '@/utils/modules/fetch-download'
 import UploadList from './components/upload-list.vue'
 import UploadSelect from './components/upload-select.vue'
 
@@ -69,15 +70,44 @@ const fileUpLoadQueue = new BrowserTaskQueue({
   concurrency: props.maxConcurrency,
 })
 
+const upLoadErrorFile = ref<FileListItem[]>([])
+
 // 监听任务失败
-// fileUpLoadQueue.on('taskError', (task) => {
-//   console.log('🚀 ~ taskError:', task)
-// })
+fileUpLoadQueue.on('taskError', ({ task }) => {
+  const errorItem = fileList.value.find(item => item.uid === task.id)
+  if (
+    errorItem
+    && !upLoadErrorFile.value.some(item => item.uid === task.id)
+  ) {
+    upLoadErrorFile.value.push(cloneDeep(errorItem))
+  }
+})
 
 // 监听任务完成
-// fileUpLoadQueue.on('taskComplete', (task) => {
-//   console.log('🚀 ~ taskComplete:', task)
-// })
+fileUpLoadQueue.on('taskComplete', ({ task }) => {
+  upLoadErrorFile.value = upLoadErrorFile.value.filter(
+    item => item.uid !== task.id,
+  )
+})
+
+function handelRetryUpLoad() {
+  if (!upLoadErrorFile.value.length)
+    return
+
+  upLoadErrorFile.value.forEach((item) => {
+    const baseFile = getBaseFile(item)
+    if (baseFile) {
+      // 重置状态
+      baseFile.status = 'uploading'
+      baseFile.percent = 0
+      // 重新上传
+      startUpLoadFile(baseFile)
+    }
+  })
+
+  // 重试之后清空错误列表（避免重复展示“一键重试”按钮）
+  upLoadErrorFile.value = []
+}
 
 const { cancelRequest, deleteRequest } = useCancelRequest()
 function getFilePath(file: FileListItem) {
@@ -98,6 +128,9 @@ function cancelUpLoad(file: FileListItem, msg: string) {
 function deleteUploadFile(file: FileListItem, msg: string) {
   cancelUpLoad(file, msg)
   fileList.value = fileList.value.filter(item => item.uid !== file.uid)
+  upLoadErrorFile.value = upLoadErrorFile.value.filter(
+    item => item.uid !== file.uid,
+  )
 }
 
 const imagePreviewUrl = ref<string>('')
@@ -121,6 +154,11 @@ const eventActionMap: Record<FileActionEvent, (v: FileListItem) => void> = {
   download: (v) => {
     if (v.url) {
       fetchDownload(v.url, v.name, v.url.split('.').pop() ?? 'txt')
+    }
+    else {
+      msgInfo({
+        content: '上传未完成的图片不能下载',
+      })
     }
   },
   cancel: (v) => {
@@ -289,6 +327,21 @@ onMounted(() => {
         </slot>
       </template>
     </UploadSelect>
+    <div v-if="upLoadErrorFile.length" class="m-[5px_0]">
+      <AButton
+        v-if="props.listType !== 'picture-card'"
+        @click="handelRetryUpLoad"
+      >
+        <template #icon>
+          <CustomIcon
+            icon="mynaui:redo-solid"
+            color="currentColor"
+            class="mr-5px"
+          />
+        </template>
+        一键重试
+      </AButton>
+    </div>
     <TransitionGroup name="bounce-list">
       <UploadList
         v-if="fileList.length && props.listType !== 'picture-card'"
