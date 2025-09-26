@@ -25,7 +25,7 @@ router.beforeEach(() => {
 
 router.afterEach(() => {
   NProgress.done()
-  useBrowserTitle()
+  useBrowserTitle().routeTitleSet()
 })
 
 export default router
