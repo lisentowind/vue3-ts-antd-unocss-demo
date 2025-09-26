@@ -7,7 +7,7 @@ declare module 'vue' {
   // 全局注册组件
   export interface GlobalComponents {
     // 自定义组件
-    CustomIcon: typeof import('@/components/CustomIcon/CustomIcon.vue')['default']
+    CustomIcon: typeof import('@/components/customIcon/customIcon.vue')['default']
     CustomMouse: typeof import('@/components/other/custom-mouse.vue')['default']
     CustomUpload: typeof import('@/components/upload/customUpload.vue')['default']
     // ant-design-vue组件
