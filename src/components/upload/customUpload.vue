@@ -100,11 +100,21 @@ function deleteUploadFile(file: FileListItem, msg: string) {
   fileList.value = fileList.value.filter(item => item.uid !== file.uid)
 }
 
+const imagePreviewUrl = ref<string>('')
+const visible = ref<boolean>(false)
+function setVisible(value: boolean) {
+  visible.value = value
+}
+
 const eventActionMap: Record<FileActionEvent, (v: FileListItem) => void> = {
   view: (v) => {
     if (v.url) {
+      imagePreviewUrl.value = v.url
+      setVisible(true)
+    }
+    else {
       msgInfo({
-        content: '查看文件',
+        content: '上传未完成的图片不能查看',
       })
     }
   },
@@ -259,7 +269,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="custom-upload m-[5px_0]">
+  <div class="custom-upload relative m-[5px_0]">
     <UploadSelect
       v-if="
         props.listType !== 'picture-card'
@@ -301,7 +311,24 @@ onMounted(() => {
         @delete="(v) => handleAction('delete', v)"
       />
     </TransitionGroup>
+    <AImage
+      :width="0"
+      :style="{ display: 'none' }"
+      :preview="{
+        visible,
+        onVisibleChange: setVisible,
+      }"
+      :src="imagePreviewUrl"
+    />
   </div>
 </template>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.custom-upload {
+  :deep(.ant-image) {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+</style>

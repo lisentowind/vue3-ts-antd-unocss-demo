@@ -57,12 +57,16 @@ function getFileExt(fileName: string) {
   return getFileType(fileName.substring(index + 1))
 }
 
-function getBtnArr(status: FileListItem['status']) {
+function getBtnArr(
+  status: FileListItem['status'],
+  fileName: FileListItem['name'],
+) {
+  const fileType = getFileExt(fileName)
   const allBtn: ListControlBtn[] = [defaultBtn.value[4]] // delete 永远显示
   const map: Record<string, number[]> = {
     uploading: [3, 4],
-    error: [4],
-    done: [1, 2],
+    error: fileType === 'image' ? [1, 2] : [4],
+    done: fileType === 'image' ? [1, 2] : [2],
   }
   const sorts = map[status] || []
   sorts.forEach((i) => {
@@ -103,7 +107,10 @@ function getBtnArr(status: FileListItem['status']) {
             <ASpace
               class="opacity-0 transition-opacity group-hover:opacity-100"
             >
-              <template v-for="btn in getBtnArr(file.status)" :key="btn.name">
+              <template
+                v-for="btn in getBtnArr(file.status, file.name)"
+                :key="btn.name"
+              >
                 <AButton
                   size="small"
                   type="primary"

@@ -29,6 +29,7 @@ declare module 'vue' {
     ACol: typeof import('ant-design-vue')['Col']
     ATypographyText: typeof import('ant-design-vue')['TypographyText']
     AProgress: typeof import('ant-design-vue')['Progress']
+    AImage: typeof import('ant-design-vue')['Image']
   }
   // 全局指令类型声明
   export interface ComponentCustomProperties {

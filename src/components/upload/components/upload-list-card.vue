@@ -39,6 +39,10 @@ const defaultBtn = computed<ListControlBtn[]>(() => [
   { id: 'delete', icon: 'mi:delete', sort: 5, name: '删除', emit: 'delete' },
 ])
 
+const isImage = computed(() => {
+  return getFileExt(props.list.name) === 'image'
+})
+
 // 获取后缀名称对应的文件类型
 function getFileType(ext: string) {
   return fileTypeMap.get(ext)
@@ -49,12 +53,16 @@ function getFileExt(fileName: string) {
   return getFileType(fileName.substring(index + 1))
 }
 
-function getBtnArr(status: FileListItem['status']) {
+function getBtnArr(
+  status: FileListItem['status'],
+  fileName: FileListItem['name'],
+) {
+  const fileType = getFileExt(fileName)
   const allBtn: ListControlBtn[] = [defaultBtn.value[4]] // delete 永远显示
   const map: Record<string, number[]> = {
     uploading: [3, 4],
-    error: [4],
-    done: [1, 2],
+    error: fileType === 'image' ? [1, 2] : [4],
+    done: fileType === 'image' ? [1, 2] : [2],
   }
   const sorts = map[status] || []
   sorts.forEach((i) => {
@@ -77,6 +85,7 @@ function getBtnArr(status: FileListItem['status']) {
     }"
   >
     <ASpace
+      v-if="!isImage || (isImage && props.list.status !== 'done')"
       direction="vertical"
       class="info h-100% w-100% flex items-center justify-center"
     >
@@ -109,13 +118,24 @@ function getBtnArr(status: FileListItem['status']) {
         :content="props.list.name"
       />
     </ASpace>
+    <AImage
+      v-else-if="isImage && props.list.status === 'done'"
+      class="absolute left--1px top--1px"
+      :width="props.width"
+      :height="props.height"
+      :preview="true"
+      :src="props.list.url"
+    />
     <!-- hover层级 -->
     <div
       class="card-hover absolute left--1px top--1px flex items-center justify-center border-1px border-primary rounded-md border-solid pb-10px"
       :style="{ width: props.width, height: props.height }"
     >
       <ASpace wrap>
-        <template v-for="btn in getBtnArr(props.list.status)" :key="btn">
+        <template
+          v-for="btn in getBtnArr(props.list.status, props.list.name)"
+          :key="btn"
+        >
           <AButton
             size="small"
             type="primary"

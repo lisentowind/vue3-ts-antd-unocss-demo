@@ -5,6 +5,7 @@ import {
   Col,
   ConfigProvider,
   DatePicker,
+  Image,
   Input,
   Modal,
   Progress,
@@ -44,6 +45,7 @@ const AntdComponents = {
   Col,
   TypographyText,
   Progress,
+  Image,
 }
 
 // 全局注册组件  类型提示需要去global.d.ts中添加
