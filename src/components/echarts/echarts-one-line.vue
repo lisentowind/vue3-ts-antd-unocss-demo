@@ -6,6 +6,16 @@ import { useEcharts } from '@/hooks'
 const myChartOneLine = useTemplateRef('myChartOneLine')
 const { init, setOptions } = useEcharts()
 const colorArr = ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00']
+// const totalArr = Array.from({ length: 5 }).map(() => {
+//   return [Math.round(Math.random() * 1000) + 1]
+// })
+const totalArr = [[0], [100], [20], [60], [80]]
+const sum = totalArr.reduce((acc, cur) => (acc += cur[0]), 0) || 100
+const minRate = 0.12
+const newArr = totalArr.map(item =>
+  item[0] / sum < minRate ? [Math.ceil(sum * minRate)] : item,
+)
+
 const options = computed(() => {
   return {
     color: colorArr,
@@ -13,6 +23,15 @@ const options = computed(() => {
       trigger: 'item',
       axisPointer: {
         type: 'none',
+      },
+      formatter: (params: any) => {
+        return `
+            <div class="custom-tooltip-style">
+            <span>${params.marker}</span>
+             <span>${params.seriesName}</span>
+             <div>${totalArr[params.seriesIndex][0]}</div>
+          </div>
+          `
       },
     },
     legend: {
@@ -28,17 +47,19 @@ const options = computed(() => {
     xAxis: {
       show: false,
       type: 'value',
+      splitNumber: 100,
+      minInterval: 40,
     },
     yAxis: {
       show: false,
       type: 'category',
       data: [''],
     },
-    series: Array.from({ length: 5 }).map((_item, index) => {
-      let topBorder = 0
-      let bottomBorder = 0
-      topBorder = 20
-      bottomBorder = 20
+    series: totalArr.map((_item, index) => {
+      let topBorder = 10
+      let bottomBorder = 10
+      topBorder = 10
+      bottomBorder = 10
       return {
         name: `item${index}`,
         type: 'bar',
@@ -48,18 +69,16 @@ const options = computed(() => {
         },
         emphasis: {
           itemStyle: {
-            color: colorArr[index],
+            color: colorArr[index % 5],
           },
         },
-        barWidth: 10,
-
+        barWidth: 20,
         itemStyle: {
-          shadowOffsetX: 25,
-          shadowColor: colorArr[index],
+          shadowOffsetX: 14.5,
+          shadowColor: colorArr[index % 5],
           borderRadius: [topBorder, bottomBorder, bottomBorder, topBorder],
         },
-
-        data: [Math.round(Math.random() * 1000) + 1],
+        data: newArr[index],
       } satisfies echarts.EChartsOption['series']
     }),
   } satisfies echarts.EChartsOption
