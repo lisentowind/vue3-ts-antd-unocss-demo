@@ -10,7 +10,7 @@ import IconDemo from './components/icon-demo.vue'
 import LocalDemo from './components/local-demo.vue'
 import UploadDemo from './components/upload-demo.vue'
 
-const activeKey = ref('6')
+const activeKey = ref('1')
 
 const themeStore = useThemeStore()
 </script>

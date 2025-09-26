@@ -1,3 +1,4 @@
+export * from './modules/useBrowserTitle'
 export * from './modules/useCancelRequest'
 export * from './modules/useEcharts'
 export * from './modules/useGsap'
