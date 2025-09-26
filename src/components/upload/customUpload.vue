@@ -123,12 +123,6 @@ const eventActionMap: Record<FileActionEvent, (v: FileListItem) => void> = {
       fetchDownload(v.url, v.name, v.url.split('.').pop() ?? 'txt')
     }
   },
-  continue: (v) => {
-    console.log('continue', v)
-  },
-  pause: (v) => {
-    console.log('pause', v)
-  },
   cancel: (v) => {
     const baseFile = getBaseFile(v)
     if (baseFile) {
@@ -286,8 +280,6 @@ onMounted(() => {
       @select-click="selectClick"
       @view="(v) => handleAction('view', v)"
       @download="(v) => handleAction('download', v)"
-      @continue="(v) => handleAction('continue', v)"
-      @pause="(v) => handleAction('pause', v)"
       @cancel="(v) => handleAction('cancel', v)"
       @re-try="(v) => handleAction('reTry', v)"
       @delete="(v) => handleAction('delete', v)"
@@ -304,8 +296,6 @@ onMounted(() => {
         :list-type="props.listType"
         @view="(v) => handleAction('view', v)"
         @download="(v) => handleAction('download', v)"
-        @continue="(v) => handleAction('continue', v)"
-        @pause="(v) => handleAction('pause', v)"
         @cancel="(v) => handleAction('cancel', v)"
         @re-try="(v) => handleAction('reTry', v)"
         @delete="(v) => handleAction('delete', v)"

@@ -20,8 +20,6 @@ export const fileTypeMap = new Map([
 export type FileActionEvent
   = | 'view'
     | 'download'
-    | 'continue'
-    | 'pause'
     | 'cancel'
     | 'reTry'
     | 'delete'

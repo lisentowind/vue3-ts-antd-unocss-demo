@@ -65,8 +65,6 @@ function handleAction(type: FileActionEvent, item: FileListItem) {
             :height="props.height"
             @view="(v) => handleAction('view', v)"
             @download="(v) => handleAction('download', v)"
-            @continue="(v) => handleAction('continue', v)"
-            @pause="(v) => handleAction('pause', v)"
             @cancel="(v) => handleAction('cancel', v)"
             @re-try="(v) => handleAction('reTry', v)"
             @delete="(v) => handleAction('delete', v)"

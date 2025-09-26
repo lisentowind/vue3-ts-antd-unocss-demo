@@ -28,7 +28,13 @@ export type ListControlBtn = {
 }
 
 const defaultBtn = computed<ListControlBtn[]>(() => [
-  { id: 'view', icon: 'lets-icons:view', sort: 1, name: '预览', emit: 'view' },
+  {
+    id: 'view',
+    icon: 'lets-icons:view',
+    sort: 1,
+    name: '预览',
+    emit: 'view',
+  },
   {
     id: 'download',
     icon: 'material-symbols:download',
@@ -43,8 +49,20 @@ const defaultBtn = computed<ListControlBtn[]>(() => [
     name: '取消',
     emit: 'cancel',
   },
-  { id: 'reTry', icon: 'mynaui:redo', sort: 4, name: '重试', emit: 'reTry' },
-  { id: 'delete', icon: 'mi:delete', sort: 5, name: '删除', emit: 'delete' },
+  {
+    id: 'reTry',
+    icon: 'mynaui:redo',
+    sort: 4,
+    name: '重试',
+    emit: 'reTry',
+  },
+  {
+    id: 'delete',
+    icon: 'mi:delete',
+    sort: 5,
+    name: '删除',
+    emit: 'delete',
+  },
 ])
 
 // 获取后缀名称对应的文件类型
