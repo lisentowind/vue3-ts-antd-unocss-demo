@@ -106,7 +106,7 @@ function getBtnArr(
             'hover:bg-error-1': file.status === 'error',
           }"
         >
-          <ACol span="2" class="flex items-center justify-center">
+          <ACol span="1" class="flex items-center justify-center">
             <CustomIcon
               :icon="`vscode-icons:file-type-${getFileExt(file.name)}`"
               width="20"
@@ -114,7 +114,7 @@ function getBtnArr(
               :has-default-class="false"
             />
           </ACol>
-          <ACol span="8" class="flex items-center justify-start">
+          <ACol span="9" offset="1" class="flex items-center justify-start">
             <ATypographyText
               class="w-100%"
               :ellipsis="{ tooltip: file.name }"
@@ -142,7 +142,7 @@ function getBtnArr(
               </template>
             </ASpace>
           </ACol>
-          <ACol span="6" offset="1" class="flex justify-end">
+          <ACol span="5" offset="1" class="flex justify-end">
             <AProgress
               :status="
                 file.status === 'uploading'
