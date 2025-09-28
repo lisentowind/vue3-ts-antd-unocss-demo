@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
+import VitePluginIconify from './plugins/iconify-vite'
 
 // 手动定义 __dirname
 const __filename = fileURLToPath(import.meta.url)
@@ -11,7 +12,13 @@ const __dirname = dirname(__filename)
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), UnoCSS()],
+  plugins: [
+    vue(),
+    UnoCSS(),
+    VitePluginIconify({
+      collections: ['line-md', 'material-symbols', 'vscode-icons'], // 需要支持的图标集
+    }),
+  ],
   resolve: {
     alias: [
       {

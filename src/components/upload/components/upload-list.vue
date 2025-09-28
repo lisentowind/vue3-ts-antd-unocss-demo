@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { UploadProps } from 'ant-design-vue'
+import type { VNode } from 'vue'
 import type { FileActionEvent } from '../config'
 import type { FileListItem } from '../customUpload.vue'
-import { computed } from 'vue'
+import CustomIcon from '@/components/customIcon/customIcon.vue'
 import { useThemeStore } from '@/store'
-import { fileTypeMap } from '../config'
+import { defaultBtn, fileTypeMap } from '../config'
 
 interface UploadListProps {
   listType: UploadProps['listType']
@@ -22,48 +23,10 @@ const themeStore = useThemeStore()
 export type ListControlBtn = {
   id: string
   sort: number
-  icon: string
+  icon: () => VNode
   name: string
   emit: any
 }
-
-const defaultBtn = computed<ListControlBtn[]>(() => [
-  {
-    id: 'view',
-    icon: 'lets-icons:view',
-    sort: 1,
-    name: '预览',
-    emit: 'view',
-  },
-  {
-    id: 'download',
-    icon: 'material-symbols:download',
-    sort: 2,
-    name: '下载',
-    emit: 'download',
-  },
-  {
-    id: 'cancel',
-    icon: 'hugeicons:cancel-01',
-    sort: 3,
-    name: '取消',
-    emit: 'cancel',
-  },
-  {
-    id: 'reTry',
-    icon: 'mynaui:redo',
-    sort: 4,
-    name: '重试',
-    emit: 'reTry',
-  },
-  {
-    id: 'delete',
-    icon: 'mi:delete',
-    sort: 5,
-    name: '删除',
-    emit: 'delete',
-  },
-])
 
 // 获取后缀名称对应的文件类型
 function getFileType(ext: string) {
@@ -137,7 +100,7 @@ function getBtnArr(
                   :title="btn.name"
                   @click="() => emits(btn.emit, file)"
                 >
-                  <CustomIcon :icon="btn.icon" color="currentColor" />
+                  <component :is="btn.icon" />
                 </AButton>
               </template>
             </ASpace>

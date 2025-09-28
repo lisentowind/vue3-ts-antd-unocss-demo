@@ -61,7 +61,7 @@ function handelRetryUpLoad() {
       >
         <template #icon>
           <CustomIcon
-            icon="fa6-solid:upload"
+            icon="material-symbols:upload-rounded"
             color="currentColor"
             class="mr-5px"
           />
@@ -100,7 +100,7 @@ function handelRetryUpLoad() {
               @click="handelRetryUpLoad"
             >
               <CustomIcon
-                icon="mynaui:redo-solid"
+                icon="material-symbols:redo-rounded"
                 width="25"
                 height="25"
                 class="group-hover:text-primary"
@@ -120,7 +120,7 @@ function handelRetryUpLoad() {
           >
             <ASpace direction="vertical" class="select-space">
               <CustomIcon
-                icon="mi:add"
+                icon="material-symbols:add-2-rounded"
                 width="25"
                 height="25"
                 class="group-hover:text-primary"

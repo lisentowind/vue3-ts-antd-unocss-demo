@@ -393,7 +393,7 @@ onMounted(() => {
       >
         <template #icon>
           <CustomIcon
-            icon="mynaui:redo-solid"
+            icon="material-symbols:redo-rounded"
             color="currentColor"
             class="mr-5px"
           />

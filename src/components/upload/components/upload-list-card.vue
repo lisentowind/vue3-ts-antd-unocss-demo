@@ -4,7 +4,7 @@ import type { CustomUploadProps, FileListItem } from '../customUpload.vue'
 import type { ListControlBtn } from './upload-list.vue'
 import { computed } from 'vue'
 import { useThemeStore } from '@/store'
-import { fileTypeMap } from '../config'
+import { defaultBtn, fileTypeMap } from '../config'
 
 interface UploadListCardProps
   extends Pick<CustomUploadProps, 'width' | 'height'> {
@@ -18,44 +18,6 @@ const emits = defineEmits<{
 }>()
 
 const themeStore = useThemeStore()
-
-const defaultBtn = computed<ListControlBtn[]>(() => [
-  {
-    id: 'view',
-    icon: 'lets-icons:view',
-    sort: 1,
-    name: '预览',
-    emit: 'view',
-  },
-  {
-    id: 'download',
-    icon: 'material-symbols:download',
-    sort: 2,
-    name: '下载',
-    emit: 'download',
-  },
-  {
-    id: 'cancel',
-    icon: 'hugeicons:cancel-01',
-    sort: 3,
-    name: '取消',
-    emit: 'cancel',
-  },
-  {
-    id: 'reTry',
-    icon: 'mynaui:redo',
-    sort: 4,
-    name: '重试',
-    emit: 'reTry',
-  },
-  {
-    id: 'delete',
-    icon: 'mi:delete',
-    sort: 5,
-    name: '删除',
-    emit: 'delete',
-  },
-])
 
 const isImage = computed(() => {
   return getFileExt(props.list.name) === 'image'
@@ -162,7 +124,7 @@ function getBtnArr(
             :title="btn?.name"
             @click="() => emits(btn.emit, props.list)"
           >
-            <CustomIcon :icon="btn?.icon || ''" color="currentColor" />
+            <component :is="btn.icon" />
           </AButton>
         </template>
       </ASpace>
