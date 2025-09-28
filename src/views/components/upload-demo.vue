@@ -3,7 +3,7 @@ import type { FileListItem } from '@/components/upload/customUpload.vue'
 import { ref } from 'vue'
 
 const p = ref<FileListItem[]>([])
-const pL = ref<FileListItem[]>([])
+const pc = ref<FileListItem[]>([])
 </script>
 
 <template>
@@ -14,12 +14,31 @@ const pL = ref<FileListItem[]>([])
     class="w-100%"
     direction="vertical"
   >
-    <CustomUpload v-model:files="p" name="file" list-type="picture" />
     <CustomUpload
-      v-model:files="pL"
+      v-model:files="p"
+      :can-drop-file="true"
+      name="file"
+      list-type="picture"
+    />
+    <CustomUpload
+      v-model:files="pc"
+      :can-drop-file="true"
       name="avatar"
       list-type="picture-card"
     />
+
+    <CustomUpload
+      v-model:files="p"
+      text="插槽自定义😊"
+      name="file"
+      list-type="text"
+    >
+      <template #select="{ text, onSelectClick }">
+        <div @click="onSelectClick">
+          {{ text }}
+        </div>
+      </template>
+    </CustomUpload>
   </ASpace>
 </template>
 

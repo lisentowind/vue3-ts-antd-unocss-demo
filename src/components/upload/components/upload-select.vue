@@ -15,10 +15,12 @@ interface UploadSelectProps
   showText: boolean
   fileList: FileListItem[]
   upLoadErrorFileLength?: number
+  isOverDropZone?: boolean
 }
 
 const props = withDefaults(defineProps<UploadSelectProps>(), {
   maxFile: 5,
+  showTryAgainAllBtn: false,
 })
 
 const emits = defineEmits<{
@@ -52,6 +54,9 @@ function handelRetryUpLoad() {
     >
       <AButton
         v-if="props.listType !== 'picture-card'"
+        :class="{
+          onDrop: isOverDropZone,
+        }"
         @click="handelSelectClick"
       >
         <template #icon>
@@ -107,6 +112,9 @@ function handelRetryUpLoad() {
             v-if="props.fileList.length < props.maxFile"
             :key="selectCardId"
             class="group flex cursor-pointer items-center justify-center border-1px border-gray rounded-md border-dashed transition-all hover:border-primary"
+            :class="{
+              onDrop: isOverDropZone,
+            }"
             :style="{ width: props.width, height: props.height }"
             @click="handelSelectClick"
           >
@@ -137,6 +145,16 @@ function handelRetryUpLoad() {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+.onDrop {
+  transition: all 0.3s ease-in-out;
+  transform: scale(1.1);
+  border: 1px dashed var(--color-primary);
+  color: var(--color-primary);
+  svg {
+    color: var(--color-primary);
   }
 }
 </style>

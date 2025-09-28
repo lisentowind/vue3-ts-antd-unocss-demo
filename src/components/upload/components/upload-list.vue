@@ -83,7 +83,7 @@ function getBtnArr(
   const allBtn: ListControlBtn[] = [defaultBtn.value[4]] // delete 永远显示
   const map: Record<string, number[]> = {
     uploading: [3, 4],
-    error: fileType === 'image' ? [1, 2] : [4],
+    error: fileType === 'image' ? [1, 4] : [4],
     done: fileType === 'image' ? [1, 2] : [2],
   }
   const sorts = map[status] || []

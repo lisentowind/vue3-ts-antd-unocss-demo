@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { FileActionEvent } from './config'
-import { useFileDialog, useVModel } from '@vueuse/core'
+import { useDropZone, useFileDialog, useVModel } from '@vueuse/core'
 import { cloneDeep } from 'lodash'
 import { nanoid } from 'nanoid'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, useTemplateRef, watch } from 'vue'
 import { uploadFile } from '@/apis/modules/upload'
 import { useCancelRequest, useMessage } from '@/hooks'
 import { AllRegExp, BrowserTaskQueue } from '@/utils'
@@ -28,6 +28,7 @@ export interface CustomUploadProps {
   maxFile?: number // 最多上传文件数量
   maxConcurrency?: number // 并发上传数量
   showTryAgainAllBtn?: boolean // 显示一键重试按钮
+  canDropFile?: boolean // 允许拖拽上传
 }
 
 export type FileListItem = {
@@ -45,7 +46,7 @@ const props = withDefaults(defineProps<CustomUploadProps>(), {
   showText: true,
   listType: 'text',
   accept: '.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.zip,.png,.jpg,.mp4,',
-  acceptString: 'xlsx',
+  acceptString: '.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.zip,.png,.jpg,.mp4',
   fileMaxSize: 10,
   width: '100px',
   height: '100px',
@@ -53,6 +54,7 @@ const props = withDefaults(defineProps<CustomUploadProps>(), {
   maxConcurrency: 1,
   verifyRegExp: () => AllRegExp,
   showTryAgainAllBtn: false,
+  canDropFile: false,
 })
 
 const emit = defineEmits<{
@@ -62,10 +64,39 @@ const emit = defineEmits<{
 const filesModel = useVModel(props, 'files', emit)
 const { msgError, msgInfo } = useMessage()
 const fileList = ref<FileListItem[]>([])
+// 点击上传
 const { open, reset, onChange } = useFileDialog({
   accept: props.accept,
   multiple: true,
 })
+// 拖拽上传
+const uploadDropZoneRef = useTemplateRef('uploadDropZoneRef')
+const { isOverDropZone } = useDropZone(uploadDropZoneRef, {
+  onDrop,
+  multiple: true,
+  preventDefaultForUnhandled: false,
+})
+
+function onDrop(files: File[] | null) {
+  if (!props.canDropFile) {
+    msgInfo({
+      content: '未开启拖拽上传功能',
+    })
+    return
+  }
+  if (files) {
+    // 可上传的剩余数量
+    const remain = props.maxFile - fileList.value.length
+
+    if (remain <= 0) {
+      msgInfo({ content: `最多只能上传 ${props.maxFile} 个文件` })
+      return
+    }
+    files.slice(0, remain).forEach((file) => {
+      beforeUpload(file)
+    })
+  }
+}
 
 // 上传任务队列
 const fileUpLoadQueue = new BrowserTaskQueue({
@@ -303,7 +334,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="custom-upload relative m-[5px_0]">
+  <div ref="uploadDropZoneRef" class="custom-upload relative m-[5px_0]">
     <UploadSelect
       v-if="
         props.listType !== 'picture-card'
@@ -319,6 +350,7 @@ onMounted(() => {
       :height="props.height"
       :show-try-again-all-btn="props.showTryAgainAllBtn"
       :up-load-error-file-length="upLoadErrorFile.length"
+      :is-over-drop-zone="isOverDropZone && props.canDropFile"
       @select-click="selectClick"
       @view="(v) => handleAction('view', v)"
       @download="(v) => handleAction('download', v)"
@@ -328,7 +360,26 @@ onMounted(() => {
       @retry-up-load="handelRetryUpLoad"
     >
       <template v-if="$slots.select" #CustomSelect>
-        <slot name="select">
+        <slot
+          name="select"
+          :text="props.text"
+          :list-type="props.listType"
+          :show-text="props.showText"
+          :file-list="fileList"
+          :max-file="props.maxFile"
+          :width="props.width"
+          :height="props.height"
+          :show-try-again-all-btn="props.showTryAgainAllBtn"
+          :up-load-error-file-length="upLoadErrorFile.length"
+          :is-over-drop-zone="isOverDropZone"
+          :on-select-click="selectClick"
+          :on-view="(v: FileListItem) => handleAction('view', v)"
+          :on-download="(v: FileListItem) => handleAction('download', v)"
+          :on-cancel="(v: FileListItem) => handleAction('cancel', v)"
+          :on-re-try="(v: FileListItem) => handleAction('reTry', v)"
+          :on-delete="(v: FileListItem) => handleAction('delete', v)"
+          :on-retry-up-load="handelRetryUpLoad"
+        >
         </slot>
       </template>
     </UploadSelect>
