@@ -17,7 +17,8 @@ export const PptRegExp
 export const VideoRegExp
   = /^(video\/(mp4|mpeg|quicktime|x-msvideo|x-ms-wmv|x-flv))$/i
 
-export const ZipRegExp = /^application\/(x-zip-compressed|zip)$/i
+export const CompressRegExp
+  = /^application\/(x-zip-compressed|zip|x-tar|x-rar|x-rar-compressed|x-7z-compressed|gzip|x-bzip2)$/i
 
 export const UrlImageRegExp = /^(https?:\/\/.+?\.(?:png|jpg|jpeg|gif|bmp))$/i
 
@@ -32,7 +33,8 @@ export const UrlPdfRegExp = /^(https?:\/\/.+?\.pdf)$/i
 export const UrlVideoRegExp
   = /^(https?:\/\/.+?\.(?:mp4|mpeg|quicktime|x-msvideo|x-ms-wmv|x-flv))$/i
 
-export const UrlZipRegExp = /^(https?:\/\/.+?\.(?:zip|rar))$/i
+export const UrlZipRegExp
+  = /^(https?:\/\/.+?\.(?:zip|rar|7z|tar|gz|tgz|bz2|xz))(?:[?#].*)?$/i
 
 export const AllRegExp = new RegExp(
   [
@@ -43,7 +45,7 @@ export const AllRegExp = new RegExp(
     PdfRegExp,
     PptRegExp,
     VideoRegExp,
-    ZipRegExp,
+    CompressRegExp,
     UrlImageRegExp,
     UrlWordRegExp,
     UrlExcelRegExp,

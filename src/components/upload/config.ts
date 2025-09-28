@@ -16,6 +16,11 @@ export const fileTypeMap = new Map([
   ['zip', 'zip'],
   ['rar', 'zip'],
   ['7z', 'zip'],
+  ['tar', 'zip'],
+  ['gz', 'zip'],
+  ['tgz', 'zip'],
+  ['bz2', 'zip'],
+  ['xz', 'zip'],
 ])
 export type FileActionEvent
   = | 'view'
