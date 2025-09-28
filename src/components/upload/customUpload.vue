@@ -27,6 +27,7 @@ export interface CustomUploadProps {
   height?: string
   maxFile?: number // 最多上传文件数量
   maxConcurrency?: number // 并发上传数量
+  showTryAgainAllBtn?: boolean // 显示一键重试按钮
 }
 
 export type FileListItem = {
@@ -40,7 +41,7 @@ export type FileListItem = {
 }
 
 const props = withDefaults(defineProps<CustomUploadProps>(), {
-  text: '上传',
+  text: '点击上传',
   showText: true,
   listType: 'text',
   accept: '.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.zip,.png,.jpg,.mp4,',
@@ -51,6 +52,7 @@ const props = withDefaults(defineProps<CustomUploadProps>(), {
   maxFile: 5,
   maxConcurrency: 1,
   verifyRegExp: () => AllRegExp,
+  showTryAgainAllBtn: false,
 })
 
 const emit = defineEmits<{
@@ -315,19 +317,25 @@ onMounted(() => {
       :max-file="props.maxFile"
       :width="props.width"
       :height="props.height"
+      :show-try-again-all-btn="props.showTryAgainAllBtn"
+      :up-load-error-file-length="upLoadErrorFile.length"
       @select-click="selectClick"
       @view="(v) => handleAction('view', v)"
       @download="(v) => handleAction('download', v)"
       @cancel="(v) => handleAction('cancel', v)"
       @re-try="(v) => handleAction('reTry', v)"
       @delete="(v) => handleAction('delete', v)"
+      @retry-up-load="handelRetryUpLoad"
     >
       <template v-if="$slots.select" #CustomSelect>
         <slot name="select">
         </slot>
       </template>
     </UploadSelect>
-    <div v-if="upLoadErrorFile.length" class="m-[5px_0]">
+    <div
+      v-if="upLoadErrorFile.length && props.showTryAgainAllBtn"
+      class="m-[5px_0]"
+    >
       <AButton
         v-if="props.listType !== 'picture-card'"
         @click="handelRetryUpLoad"

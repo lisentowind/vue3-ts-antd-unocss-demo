@@ -19,7 +19,6 @@ const pL = ref<FileListItem[]>([])
       v-model:files="pL"
       name="avatar"
       list-type="picture-card"
-      :show-text="false"
     />
   </ASpace>
 </template>

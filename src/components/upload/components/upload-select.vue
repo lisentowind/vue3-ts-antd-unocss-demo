@@ -2,14 +2,19 @@
 import type { UploadProps } from 'ant-design-vue'
 import type { FileActionEvent } from '../config'
 import type { CustomUploadProps, FileListItem } from '../customUpload.vue'
+import { nanoid } from 'nanoid'
 import UploadListCard from './upload-list-card.vue'
 
 interface UploadSelectProps
-  extends Pick<CustomUploadProps, 'width' | 'height' | 'maxFile'> {
+  extends Pick<
+    CustomUploadProps,
+    'width' | 'height' | 'maxFile' | 'showTryAgainAllBtn'
+  > {
   listType: UploadProps['listType']
   text: string
   showText: boolean
   fileList: FileListItem[]
+  upLoadErrorFileLength?: number
 }
 
 const props = withDefaults(defineProps<UploadSelectProps>(), {
@@ -19,7 +24,11 @@ const props = withDefaults(defineProps<UploadSelectProps>(), {
 const emits = defineEmits<{
   (e: 'selectClick'): void
   (e: FileActionEvent, value: FileListItem): void
+  (e: 'retryUpLoad'): void
 }>()
+
+const selectCardId = nanoid()
+const showTryAgainAllCardId = nanoid()
 
 function handelSelectClick() {
   emits('selectClick')
@@ -27,6 +36,10 @@ function handelSelectClick() {
 
 function handleAction(type: FileActionEvent, item: FileListItem) {
   emits(type, item)
+}
+
+function handelRetryUpLoad() {
+  emits('retryUpLoad')
 }
 </script>
 
@@ -70,12 +83,34 @@ function handleAction(type: FileActionEvent, item: FileListItem) {
             @delete="(v) => handleAction('delete', v)"
           />
           <div
+            v-if="props.upLoadErrorFileLength && props.showTryAgainAllBtn"
+            :key="showTryAgainAllCardId"
+            class="group flex cursor-pointer items-center justify-center border-1px border-gray rounded-md border-solid transition-all hover:border-primary"
+            :style="{ width: props.width, height: props.height }"
+          >
+            <ASpace
+              v-if="props.listType === 'picture-card'"
+              direction="vertical"
+              class="select-space"
+              @click="handelRetryUpLoad"
+            >
+              <CustomIcon
+                icon="mynaui:redo-solid"
+                width="25"
+                height="25"
+                class="group-hover:text-primary"
+              />
+              <span class="group-hover:text-primary"> 一键重试 </span>
+            </ASpace>
+          </div>
+          <div
             v-if="props.fileList.length < props.maxFile"
-            :key="new Date().getTime()"
-            class="group h-100px w-100px flex cursor-pointer items-center justify-center border-1px border-gray rounded-md border-dashed transition-all hover:border-primary"
+            :key="selectCardId"
+            class="group flex cursor-pointer items-center justify-center border-1px border-gray rounded-md border-dashed transition-all hover:border-primary"
+            :style="{ width: props.width, height: props.height }"
             @click="handelSelectClick"
           >
-            <ASpace direction="vertical">
+            <ASpace direction="vertical" class="select-space">
               <CustomIcon
                 icon="mi:add"
                 width="25"
@@ -95,4 +130,13 @@ function handleAction(type: FileActionEvent, item: FileListItem) {
   </div>
 </template>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.select-space {
+  :deep(.ant-space-item) {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+</style>
