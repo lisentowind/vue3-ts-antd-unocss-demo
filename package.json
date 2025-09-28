@@ -12,7 +12,17 @@
     "preview": "vite preview",
     "lint": "eslint",
     "lint:fix": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "docker:build": "pnpm docker:remove-image && docker build -t dist .",
+    "docker:list-images": "docker images",
+    "docker:list-containers": "docker ps -a",
+    "docker:run": "docker run -d -p 8888:80 --name dist-web dist",
+    "docker:remove-image": "docker rmi -f dist || true",
+    "docker:remove-container": "docker rm -f dist-web || true",
+    "docker:start-base": "pnpm docker:remove-container && pnpm docker:build && pnpm docker:list-images && pnpm docker:list-containers && pnpm docker:run",
+    "docker:start": "pnpm build && pnpm docker:start-base",
+    "docker:start-test": "pnpm build-test && pnpm docker:start-base",
+    "docker:start-offline": "pnpm build-offline && pnpm docker:start-base"
   },
   "dependencies": {
     "@vueuse/core": "^13.9.0",

@@ -37,11 +37,11 @@ const themeStore = useThemeStore()
       </h1>
 
       <ATabs v-model:active-key="activeKey" class="w-100%">
-        <ATabPane key="1" :tab="$t('app.tabs.icon')">
-          <IconDemo />
-        </ATabPane>
-        <ATabPane key="2" :tab="$t('app.tabs.button')">
+        <ATabPane key="1" :tab="$t('app.tabs.button')">
           <BtnDemo />
+        </ATabPane>
+        <ATabPane key="2" :tab="$t('app.tabs.icon')">
+          <IconDemo />
         </ATabPane>
         <ATabPane key="3" :tab="$t('app.tabs.locale')">
           <LocalDemo />
