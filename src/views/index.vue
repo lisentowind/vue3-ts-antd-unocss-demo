@@ -13,6 +13,8 @@ import UploadDemo from './components/upload-demo.vue'
 const activeKey = ref('1')
 
 const themeStore = useThemeStore()
+
+const titleArr = ['基础功能演示']
 </script>
 
 <template>
@@ -33,7 +35,7 @@ const themeStore = useThemeStore()
         }"
         class="color-primary"
       >
-        基础功能演示
+        {{ titleArr.at(0) }}
       </h1>
 
       <ATabs v-model:active-key="activeKey" class="w-100%">

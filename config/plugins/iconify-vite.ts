@@ -31,7 +31,7 @@ export default function VitePluginIconify(
       isOffline = env.VITE_APP_IS_OFFLINE === 'true'
 
       console.log(
-        `[Iconify -- 图标加载模式 🔧] mode=${config.mode} ${
+        `[Iconify -🔧- 图标加载模式] mode=${config.mode} ${
           isOffline
             ? `离线模式，要本地加载的图标集合: ${collections.join(', ')}`
             : '在线模式，API方式加载图标'

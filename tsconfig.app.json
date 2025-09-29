@@ -11,6 +11,9 @@
     "noUncheckedSideEffectImports": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "lib": [
+      "ESNext"
+    ],
     "baseUrl": "./",
     "paths": {
       "@/*": [
