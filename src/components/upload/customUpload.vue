@@ -7,8 +7,8 @@ import { onMounted, ref, useTemplateRef, watch } from 'vue'
 import { uploadFile } from '@/apis/modules/upload'
 import { useCancelRequest, useMessage } from '@/hooks'
 import { AllRegExp, BrowserTaskQueue } from '@/utils'
-
 import { fetchDownload } from '@/utils/modules/fetch-download'
+
 import UploadList from './components/upload-list.vue'
 import UploadSelect from './components/upload-select.vue'
 
@@ -45,8 +45,10 @@ const props = withDefaults(defineProps<CustomUploadProps>(), {
   text: '点击上传',
   showText: true,
   listType: 'text',
-  accept: '.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.gz,.7z,.tar,.png,.jpg,.mp4,',
-  acceptString: '.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.gz,.7z,.tar,.png,.jpg,.mp4',
+  accept:
+    '.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.gz,.7z,.tar,.png,.jpg,.mp4,',
+  acceptString:
+    '.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.gz,.7z,.tar,.png,.jpg,.mp4',
   fileMaxSize: 10,
   width: '100px',
   height: '100px',
@@ -143,6 +145,7 @@ function handelRetryUpLoad() {
 }
 
 const { cancelRequest, deleteRequest } = useCancelRequest()
+
 function getFilePath(file: FileListItem) {
   return `/fileUpload/upload${file.uid}${file.file.type}`
 }
@@ -168,6 +171,7 @@ function deleteUploadFile(file: FileListItem, msg: string) {
 
 const imagePreviewUrl = ref<string>('')
 const visible = ref<boolean>(false)
+
 function setVisible(value: boolean) {
   visible.value = value
 }
@@ -300,7 +304,7 @@ function startUpLoadFile(value: FileListItem) {
   }
 }
 
-onChange((file) => {
+onChange((file: any) => {
   if (file) {
     // 可上传的剩余数量
     const remain = props.maxFile - fileList.value.length
@@ -312,7 +316,7 @@ onChange((file) => {
     Object.entries(file)
       .slice(0, remain)
       .forEach(([_key, value]) => {
-        beforeUpload(value)
+        beforeUpload(value as any)
       })
   }
 })
@@ -341,44 +345,44 @@ onMounted(() => {
           ? fileList.length < props.maxFile
           : true
       "
-      :text="props.text"
-      :list-type="props.listType"
-      :show-text="props.showText"
       :file-list="fileList"
-      :max-file="props.maxFile"
-      :width="props.width"
       :height="props.height"
-      :show-try-again-all-btn="props.showTryAgainAllBtn"
-      :up-load-error-file-length="upLoadErrorFile.length"
       :is-over-drop-zone="isOverDropZone && props.canDropFile"
-      @select-click="selectClick"
-      @view="(v) => handleAction('view', v)"
-      @download="(v) => handleAction('download', v)"
+      :list-type="props.listType"
+      :max-file="props.maxFile"
+      :show-text="props.showText"
+      :show-try-again-all-btn="props.showTryAgainAllBtn"
+      :text="props.text"
+      :up-load-error-file-length="upLoadErrorFile.length"
+      :width="props.width"
       @cancel="(v) => handleAction('cancel', v)"
-      @re-try="(v) => handleAction('reTry', v)"
       @delete="(v) => handleAction('delete', v)"
+      @download="(v) => handleAction('download', v)"
+      @view="(v) => handleAction('view', v)"
+      @select-click="selectClick"
+      @re-try="(v) => handleAction('reTry', v)"
       @retry-up-load="handelRetryUpLoad"
     >
       <template v-if="$slots.select" #CustomSelect>
         <slot
-          name="select"
-          :text="props.text"
-          :list-type="props.listType"
-          :show-text="props.showText"
           :file-list="fileList"
-          :max-file="props.maxFile"
-          :width="props.width"
           :height="props.height"
-          :show-try-again-all-btn="props.showTryAgainAllBtn"
-          :up-load-error-file-length="upLoadErrorFile.length"
           :is-over-drop-zone="isOverDropZone"
+          :list-type="props.listType"
+          :max-file="props.maxFile"
+          :on-cancel="(v: FileListItem) => handleAction('cancel', v)"
+          :on-delete="(v: FileListItem) => handleAction('delete', v)"
+          :on-download="(v: FileListItem) => handleAction('download', v)"
+          :on-re-try="(v: FileListItem) => handleAction('reTry', v)"
+          :on-retry-up-load="handelRetryUpLoad"
           :on-select-click="selectClick"
           :on-view="(v: FileListItem) => handleAction('view', v)"
-          :on-download="(v: FileListItem) => handleAction('download', v)"
-          :on-cancel="(v: FileListItem) => handleAction('cancel', v)"
-          :on-re-try="(v: FileListItem) => handleAction('reTry', v)"
-          :on-delete="(v: FileListItem) => handleAction('delete', v)"
-          :on-retry-up-load="handelRetryUpLoad"
+          :show-text="props.showText"
+          :show-try-again-all-btn="props.showTryAgainAllBtn"
+          :text="props.text"
+          :up-load-error-file-length="upLoadErrorFile.length"
+          :width="props.width"
+          name="select"
         >
         </slot>
       </template>
@@ -393,9 +397,9 @@ onMounted(() => {
       >
         <template #icon>
           <CustomIcon
-            icon="material-symbols:redo-rounded"
-            color="currentColor"
             class="mr-5px"
+            color="currentColor"
+            icon="material-symbols:redo-rounded"
           />
         </template>
         一键重试
@@ -406,21 +410,21 @@ onMounted(() => {
         v-if="fileList.length && props.listType !== 'picture-card'"
         :file-list="fileList"
         :list-type="props.listType"
-        @view="(v) => handleAction('view', v)"
-        @download="(v) => handleAction('download', v)"
         @cancel="(v) => handleAction('cancel', v)"
-        @re-try="(v) => handleAction('reTry', v)"
         @delete="(v) => handleAction('delete', v)"
+        @download="(v) => handleAction('download', v)"
+        @view="(v) => handleAction('view', v)"
+        @re-try="(v) => handleAction('reTry', v)"
       />
     </TransitionGroup>
     <AImage
-      :width="0"
-      :style="{ display: 'none' }"
       :preview="{
         visible,
         onVisibleChange: setVisible,
       }"
       :src="imagePreviewUrl"
+      :style="{ display: 'none' }"
+      :width="0"
     />
   </div>
 </template>

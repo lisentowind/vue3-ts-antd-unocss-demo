@@ -87,13 +87,13 @@ onBeforeUnmount(() => {
 
 <template>
   <AConfigProvider
+    :locale="locale"
     :theme="{
       algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
       token: {
         colorPrimary: primaryColor,
       },
     }"
-    :locale="locale"
   >
     <MsgContextHolder />
     <ModalContextHolder />
