@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
+import pc from 'picocolors'
 import { loadEnv } from 'vite'
-
 /**
  * Iconify 的vite自定义插件 用于 自动引入图标  当该项目是在线模式下，则使用在线图标加载减小打包后的体积
  * 当项目处于离线模式下，则使用本地图标 但是需要安装对应的 iconify-json包
@@ -30,13 +30,18 @@ export default function VitePluginIconify(
       const env = loadEnv(config.mode, process.cwd()) // 根据 mode 读取 .env 文件
       isOffline = env.VITE_APP_IS_OFFLINE === 'true'
 
-      console.log(
-        `[Iconify -🔧- 图标加载模式] mode=${config.mode} ${
-          isOffline
-            ? `离线模式，要本地加载的图标集合: ${collections.join(', ')}`
-            : '在线模式，API方式加载图标'
-        }`,
-      )
+      const modeStr = pc.cyan(`mode=${config.mode}`)
+      const title = pc.bold(pc.green('Iconify 🔧 图标加载模式'))
+
+      const message = isOffline
+        ? pc.yellow(
+            `离线模式 🧩 需要本地加载图标集合: ${pc.magenta(
+              collections.join(', '),
+            )}`,
+          )
+        : pc.blue('在线模式 🌐 通过 Iconify API 加载图标')
+
+      console.log(`\n${title} → ${modeStr}\n${message}\n`)
     },
 
     async transform(code, id) {
