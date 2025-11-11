@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router'
 import { useMessage, useModal } from '@/hooks'
 import { useThemeStore } from '@/store'
 import { AppEventEmitter, rgbaToHex } from '@/utils'
+import { handelChangeThemeModeAnimation } from '@/utils/modules/theme-animation'
 
 const themeStore = useThemeStore()
 const route = useRoute()
@@ -38,8 +39,10 @@ function handelModal() {
   })
 }
 
-function handelChangeThemeMode() {
-  toggleDark()
+function handelChangeThemeMode(e: MouseEvent) {
+  if (e) {
+    handelChangeThemeModeAnimation(e.clientX, e.clientY, toggleDark)
+  }
 }
 
 function handelRefreshPage() {
@@ -64,7 +67,7 @@ watch(
     }"
     wrap
   >
-    <AButton type="primary" @click="handelChangeThemeMode">
+    <AButton type="primary" @click="(e) => handelChangeThemeMode(e)">
       {{ themeStore.getThemeDark }} {{ $t('app.theme') }}
     </AButton>
     <AButton type="primary" @click="handelMsg">

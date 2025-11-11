@@ -1,5 +1,7 @@
+html,
 body {
   overflow-x: hidden;
+  background-color: var(--colorBgContainer);
 }
 
 #nprogress .bar {
@@ -9,5 +11,34 @@ body {
   width: 100vw;
   height: 5px !important;
   z-index: 999;
-  background-image: linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) 100%) !important;
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary) 0%,
+    var(--color-primary) 100%
+  ) !important;
+}
+
+/* 禁用默认动画 */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* 亮色模式下的层级 */
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2147483646; /* 接近最大z-index值 */
+}
+
+/* 暗色模式下的层级反转 */
+.dark::view-transition-old(root) {
+  z-index: 2147483646;
+}
+
+.dark::view-transition-new(root) {
+  z-index: 1;
 }
