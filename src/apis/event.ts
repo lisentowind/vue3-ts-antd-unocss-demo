@@ -46,7 +46,7 @@ export function ApiEventHandle() {
   const startListen = () => {
     // 响应的 code 不在白名单中，视为失败
     ApiEventEmitter.on('noInCodeWhiteErr', (data) => {
-      console.log('🚀 ~ noInCodeWhiteErr ~ res:', data)
+      console.log('🚀 ~ noInCodeWhiteErr ~ data:', data)
       msgError({
         content: data.res.statusText,
       })
@@ -54,6 +54,7 @@ export function ApiEventHandle() {
 
     // 响应错误处理
     ApiEventEmitter.on('responseErr', (data) => {
+      console.log('🚀 ~ responseErr ~ data:', data)
       if (data.res.status) {
         msgError({
           content: resErrMap.value[data.res.status],
