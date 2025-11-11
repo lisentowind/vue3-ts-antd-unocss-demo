@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+import type { ImageCropperProps } from './components/image-cropper.vue'
 import type { FileActionEvent } from './config'
 import { useDropZone, useFileDialog, useVModel } from '@vueuse/core'
 import { cloneDeep } from 'lodash'
 import { nanoid } from 'nanoid'
 import { onMounted, ref, useTemplateRef, watch } from 'vue'
 import { uploadFile } from '@/apis/modules/upload'
+
 import {
   dataURLtoBlob,
   fileToBase64,
@@ -13,7 +15,6 @@ import {
 } from '@/hooks'
 
 import { AllRegExp, BrowserTaskQueue, ImageRegExp } from '@/utils'
-
 import { fetchDownload } from '@/utils/modules/fetch-download'
 import ImageCropper from './components/image-cropper.vue'
 import UploadList from './components/upload-list.vue'
@@ -21,7 +22,7 @@ import UploadSelect from './components/upload-select.vue'
 
 export type UploadListType = 'text' | 'picture' | 'picture-card'
 
-export interface CustomUploadProps {
+export interface CustomUploadProps extends Partial<ImageCropperProps> {
   files: FileListItem[]
   text?: string
   showText?: boolean
@@ -76,13 +77,13 @@ const fileList = ref<FileListItem[]>([])
 // 点击上传
 const { open, reset, onChange } = useFileDialog({
   accept: props.accept,
-  multiple: true,
+  multiple: props.listType !== 'picture-card',
 })
 // 拖拽上传
 const uploadDropZoneRef = useTemplateRef('uploadDropZoneRef')
 const { isOverDropZone } = useDropZone(uploadDropZoneRef, {
   onDrop,
-  multiple: true,
+  multiple: props.listType !== 'picture-card',
   preventDefaultForUnhandled: false,
 })
 
@@ -257,7 +258,7 @@ async function beforeUpload(file: File) {
     }
 
     // ✅ 判断是否图片类型（png/jpeg/bmp）
-    if (ImageRegExp.test(file.type)) {
+    if (ImageRegExp.test(file.type) && props.listType === 'picture-card') {
       // 拦截上传，打开裁剪弹窗
       const img = await fileToBase64(file)
       imageFile.value = img
@@ -477,6 +478,9 @@ onMounted(() => {
     <ImageCropper
       v-model:model-value="imageCropperVisible"
       :file="imageFile"
+      :fixed="props.fixed"
+      :fixed-box="props.fixedBox"
+      :fixed-number="props.fixedNumber"
       @get-image="imageCropperGetImage"
     />
   </div>

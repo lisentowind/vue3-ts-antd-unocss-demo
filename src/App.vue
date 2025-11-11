@@ -61,7 +61,9 @@ const locale = computed(() => {
 })
 
 onMounted(() => {
+  // 注入除了主题色以外的其他颜色
   useThemeColor()
+  // 注入主题色
   setThemePrimaryColor(primaryColor.value)
   // 测试事件总线
   AppEventEmitter.on('refreshPage', (val) => {

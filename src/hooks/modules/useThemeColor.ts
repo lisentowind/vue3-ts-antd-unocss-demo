@@ -1,6 +1,11 @@
+import type { GlobalToken } from 'ant-design-vue/es/theme'
 import { theme } from 'ant-design-vue'
 import { watch } from 'vue'
 import { toRgbVar } from '@/utils'
+
+export interface MyGlobalToken extends GlobalToken {
+  [key: string]: any
+}
 
 // 哪些颜色是动态的 然后给unocss添加自定义颜色使用 保持颜色一致 (除了主题色 其余颜色从antd动态获取并且添加到unocss的规则中)
 const colorArr = [
@@ -25,7 +30,7 @@ export function useThemeColor() {
 
   watch(
     () => token.value,
-    (color: any) => {
+    (color: MyGlobalToken) => {
       // 设置antd的动态颜色
       colorArr.forEach((item) => {
         // 获取颜色值  纯字符串数值 方便在unocss中进行定义颜色规则

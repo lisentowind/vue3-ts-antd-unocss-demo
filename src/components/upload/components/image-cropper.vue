@@ -5,17 +5,12 @@ import 'vue-cropper/dist/index.css'
 
 export interface ImageCropperProps {
   file: string
-  fileSize?: number
   fixedBox?: boolean
   fixed?: boolean
   fixedNumber?: number[] // 截图框的宽高比例
 }
 
-const props = withDefaults(defineProps<ImageCropperProps>(), {
-  fixed: false,
-  fixedNumber: () => [16, 9],
-})
-
+const props = defineProps<ImageCropperProps>()
 const emit = defineEmits<Emit>()
 
 const cropperRef = useTemplateRef<InstanceType<typeof VueCropper>>('cropperRef')
@@ -29,8 +24,6 @@ const option = reactive({
   info: false, // 裁剪框的大小信息
   outputType: 'png', // 裁剪生成图片的格式
   autoCrop: true, // 是否默认生成截图框
-  fixedBox: props.fixedBox, // 固定截图框大小 不允许改变
-  fixed: props.fixed, // 是否开启截图框宽高固定比例
   full: true, // 是否输出原图比例的截图
   canMoveBox: true, // 截图框能否拖动
 })
@@ -64,6 +57,7 @@ watch(
   <CustomModal
     v-model:model-value="visible"
     :footer="true"
+    :width="650"
     async
     title="裁剪图片"
     @confirm="confirmCropper"
@@ -74,9 +68,9 @@ watch(
         :auto-crop="option.autoCrop"
         :can-move-box="option.canMoveBox"
         :center-box="true"
-        :fixed="option.fixed"
-        :fixed-box="option.fixedBox"
-        :fixed-number="fixedNumber"
+        :fixed="props.fixed"
+        :fixed-box="props.fixedBox"
+        :fixed-number="props.fixedNumber"
         :full="option.full"
         :img="option.img"
         :info="option.info"

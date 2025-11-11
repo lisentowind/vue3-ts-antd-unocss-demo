@@ -20,9 +20,20 @@ const pc = ref<FileListItem[]>([])
       name="file"
       list-type="picture"
     />
+    <!-- 默认图片裁剪 -->
     <CustomUpload
       v-model:files="pc"
       :can-drop-file="true"
+      name="avatar"
+      list-type="picture-card"
+    />
+    <!-- 固定比例裁剪 -->
+    <CustomUpload
+      v-model:files="pc"
+      :can-drop-file="true"
+      :fixed="true"
+      :fixed-box="false"
+      :fixed-number="[1, 1]"
       name="avatar"
       list-type="picture-card"
     />
