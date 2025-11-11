@@ -18,9 +18,7 @@ const props = withDefaults(defineProps<ImageCropperProps>(), {
 
 const emit = defineEmits<Emit>()
 
-const cropperRef = useTemplateRef<InstanceType<typeof VueCropper> | null>(
-  'cropperRef',
-)
+const cropperRef = useTemplateRef<InstanceType<typeof VueCropper>>('cropperRef')
 
 const visible = defineModel<boolean>('modelValue')
 
@@ -42,10 +40,12 @@ interface Emit {
 }
 
 function confirmCropper() {
-  cropperRef.value.getCropData((base64: string) => {
-    visible.value = false
-    emit('getImage', base64)
-  })
+  if (cropperRef.value?.getCropData) {
+    cropperRef.value.getCropData((base64: string) => {
+      visible.value = false
+      emit('getImage', base64)
+    })
+  }
 }
 
 watch(

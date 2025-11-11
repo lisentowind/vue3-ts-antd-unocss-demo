@@ -51,7 +51,7 @@ function getBtnArr(
   }
   const sorts = map[status] || []
   sorts.forEach((i) => {
-    const btn = defaultBtn.value.find((b) => b.sort === i)
+    const btn = defaultBtn.value.find(b => b.sort === i)
     if (btn) {
       allBtn.push(btn)
     }
@@ -69,33 +69,39 @@ function getBtnArr(
           :class="{
             'bg-error-1': file.status === 'error',
             'hover:bg-error-1': file.status === 'error',
-          }">
+          }"
+        >
           <ACol span="1" class="flex items-center justify-center">
             <CustomIcon
               :icon="`vscode-icons:file-type-${getFileExt(file.name)}`"
               width="20"
               height="20"
-              :has-default-class="false" />
+              :has-default-class="false"
+            />
           </ACol>
           <ACol span="9" offset="1" class="flex items-center justify-start">
             <ATypographyText
               class="w-100%"
               :ellipsis="{ tooltip: file.name }"
-              :content="file.name" />
+              :content="file.name"
+            />
           </ACol>
           <ACol span="7" class="flex items-center justify-right">
             <ASpace
-              class="opacity-0 transition-opacity group-hover:opacity-100">
+              class="opacity-0 transition-opacity group-hover:opacity-100"
+            >
               <template
                 v-for="btn in getBtnArr(file.status, file.name)"
-                :key="btn.name">
+                :key="btn.name"
+              >
                 <AButton
                   size="small"
                   type="primary"
                   shape="circle"
                   class="flex items-center justify-center"
                   :title="btn.name"
-                  @click="() => emits(btn.emit, file)">
+                  @click="() => emits(btn.emit, file)"
+                >
                   <component :is="btn.icon" />
                 </AButton>
               </template>
@@ -107,13 +113,14 @@ function getBtnArr(
                 file.status === 'uploading'
                   ? 'active'
                   : file.status === 'error'
-                  ? 'exception'
-                  : 'success'
+                    ? 'exception'
+                    : 'success'
               "
               :percent="file.percent"
               :stroke-color="
                 file.status === 'error' ? undefined : themeStore.getPrimaryColor
-              " />
+              "
+            />
           </ACol>
         </ARow>
       </template>

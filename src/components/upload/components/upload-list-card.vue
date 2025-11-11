@@ -46,7 +46,7 @@ function getBtnArr(
   }
   const sorts = map[status] || []
   sorts.forEach((i) => {
-    const btn = defaultBtn.value.find((b) => b.sort === i)
+    const btn = defaultBtn.value.find(b => b.sort === i)
     if (btn) {
       allBtn.push(btn)
     }
@@ -64,11 +64,13 @@ function getBtnArr(
       'hover:bg-error-1': props.list.status === 'error',
       'border-error-1!': props.list.status === 'error',
       'hover:border-error-1': props.list.status === 'error',
-    }">
+    }"
+  >
     <ASpace
       v-if="!isImage || (isImage && props.list.status !== 'done')"
       direction="vertical"
-      class="info h-100% w-100% flex items-center justify-center">
+      class="info h-100% w-100% flex items-center justify-center"
+    >
       <AProgress
         class="progress-right mr-0"
         type="circle"
@@ -78,22 +80,25 @@ function getBtnArr(
           props.list.status === 'uploading'
             ? 'active'
             : props.list.status === 'error'
-            ? 'exception'
-            : 'success'
+              ? 'exception'
+              : 'success'
         "
         :percent="props.list.percent"
         :stroke-color="
           props.list.status === 'error' ? undefined : themeStore.getPrimaryColor
-        " />
+        "
+      />
       <CustomIcon
         :icon="`vscode-icons:file-type-${getFileExt(props.list.name)}`"
         width="20"
         height="20"
-        :has-default-class="false" />
+        :has-default-class="false"
+      />
       <ATypographyText
         class="w-80px text-center"
         :ellipsis="{ tooltip: props.list.name }"
-        :content="props.list.name" />
+        :content="props.list.name"
+      />
     </ASpace>
     <AImage
       v-else-if="isImage && props.list.status === 'done'"
@@ -101,22 +106,26 @@ function getBtnArr(
       :width="props.width"
       :height="props.height"
       :preview="true"
-      :src="props.list.url" />
+      :src="props.list.url"
+    />
     <!-- hover层级 -->
     <div
       class="card-hover absolute left--1px top--1px flex items-center justify-center border-1px border-primary rounded-md border-solid pb-10px"
-      :style="{ width: props.width, height: props.height }">
+      :style="{ width: props.width, height: props.height }"
+    >
       <ASpace wrap>
         <template
           v-for="btn in getBtnArr(props.list.status, props.list.name)"
-          :key="btn">
+          :key="btn"
+        >
           <AButton
             size="small"
             type="primary"
             shape="circle"
             class="flex items-center justify-center"
             :title="btn?.name"
-            @click="() => emits(btn.emit, props.list)">
+            @click="() => emits(btn.emit, props.list)"
+          >
             <component :is="btn.icon" />
           </AButton>
         </template>
