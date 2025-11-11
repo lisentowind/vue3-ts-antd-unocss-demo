@@ -1,6 +1,7 @@
 export * from './modules/useBrowserTitle'
 export * from './modules/useCancelRequest'
 export * from './modules/useEcharts'
+export * from './modules/useFileConvert'
 export * from './modules/useGsap'
 export * from './modules/useLocalStorage'
 export * from './modules/useMessage'

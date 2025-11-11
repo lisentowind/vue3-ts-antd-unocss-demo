@@ -73,6 +73,7 @@
     "vite": "^7.1.7",
     "vite-plugin-compression2": "^2.2.1",
     "vite-plugin-vue-devtools": "^8.0.2",
+    "vue-cropper": "^1.1.4",
     "vue-tsc": "^3.0.5"
   }
 }

@@ -23,6 +23,7 @@ import {
 } from 'ant-design-vue'
 // 自定义组件
 import CustomIcon from '@/components/customIcon/customIcon.vue'
+import CustomModal from './modal/index.vue'
 import CustomMouse from './other/custom-mouse.vue'
 import CustomUpload from './upload/customUpload.vue'
 
@@ -55,6 +56,7 @@ export default {
     Vue.component('CustomIcon', CustomIcon)
     Vue.component('CustomMouse', CustomMouse)
     Vue.component('CustomUpload', CustomUpload)
+    Vue.component('CustomModal', CustomModal)
     // ant-design-vue组件
     Object.entries(AntdComponents).forEach(([key, component]) => {
       Vue.component(`A${key}`, component)

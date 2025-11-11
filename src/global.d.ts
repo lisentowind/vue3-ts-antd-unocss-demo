@@ -10,6 +10,7 @@ declare module 'vue' {
     CustomIcon: typeof import('@/components/customIcon/customIcon.vue')['default']
     CustomMouse: typeof import('@/components/other/custom-mouse.vue')['default']
     CustomUpload: typeof import('@/components/upload/customUpload.vue')['default']
+    CustomModal: typeof import('@/components/modal/index.vue')['default']
     // ant-design-vue组件
     AButton: typeof import('ant-design-vue')['Button']
     AConfigProvider: typeof import('ant-design-vue')['ConfigProvider']
@@ -37,3 +38,8 @@ declare module 'vue' {
     vGsap: typeof vGsap
   }
 }
+
+
+declare module 'base64-file'
+
+declare module 'vue-cropper'

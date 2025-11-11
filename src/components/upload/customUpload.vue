@@ -5,10 +5,17 @@ import { cloneDeep } from 'lodash'
 import { nanoid } from 'nanoid'
 import { onMounted, ref, useTemplateRef, watch } from 'vue'
 import { uploadFile } from '@/apis/modules/upload'
-import { useCancelRequest, useMessage } from '@/hooks'
-import { AllRegExp, BrowserTaskQueue } from '@/utils'
-import { fetchDownload } from '@/utils/modules/fetch-download'
+import {
+  dataURLtoBlob,
+  fileToBase64,
+  useCancelRequest,
+  useMessage,
+} from '@/hooks'
 
+import { AllRegExp, BrowserTaskQueue, ImageRegExp } from '@/utils'
+
+import { fetchDownload } from '@/utils/modules/fetch-download'
+import ImageCropper from './components/image-cropper.vue'
 import UploadList from './components/upload-list.vue'
 import UploadSelect from './components/upload-select.vue'
 
@@ -226,7 +233,11 @@ function selectClick() {
   open()
 }
 
-function beforeUpload(file: File) {
+const imageCropperVisible = ref<boolean>(false)
+const nowImageFile = ref<File>()
+const imageFile = ref<string>('')
+
+async function beforeUpload(file: File) {
   try {
     const checkType = props.verifyRegExp.test(file.type)
 
@@ -244,6 +255,17 @@ function beforeUpload(file: File) {
       })
       return
     }
+
+    // ✅ 判断是否图片类型（png/jpeg/bmp）
+    if (ImageRegExp.test(file.type)) {
+      // 拦截上传，打开裁剪弹窗
+      const img = await fileToBase64(file)
+      imageFile.value = img
+      nowImageFile.value = file
+      imageCropperVisible.value = true
+      return
+    }
+
     const fileName = file.name
     const uid = `${new Date().getTime() + nanoid()} `
     const fileItem: FileListItem = {
@@ -260,6 +282,30 @@ function beforeUpload(file: File) {
   }
   catch (error) {
     throw new Error(error as string)
+  }
+}
+
+async function imageCropperGetImage(value: string) {
+  if (nowImageFile.value) {
+    const blob = dataURLtoBlob(value)
+
+    const fileName = nowImageFile.value.name
+    // ✅ 把 blob 包装成 File
+    const croppedFile = new File([blob], fileName, {
+      type: nowImageFile.value.type,
+    })
+    const uid = `${new Date().getTime() + nanoid()} `
+    const fileItem: FileListItem = {
+      uid,
+      status: 'uploading',
+      name: fileName,
+      file: croppedFile,
+      percent: 0,
+      type: nowImageFile.value.type,
+    }
+    fileList.value.push({ ...fileItem })
+    filesModel.value = [...fileList.value]
+    startUpLoadFile(fileList.value[fileList.value.length - 1])
   }
 }
 
@@ -425,6 +471,13 @@ onMounted(() => {
       :src="imagePreviewUrl"
       :style="{ display: 'none' }"
       :width="0"
+    />
+
+    <!-- 图片裁剪 -->
+    <ImageCropper
+      v-model:model-value="imageCropperVisible"
+      :file="imageFile"
+      @get-image="imageCropperGetImage"
     />
   </div>
 </template>
