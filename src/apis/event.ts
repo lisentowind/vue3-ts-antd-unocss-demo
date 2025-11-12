@@ -41,6 +41,9 @@ export function ApiEventHandle() {
       505: t('api.res.err.505'),
       507: t('api.res.err.507'),
       511: t('api.res.err.511'),
+
+      // 请求取消
+      0: t('api.res.err.cancel'),
     }
   })
   const startListen = () => {
@@ -55,6 +58,14 @@ export function ApiEventHandle() {
     // 响应错误处理
     ApiEventEmitter.on('responseErr', (data) => {
       console.log('🚀 ~ responseErr ~ data:', data)
+
+      if (data.res.name === 'CanceledError') {
+        msgError({
+          content: data.res.message || resErrMap.value[0],
+        })
+        return
+      }
+
       if (data.res.status) {
         msgError({
           content: resErrMap.value[data.res.status],

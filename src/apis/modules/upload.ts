@@ -3,12 +3,12 @@ import NP from 'number-precision'
 import { useCancelRequest } from '@/hooks'
 import baseAxios from '..'
 
-const { createRequest } = useCancelRequest()
+NP.enableBoundaryChecking(false)
+
+const { createRequest, deleteRequest } = useCancelRequest()
 
 /**
- * @description 文件上传
- * @date 17/06/2022
- * @export
+ * @description 文件上传（安全且无内存泄露）
  */
 export function uploadFile(
   data: FormData,
@@ -18,19 +18,27 @@ export function uploadFile(
   ) => void,
   path: string,
 ) {
-  return baseAxios.post<DataResponse<string>>(
-    '/fileUpload/file-server/uploadFile/uploadOne',
-    data,
-    {
-      headers: {
-        cancelToken: path,
+  // 创建取消令牌
+  const cancelToken = createRequest(path)
+
+  return baseAxios
+    .post<DataResponse<string>>(
+      '/fileUpload/file-server/uploadFile/uploadOne',
+      data,
+      {
+        onUploadProgress: (e) => {
+          // ✅ 安全保护，避免 NP 精度警告
+          const loaded = Math.min(e.loaded ?? 0, Number.MAX_SAFE_INTEGER)
+          const total = Math.min(e.total ?? 0, Number.MAX_SAFE_INTEGER)
+          const percent = total > 0 ? NP.round(loaded / total, 2) : 0
+
+          onProgress(percent, e)
+        },
+        cancelToken,
       },
-      onUploadProgress: (e) => {
-        const percent
-          = e.total && e.total > 0 ? NP.round(e.loaded / e.total, 2) : 0
-        onProgress(percent, e)
-      },
-      cancelToken: createRequest(path),
-    },
-  )
+    )
+    .finally(() => {
+      // ✅ 防止内存泄露：请求完成后清理对应 path
+      deleteRequest(path)
+    })
 }

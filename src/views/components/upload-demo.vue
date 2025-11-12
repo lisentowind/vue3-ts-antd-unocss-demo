@@ -17,6 +17,7 @@ const pc = ref<FileListItem[]>([])
     <CustomUpload
       v-model:files="p"
       :can-drop-file="true"
+      :max-concurrency="3"
       name="file"
       list-type="picture"
     />

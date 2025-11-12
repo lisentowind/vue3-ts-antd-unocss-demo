@@ -325,29 +325,36 @@ function startUpLoadFile(value: FileListItem) {
     formData.append('file', file)
     formData.append('businessType', 'univ')
     // 添加文件上传任务到队列
-    fileUpLoadQueue.add(
-      async () => {
-        const res = await uploadFile(
-          formData,
-          (percent) => {
-            baseFile.percent = Number(Number(percent * 100).toFixed(2))
-          },
-          path,
-        )
+    fileUpLoadQueue
+      .add(
+        async () => {
+          const res = await uploadFile(
+            formData,
+            (percent) => {
+              baseFile.percent = Number(Number(percent * 100).toFixed(2))
+            },
+            path,
+          )
 
-        if (res.data.msg === '操作成功') {
-          baseFile.status = 'done'
-          baseFile.url = res.data.data
-          deleteRequest(path)
-          return res
-        }
-        else {
-          baseFile.status = 'error'
-          throw new Error(`${baseFile.name} 上传失败`)
-        }
-      },
-      { priority: 'normal', id: value.uid },
-    )
+          if (res.data.msg === '操作成功') {
+            baseFile.status = 'done'
+            baseFile.url = res.data.data
+            deleteRequest(path)
+            return res
+          }
+          else {
+            baseFile.status = 'error'
+            throw new Error(`${baseFile.name} 上传失败`)
+          }
+        },
+        { priority: 'normal', id: value.uid },
+      )
+      .then((res) => {
+        console.log('🚀 ~ startUpLoadFile ~ 队列上传成功:', res)
+      })
+      .catch((error) => {
+        console.log('🚀 ~ startUpLoadFile ~ 队列 error:', error)
+      })
   }
 }
 
