@@ -3,7 +3,6 @@ import type { UploadProps } from 'ant-design-vue'
 import type { VNode } from 'vue'
 import type { FileActionEvent } from '../config'
 import type { FileListItem } from '../customUpload.vue'
-import CustomIcon from '@/components/customIcon/customIcon.vue'
 import { useThemeStore } from '@/store'
 import { defaultBtn, fileTypeMap } from '../config'
 

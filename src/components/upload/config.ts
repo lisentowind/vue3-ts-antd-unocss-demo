@@ -1,6 +1,6 @@
 import type { ListControlBtn } from './components/upload-list.vue'
 import { computed, h } from 'vue'
-import CustomIcon from '../customIcon/customIcon.vue'
+import CustomIcon from '../CustomIcon/CustomIcon.vue'
 
 export const fileTypeMap = new Map([
   ['png', 'image'],

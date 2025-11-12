@@ -4,33 +4,31 @@ import type vGsap from './directives/modules/v-gsap'
 
 // 全局注册组件的类型声明 方便编辑器识别类型
 declare module 'vue' {
-  // 全局注册组件
+  // 全局注册组件 通过运行 pnpm gen:types 脚本自动生成
   export interface GlobalComponents {
-    // 自定义组件
-    CustomIcon: typeof import('@/components/customIcon/customIcon.vue')['default']
+    CustomIcon: typeof import('@/components/CustomIcon/CustomIcon.vue')['default']
     CustomMouse: typeof import('@/components/other/custom-mouse.vue')['default']
     CustomUpload: typeof import('@/components/upload/customUpload.vue')['default']
     CustomModal: typeof import('@/components/modal/index.vue')['default']
-    // ant-design-vue组件
     AButton: typeof import('ant-design-vue')['Button']
+    ACol: typeof import('ant-design-vue')['Col']
     AConfigProvider: typeof import('ant-design-vue')['ConfigProvider']
+    ADatePicker: typeof import('ant-design-vue')['DatePicker']
+    AImage: typeof import('ant-design-vue')['Image']
+    AInput: typeof import('ant-design-vue')['Input']
     AModal: typeof import('ant-design-vue')['Modal']
+    AProgress: typeof import('ant-design-vue')['Progress']
     ARadio: typeof import('ant-design-vue')['Radio']
+    ARow: typeof import('ant-design-vue')['Row']
     ASelect: typeof import('ant-design-vue')['Select']
     ASpace: typeof import('ant-design-vue')['Space']
     ASwitch: typeof import('ant-design-vue')['Switch']
     ATable: typeof import('ant-design-vue')['Table']
-    ATooltip: typeof import('ant-design-vue')['Tooltip']
-    AInput: typeof import('ant-design-vue')['Input']
-    ADatePicker: typeof import('ant-design-vue')['DatePicker']
-    ATabs: typeof import('ant-design-vue')['Tabs']
     ATabPane: typeof import('ant-design-vue')['TabPane']
-    AUpload: typeof import('ant-design-vue')['Upload']
-    ARow: typeof import('ant-design-vue')['Row']
-    ACol: typeof import('ant-design-vue')['Col']
+    ATabs: typeof import('ant-design-vue')['Tabs']
+    ATooltip: typeof import('ant-design-vue')['Tooltip']
     ATypographyText: typeof import('ant-design-vue')['TypographyText']
-    AProgress: typeof import('ant-design-vue')['Progress']
-    AImage: typeof import('ant-design-vue')['Image']
+    AUpload: typeof import('ant-design-vue')['Upload']
   }
   // 全局指令类型声明
   export interface ComponentCustomProperties {
@@ -38,7 +36,6 @@ declare module 'vue' {
     vGsap: typeof vGsap
   }
 }
-
 
 declare module 'base64-file'
 

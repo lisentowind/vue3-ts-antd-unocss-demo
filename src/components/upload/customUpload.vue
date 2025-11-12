@@ -120,10 +120,10 @@ const upLoadErrorFile = ref<FileListItem[]>([])
 
 // 监听任务失败
 fileUpLoadQueue.on('taskError', ({ task }) => {
-  const errorItem = fileList.value.find((item) => item.uid === task.id)
+  const errorItem = fileList.value.find(item => item.uid === task.id)
   if (
-    errorItem &&
-    !upLoadErrorFile.value.some((item) => item.uid === task.id)
+    errorItem
+    && !upLoadErrorFile.value.some(item => item.uid === task.id)
   ) {
     upLoadErrorFile.value.push(cloneDeep(errorItem))
   }
@@ -132,20 +132,18 @@ fileUpLoadQueue.on('taskError', ({ task }) => {
 // 监听任务完成
 fileUpLoadQueue.on('taskComplete', ({ task }) => {
   upLoadErrorFile.value = upLoadErrorFile.value.filter(
-    (item) => item.uid !== task.id,
+    item => item.uid !== task.id,
   )
 })
 
 // 监听任务重试
 fileUpLoadQueue.on('taskRetry', ({ task, attempt }) => {
-  console.log(
-    `上传任务重试: ${task.id}, 当前尝试次数: ${attempt}`,
-    task,
-  )
+  console.log(`上传任务重试: ${task.id}, 当前尝试次数: ${attempt}`, task)
 })
 
 function handelRetryUpLoad() {
-  if (!upLoadErrorFile.value.length) return
+  if (!upLoadErrorFile.value.length)
+    return
 
   upLoadErrorFile.value.forEach((item) => {
     const baseFile = getBaseFile(item)
@@ -169,7 +167,7 @@ function getFilePath(file: FileListItem) {
 }
 
 function getBaseFile(file: FileListItem) {
-  const baseFile = fileList.value.find((item) => item.uid === file.uid)
+  const baseFile = fileList.value.find(item => item.uid === file.uid)
   return baseFile
 }
 
@@ -181,9 +179,9 @@ function cancelUpLoad(file: FileListItem, msg: string) {
 
 function deleteUploadFile(file: FileListItem, msg: string) {
   cancelUpLoad(file, msg)
-  fileList.value = fileList.value.filter((item) => item.uid !== file.uid)
+  fileList.value = fileList.value.filter(item => item.uid !== file.uid)
   upLoadErrorFile.value = upLoadErrorFile.value.filter(
-    (item) => item.uid !== file.uid,
+    item => item.uid !== file.uid,
   )
 }
 
@@ -199,7 +197,8 @@ const eventActionMap: Record<FileActionEvent, (v: FileListItem) => void> = {
     if (v.url) {
       imagePreviewUrl.value = v.url
       setVisible(true)
-    } else {
+    }
+    else {
       msgInfo({
         content: '上传未完成的图片不能查看',
       })
@@ -208,7 +207,8 @@ const eventActionMap: Record<FileActionEvent, (v: FileListItem) => void> = {
   download: (v) => {
     if (v.url) {
       fetchDownload(v.url, v.name, v.url.split('.').pop() ?? 'txt')
-    } else {
+    }
+    else {
       msgInfo({
         content: '上传未完成的图片不能下载',
       })
@@ -288,7 +288,8 @@ async function beforeUpload(file: File) {
     fileList.value.push({ ...fileItem })
     filesModel.value = [...fileList.value]
     startUpLoadFile(fileList.value[fileList.value.length - 1])
-  } catch (error) {
+  }
+  catch (error) {
     throw new Error(error as string)
   }
 }
@@ -348,7 +349,8 @@ function startUpLoadFile(value: FileListItem) {
             baseFile.url = res.data.data
             deleteRequest(path)
             return res
-          } else {
+          }
+          else {
             baseFile.status = 'error'
             throw new Error(`${baseFile.name} 上传失败`)
           }
@@ -427,7 +429,8 @@ onMounted(() => {
       @view="(v) => handleAction('view', v)"
       @select-click="selectClick"
       @re-try="(v) => handleAction('reTry', v)"
-      @retry-up-load="handelRetryUpLoad">
+      @retry-up-load="handelRetryUpLoad"
+    >
       <template v-if="$slots.select" #CustomSelect>
         <slot
           :file-list="fileList"
@@ -447,21 +450,25 @@ onMounted(() => {
           :text="props.text"
           :up-load-error-file-length="upLoadErrorFile.length"
           :width="props.width"
-          name="select">
+          name="select"
+        >
         </slot>
       </template>
     </UploadSelect>
     <div
       v-if="upLoadErrorFile.length && props.showTryAgainAllBtn"
-      class="m-[5px_0]">
+      class="m-[5px_0]"
+    >
       <AButton
         v-if="props.listType !== 'picture-card'"
-        @click="handelRetryUpLoad">
+        @click="handelRetryUpLoad"
+      >
         <template #icon>
           <CustomIcon
             class="mr-5px"
             color="currentColor"
-            icon="material-symbols:redo-rounded" />
+            icon="material-symbols:redo-rounded"
+          />
         </template>
         一键重试
       </AButton>
@@ -475,7 +482,8 @@ onMounted(() => {
         @delete="(v) => handleAction('delete', v)"
         @download="(v) => handleAction('download', v)"
         @view="(v) => handleAction('view', v)"
-        @re-try="(v) => handleAction('reTry', v)" />
+        @re-try="(v) => handleAction('reTry', v)"
+      />
     </TransitionGroup>
     <AImage
       :preview="{
@@ -484,7 +492,8 @@ onMounted(() => {
       }"
       :src="imagePreviewUrl"
       :style="{ display: 'none' }"
-      :width="0" />
+      :width="0"
+    />
 
     <!-- 图片裁剪 -->
     <ImageCropper
@@ -493,7 +502,8 @@ onMounted(() => {
       :fixed="props.fixed"
       :fixed-box="props.fixedBox"
       :fixed-number="props.fixedNumber"
-      @get-image="imageCropperGetImage" />
+      @get-image="imageCropperGetImage"
+    />
   </div>
 </template>
 

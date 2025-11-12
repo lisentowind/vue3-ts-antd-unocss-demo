@@ -22,7 +22,7 @@ import {
   Upload,
 } from 'ant-design-vue'
 // 自定义组件
-import CustomIcon from '@/components/customIcon/customIcon.vue'
+import CustomIcon from './CustomIcon/CustomIcon.vue'
 import CustomModal from './modal/index.vue'
 import CustomMouse from './other/custom-mouse.vue'
 import CustomUpload from './upload/customUpload.vue'
