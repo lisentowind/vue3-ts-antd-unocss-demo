@@ -18,6 +18,7 @@ const pc = ref<FileListItem[]>([])
       v-model:files="p"
       :can-drop-file="true"
       :max-concurrency="3"
+      :max-retry-attempts="1"
       name="file"
       list-type="picture"
     />
