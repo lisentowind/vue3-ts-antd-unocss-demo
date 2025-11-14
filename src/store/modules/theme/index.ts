@@ -26,7 +26,7 @@ export const useThemeStore = defineStore('theme', {
   actions: {
     setThemeDark(value: ThemeStoreState['themeMode']) {
       this.themeMode = value
-      document.documentElement.style.setProperty('data-theme', value)
+      document.documentElement.setAttribute('data-theme', value)
     },
     setPrimaryColor(value: ThemeStoreState['primaryColor']) {
       const finalColor = toRgb(value)
