@@ -26,14 +26,17 @@ export const useThemeStore = defineStore('theme', {
   actions: {
     setThemeDark(value: ThemeStoreState['themeMode']) {
       this.themeMode = value
-      document.body.setAttribute('data-theme', value)
+      document.documentElement.style.setProperty('data-theme', value)
     },
     setPrimaryColor(value: ThemeStoreState['primaryColor']) {
       const finalColor = toRgb(value)
       const colorValueStr = toRgbVar(value)
       this.primaryColor = finalColor
-      document.body.style.setProperty('--color-primary', finalColor)
-      document.body.style.setProperty('--color-primary-value', colorValueStr)
+      document.documentElement.style.setProperty('--color-primary', finalColor)
+      document.documentElement.style.setProperty(
+        '--color-primary-value',
+        colorValueStr,
+      )
     },
   },
 })

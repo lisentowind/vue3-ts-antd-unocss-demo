@@ -406,7 +406,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="uploadDropZoneRef" class="custom-upload relative m-[5px_0]">
+  <div ref="uploadDropZoneRef" class="custom-upload m-[5px_0] relative">
     <UploadSelect
       v-if="
         props.listType !== 'picture-card'

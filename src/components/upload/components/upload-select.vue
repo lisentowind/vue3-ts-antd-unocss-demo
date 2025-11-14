@@ -54,6 +54,7 @@ function handelRetryUpLoad() {
     >
       <AButton
         v-if="props.listType !== 'picture-card'"
+        class="flex w-fit items-center justify-between"
         :class="{
           onDrop: isOverDropZone,
         }"
@@ -71,7 +72,7 @@ function handelRetryUpLoad() {
 
       <div
         v-else
-        class="card flex flex-wrap items-center justify-start gap-10px"
+        class="card flex flex-wrap gap-10px items-center justify-start"
       >
         <TransitionGroup name="bounce-list">
           <!-- card -->
@@ -90,7 +91,7 @@ function handelRetryUpLoad() {
           <div
             v-if="props.upLoadErrorFileLength && props.showTryAgainAllBtn"
             :key="showTryAgainAllCardId"
-            class="group flex cursor-pointer items-center justify-center border-1px border-gray rounded-md border-solid transition-all hover:border-primary"
+            class="group border-1px border-gray rounded-md border-solid flex cursor-pointer transition-all items-center justify-center hover:border-primary"
             :style="{ width: props.width, height: props.height }"
           >
             <ASpace
@@ -111,7 +112,7 @@ function handelRetryUpLoad() {
           <div
             v-if="props.fileList.length < props.maxFile"
             :key="selectCardId"
-            class="group flex cursor-pointer items-center justify-center border-1px border-gray rounded-md border-dashed transition-all hover:border-primary"
+            class="group border-1px border-gray rounded-md border-dashed flex cursor-pointer transition-all items-center justify-center hover:border-primary"
             :class="{
               onDrop: isOverDropZone,
             }"

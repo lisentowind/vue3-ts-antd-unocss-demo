@@ -3,14 +3,21 @@ import {
   presetAttributify,
   presetIcons,
   presetTypography,
-  presetWind3,
+  presetWind4,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
 
 export default defineConfig({
   presets: [
-    presetWind3(),
+    presetWind4({
+      preflights: {
+        reset: true,
+        theme: {
+          mode: true, // 强制完整生成 theme 变量
+        },
+      },
+    }),
     presetAttributify(),
     presetTypography(),
     presetIcons({
@@ -30,6 +37,7 @@ export default defineConfig({
   ],
   theme: {
     colors: {
+      'test': 'red',
       // 动态主题色
       'primary': `var(--color-primary)`,
       'primary-1': `rgb(var(--color-primary-value) / 0.1)`,
