@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
-import { GenTypesPlugin } from './plugins/genComponentsType-vite'
+import { VitePluginGenTypes } from './plugins/genComponentsType-vite'
 import VitePluginIconify from './plugins/iconify-vite'
 
 // 手动定义 __dirname
@@ -19,7 +19,11 @@ export default defineConfig({
     VitePluginIconify({
       collections: ['line-md', 'material-symbols', 'vscode-icons'], // 需要支持的图标集
     }),
-    GenTypesPlugin(),
+    VitePluginGenTypes({
+      watchPaths: ['src/components/index.ts'], // 只监听组件下的index.ts文件
+      filter: /index\.ts$/,
+      command: 'pnpm gen:types',
+    }),
   ],
   resolve: {
     alias: [

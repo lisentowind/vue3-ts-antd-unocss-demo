@@ -49,7 +49,7 @@ export interface GenTypesPluginOptions {
 /**
  * @description 自动生成组件类型的 Vite 插件
  */
-export function GenTypesPlugin(options: GenTypesPluginOptions = {}): Plugin {
+export function VitePluginGenTypes(options: GenTypesPluginOptions = {}): Plugin {
   const {
     mode = 'serve',
     watchPaths = ['src/components'],
