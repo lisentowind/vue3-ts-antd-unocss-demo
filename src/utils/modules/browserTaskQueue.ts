@@ -259,6 +259,25 @@ export class BrowserTaskQueue {
     this.on(event, wrapper)
   }
 
+  /**
+   * 销毁队列实例，清理所有资源
+   */
+  destroy() {
+    // 取消所有活动任务
+    for (const task of this.activeTasks.values()) {
+      task.controller.abort()
+    }
+    this.activeTasks.clear()
+
+    // 清空队列
+    this.queue = []
+
+    // 清除所有事件监听器
+    for (const key in this.eventListeners) {
+      this.eventListeners[key as EventTypes] = []
+    }
+  }
+
   private async _processQueue() {
     while (
       !this.paused
