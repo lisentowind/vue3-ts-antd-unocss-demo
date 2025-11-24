@@ -56,13 +56,12 @@ watch(
 <template>
   <CustomModal
     v-model:model-value="visible"
-    :footer="true"
     :width="650"
     async
     title="裁剪图片"
     @confirm="confirmCropper"
   >
-    <div class="h-450px flex flex-wrap justify-center">
+    <div class="flex flex-wrap h-450px justify-center">
       <VueCropper
         ref="cropperRef"
         :auto-crop="option.autoCrop"
@@ -79,7 +78,7 @@ watch(
     </div>
 
     <template #modal-footer="{ onOk, onCancel }">
-      <div class="w-100% flex justify-end">
+      <div class="flex w-100% justify-end">
         <AButton @click="onCancel">
           取消
         </AButton>

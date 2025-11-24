@@ -1,27 +1,27 @@
 <script lang="ts" setup>
-import type { CSSProperties } from 'vue'
-import { onBeforeUnmount, watch } from 'vue'
+import type { ModalProps } from 'ant-design-vue'
+import { computed, onBeforeUnmount, useSlots, watch } from 'vue'
 import { useModal } from '@/hooks'
 
 // ====================== Props ======================
-interface Props {
-  title: string
-  verify?: boolean // 二次确认
-  width?: number
-  height?: string
-  async?: boolean // 异步操作
-  footer?: boolean // 页脚
-  bodyStyle?: CSSProperties
-  loading?: boolean
-  customClass?: string
+/**
+ * 继承 AntD Modal 的所有 props，并扩展自定义 props
+ * 使用 Partial<ModalProps> 使所有原生 props 可选
+ */
+interface CustomModalProps extends /* @vue-ignore */ Partial<ModalProps> {
+  /** 二次确认 - 关闭前弹出确认框 */
+  verify?: boolean
+  /** 异步操作标识 */
+  async?: boolean
 }
 
-// 默认值
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CustomModalProps>(), {
   verify: false,
   async: false,
-  loading: false,
   width: 500,
+  centered: true,
+  maskClosable: false,
+  destroyOnClose: true,
 })
 
 // ====================== Emits ======================
@@ -32,23 +32,51 @@ const emit = defineEmits<{
 
 // ====================== v-model ======================
 /**
- * Vue 3.5 新特性
- * 自动声明 modelValue props & update:modelValue emit
+ * 同时支持 v-model (modelValue) 和 v-model:open
+ * 保持向后兼容
  */
-const visible = defineModel<boolean>('modelValue')
+const modelValue = defineModel<boolean>('modelValue', { default: undefined })
+const openModel = defineModel<boolean>('open', { default: undefined })
+
+// 合并两种 v-model 方式，优先使用 modelValue 保持向后兼容
+const visible = computed({
+  get: () => modelValue.value ?? openModel.value ?? false,
+  set: (val) => {
+    if (modelValue.value !== undefined) {
+      modelValue.value = val
+    }
+    else {
+      openModel.value = val
+    }
+  },
+})
+
+// ====================== Slots ======================
+const slots = useSlots()
 
 const { modalWarning } = useModal()
 
+// ====================== Computed ======================
+/**
+ * 透传给 AModal 的 props
+ * 过滤掉自定义的扩展属性
+ */
+const modalProps = computed(() => {
+  const { verify, async, ...rest } = props
+  return rest
+})
+
 // ====================== Methods ======================
-function handleBeforeOk() {
-  if (!visible.value) {
-    return (visible.value = false)
-  }
+function handleOk(e: MouseEvent) {
+  if (!visible.value)
+    return
+
   visible.value = false
   emit('confirm')
+  props.onOk?.(e)
 }
 
-function handleBeforeCancel() {
+function handleCancel(e: MouseEvent) {
   if (props.verify) {
     modalWarning({
       title: '正在编辑中,是否取消？',
@@ -56,12 +84,16 @@ function handleBeforeCancel() {
         window.removeEventListener('beforeunload', handleBeforeUnload)
         visible.value = false
         emit('cancel')
+        props.onCancel?.(e)
       },
     })
-    return (visible.value = false)
+    return
   }
+
   window.removeEventListener('beforeunload', handleBeforeUnload)
-  return (visible.value = false)
+  visible.value = false
+  emit('cancel')
+  props.onCancel?.(e)
 }
 
 function handleBeforeUnload(e: BeforeUnloadEvent) {
@@ -102,27 +134,35 @@ onBeforeUnmount(() => {
 
 <template>
   <AModal
-    v-model:open="visible"
-    :body-style="props.bodyStyle"
-    :mask-closable="false"
-    :ok-loading="props.loading"
-    :title="props.title"
-    :width="props.width"
-    :class="props.customClass"
-    title-align="start"
-    unmount-on-close
-    centered
-    @ok="handleBeforeOk"
-    @cancel="handleBeforeCancel"
+    v-bind="modalProps"
+    :open="visible"
+    @update:open="visible = $event"
+    @ok="handleOk"
+    @cancel="handleCancel"
   >
+    <!-- 透传默认插槽 -->
     <slot></slot>
 
-    <template #footer>
-      <slot
-        name="modal-footer"
-        :on-ok="handleBeforeOk"
-        :on-cancel="handleBeforeCancel"
-      ></slot>
+    <!-- 透传 title 插槽 -->
+    <template v-if="slots.title" #title>
+      <slot name="title"></slot>
+    </template>
+
+    <!-- 透传 footer 插槽，同时支持 modal-footer（向后兼容）和 footer -->
+    <template v-if="slots['modal-footer'] || slots.footer" #footer>
+      <slot name="modal-footer" :on-ok="handleOk" :on-cancel="handleCancel">
+        <slot name="footer" :on-ok="handleOk" :on-cancel="handleCancel"></slot>
+      </slot>
+    </template>
+
+    <!-- 透传 closeIcon 插槽 -->
+    <template v-if="slots.closeIcon" #closeIcon>
+      <slot name="closeIcon"></slot>
+    </template>
+
+    <!-- 透传 modalRender 插槽 -->
+    <template v-if="slots.modalRender" #modalRender="scope">
+      <slot name="modalRender" v-bind="scope"></slot>
     </template>
   </AModal>
 </template>
