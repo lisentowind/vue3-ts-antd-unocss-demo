@@ -2,8 +2,6 @@ import type { MessageType } from 'ant-design-vue/es/message'
 import type { JointContent } from 'ant-design-vue/es/message/interface'
 import { message } from 'ant-design-vue'
 
-const [messageApi, contextHolder] = message.useMessage()
-
 interface MsgHooksConfig {
   content: JointContent
   duration?: number
@@ -15,11 +13,8 @@ function mergeConfig(defaults: MsgHooksConfig, overrides: MsgHooksConfig) {
 }
 
 /**
- * @description 描述 全局消息提示封装
- * @date 2025-09-15 10:25:02
- * @author tingfeng
- *
- * @export
+ * @description 全局消息提示封装（无 hooks 版本）
+ * @date 2025-09-15
  */
 export function useMessage() {
   const baseConfig: MsgHooksConfig = {
@@ -28,39 +23,42 @@ export function useMessage() {
     onClose: () => {},
   }
 
+  // info
   const msgInfo = async (cfg: MsgHooksConfig): Promise<MessageType> => {
     const { content, duration, onClose } = mergeConfig(baseConfig, cfg)
-    return messageApi.info(content, duration, onClose)
+    return message.info(content, duration, onClose)
   }
 
+  // success
   const msgSuccess = async (cfg: MsgHooksConfig): Promise<MessageType> => {
     const { content, duration, onClose } = mergeConfig(baseConfig, cfg)
-    return messageApi.success(content, duration, onClose)
+    return message.success(content, duration, onClose)
   }
 
+  // error
   const msgError = async (cfg: MsgHooksConfig): Promise<MessageType> => {
     const { content, duration, onClose } = mergeConfig(baseConfig, cfg)
-    return messageApi.error(content, duration, onClose)
+    return message.error(content, duration, onClose)
   }
 
+  // warning
   const msgWarning = async (cfg: MsgHooksConfig): Promise<MessageType> => {
     const { content, duration, onClose } = mergeConfig(baseConfig, cfg)
-    return messageApi.warning(content, duration, onClose)
+    return message.warning(content, duration, onClose)
   }
 
+  // loading
   const msgLoading = async (cfg: MsgHooksConfig): Promise<MessageType> => {
     const { content, duration, onClose } = mergeConfig(baseConfig, cfg)
-    return messageApi.loading(content, duration, onClose)
+    return message.loading(content, duration, onClose)
   }
 
   return {
-    msgApi: messageApi,
     msgInfo,
     msgSuccess,
     msgError,
     msgWarning,
     msgLoading,
-    msgContextHolder: contextHolder,
     destroyAll: () => message.destroy(),
   }
 }

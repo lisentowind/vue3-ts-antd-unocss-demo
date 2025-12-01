@@ -24,11 +24,7 @@ ApiEventHandle()
 const themeStore = useThemeStore()
 
 // 引入全局消息组件
-const {
-  msgContextHolder: MsgContextHolder,
-  destroyAll: msgDestroyAll,
-  msgSuccess,
-} = useMessage()
+const { destroyAll: msgDestroyAll, msgSuccess } = useMessage()
 
 // 引入全局模态框组件 函数式的简单弹窗
 const { modalContextHolder: ModalContextHolder, destroyAll: modalDestroyAll }
@@ -97,7 +93,6 @@ onBeforeUnmount(() => {
       },
     }"
   >
-    <MsgContextHolder />
     <ModalContextHolder />
     <CustomMouse v-if="useCustomMouse" />
     <RouterView v-slot="{ Component }">
