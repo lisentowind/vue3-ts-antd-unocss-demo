@@ -9,9 +9,9 @@ import EchartsDemo from './components/echarts-demo.vue'
 import IconDemo from './components/icon-demo.vue'
 import LocalDemo from './components/local-demo.vue'
 import UploadDemo from './components/upload-demo.vue'
-import ZodFormDemo from './components/zod-form-demo.vue'
-import ZodDataDemo from './components/zod-data-demo.vue'
 import ZodApiDemo from './components/zod-api-demo.vue'
+import ZodDataDemo from './components/zod-data-demo.vue'
+import ZodFormDemo from './components/zod-form-demo.vue'
 
 const activeKey = ref('1')
 
@@ -22,14 +22,14 @@ const titleArr = ['基础功能演示']
 
 <template>
   <div
-    class="min-h-100vh w-100vw flex items-center justify-center overflow-hidden overflow-y-auto bg-bgPrimary p-[20px_0]"
+    class="p-[20px_0] bg-bgPrimary flex min-h-100vh w-100vw items-center justify-center overflow-hidden overflow-y-auto"
   >
     <div
       v-glow-border="{
         color: themeStore.getPrimaryColor,
         radius: '15px',
       }"
-      class="min-w-40vw flex flex-col items-center justify-center rounded-15px bg-bgPrimary p-30px shadow-xl"
+      class="p-30px rounded-15px bg-bgPrimary flex flex-col min-w-40vw shadow-xl items-center justify-center"
     >
       <h1
         v-gsap="{
