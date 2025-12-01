@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { FormInstance } from 'ant-design-vue'
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { z } from 'zod'
-import { useMessage, useResetFormReactive } from '@/hooks'
+import { useMessage, useZodForm } from '@/hooks'
 
 // 定义 Zod 表单校验 Schema
 const formSchema = z
@@ -38,13 +38,31 @@ const formSchema = z
 
 type FormData = z.infer<typeof formSchema>
 
+const data: FormData = {
+  username: '',
+  email: '',
+  age: undefined,
+  password: '',
+  confirmPassword: '',
+  phone: '',
+  website: '',
+  bio: '',
+}
+console.log('🚀 ~ 测试类型:', data)
+
 const formRef = ref<FormInstance>()
 const { msgSuccess, msgError } = useMessage()
 
-// 使用 useResetFormReactive 管理表单数据
-const { state: formData, reset: resetFormData } = useResetFormReactive<
-  Partial<FormData>
->({
+// 使用 useZodForm 管理表单数据和校验
+const {
+  formData,
+  validate,
+  validateField,
+  reset,
+  getFieldError,
+  hasFieldError,
+  allRules,
+} = useZodForm(formSchema, {
   username: '',
   email: '',
   age: undefined,
@@ -55,69 +73,26 @@ const { state: formData, reset: resetFormData } = useResetFormReactive<
   bio: '',
 })
 
-// 错误信息
-const errors = reactive<Record<string, string>>({})
-
-// 验证单个字段
-function validateField(field: keyof FormData) {
-  try {
-    // 清空该字段的错误
-    errors[field] = ''
-
-    // 验证整个表单数据
-    formSchema.parse(formData)
-  }
-  catch (err) {
-    if (err instanceof z.ZodError) {
-      // 找到对应字段的错误
-      const fieldError = err.issues.find(issue => issue.path[0] === field)
-      if (fieldError) {
-        errors[field] = fieldError.message
-      }
-    }
-  }
-}
-
 // 提交表单
 function handleSubmit() {
-  try {
-    // 清空所有错误
-    Object.keys(errors).forEach((key) => {
-      errors[key] = ''
-    })
+  const result = validate()
 
-    // 验证整个表单
-    const validatedData = formSchema.parse(formData)
-
+  if (result.success) {
     msgSuccess({
       content: '表单验证成功！',
     })
-
-    console.log('验证通过的数据:', validatedData)
+    console.log('验证通过的数据:', result.data)
   }
-  catch (err) {
-    if (err instanceof z.ZodError) {
-      // 收集所有错误信息
-      err.issues.forEach((issue) => {
-        const field = issue.path[0] as string
-        errors[field] = issue.message
-      })
-      msgError({
-        content: err.issues[0].message,
-      })
-    }
+  else {
+    msgError({
+      content: result.errors.issues[0].message,
+    })
   }
 }
 
 // 重置表单
 function handleReset() {
-  // 使用 hooks 重置表单数据
-  resetFormData()
-
-  // 清空所有错误信息
-  Object.keys(errors).forEach((key) => {
-    errors[key] = ''
-  })
+  reset()
 }
 </script>
 
@@ -140,37 +115,41 @@ function handleReset() {
     <AForm
       ref="formRef"
       :model="formData"
+      :rules="allRules"
       :label-col="{ span: 6 }"
       :wrapper-col="{ span: 18 }"
     >
       <AFormItem
         label="用户名"
-        :validate-status="errors.username ? 'error' : ''"
-        :help="errors.username"
+        name="username"
+        :validate-status="hasFieldError('username') ? 'error' : ''"
+        :help="getFieldError('username')"
       >
         <AInput
           v-model:value="formData.username"
           placeholder="请输入用户名 (3-20个字符)"
-          @blur="validateField('username')"
+          @blur="() => validateField('username')"
         />
       </AFormItem>
 
       <AFormItem
         label="邮箱"
-        :validate-status="errors.email ? 'error' : ''"
-        :help="errors.email"
+        name="email"
+        :validate-status="hasFieldError('email') ? 'error' : ''"
+        :help="getFieldError('email')"
       >
         <AInput
           v-model:value="formData.email"
           placeholder="请输入邮箱地址"
-          @blur="validateField('email')"
+          @blur="() => validateField('email')"
         />
       </AFormItem>
 
       <AFormItem
         label="年龄"
-        :validate-status="errors.age ? 'error' : ''"
-        :help="errors.age"
+        name="age"
+        :validate-status="hasFieldError('age') ? 'error' : ''"
+        :help="getFieldError('age')"
       >
         <AInputNumber
           v-model:value="formData.age"
@@ -178,68 +157,73 @@ function handleReset() {
           :min="1"
           :max="150"
           class="w-100%"
-          @blur="validateField('age')"
+          @blur="() => validateField('age')"
         />
       </AFormItem>
 
       <AFormItem
         label="密码"
-        :validate-status="errors.password ? 'error' : ''"
-        :help="errors.password"
+        name="password"
+        :validate-status="hasFieldError('password') ? 'error' : ''"
+        :help="getFieldError('password')"
       >
         <AInputPassword
           v-model:value="formData.password"
           placeholder="请输入密码 (包含大小写字母和数字)"
-          @blur="validateField('password')"
+          @blur="() => validateField('password')"
         />
       </AFormItem>
 
       <AFormItem
         label="确认密码"
-        :validate-status="errors.confirmPassword ? 'error' : ''"
-        :help="errors.confirmPassword"
+        name="confirmPassword"
+        :validate-status="hasFieldError('confirmPassword') ? 'error' : ''"
+        :help="getFieldError('confirmPassword')"
       >
         <AInputPassword
           v-model:value="formData.confirmPassword"
           placeholder="请再次输入密码"
-          @blur="validateField('confirmPassword')"
+          @blur="() => validateField('confirmPassword')"
         />
       </AFormItem>
 
       <AFormItem
         label="手机号"
-        :validate-status="errors.phone ? 'error' : ''"
-        :help="errors.phone"
+        name="phone"
+        :validate-status="hasFieldError('phone') ? 'error' : ''"
+        :help="getFieldError('phone')"
       >
         <AInput
           v-model:value="formData.phone"
           placeholder="请输入手机号 (选填)"
-          @blur="validateField('phone')"
+          @blur="() => validateField('phone')"
         />
       </AFormItem>
 
       <AFormItem
         label="个人网站"
-        :validate-status="errors.website ? 'error' : ''"
-        :help="errors.website"
+        name="website"
+        :validate-status="hasFieldError('website') ? 'error' : ''"
+        :help="getFieldError('website')"
       >
         <AInput
           v-model:value="formData.website"
           placeholder="请输入个人网站 URL (选填)"
-          @blur="validateField('website')"
+          @blur="() => validateField('website')"
         />
       </AFormItem>
 
       <AFormItem
         label="个人简介"
-        :validate-status="errors.bio ? 'error' : ''"
-        :help="errors.bio"
+        name="bio"
+        :validate-status="hasFieldError('bio') ? 'error' : ''"
+        :help="getFieldError('bio')"
       >
         <ATextarea
           v-model:value="formData.bio"
           placeholder="请输入个人简介 (最多200字)"
           :rows="4"
-          @blur="validateField('bio')"
+          @blur="() => validateField('bio')"
         />
       </AFormItem>
 

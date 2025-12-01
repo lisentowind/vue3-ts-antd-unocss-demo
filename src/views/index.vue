@@ -12,6 +12,7 @@ import UploadDemo from './components/upload-demo.vue'
 import ZodApiDemo from './components/zod-api-demo.vue'
 import ZodDataDemo from './components/zod-data-demo.vue'
 import ZodFormDemo from './components/zod-form-demo.vue'
+import ZodHooksDemo from './components/zod-hooks-demo.vue'
 
 const activeKey = ref('1')
 
@@ -68,6 +69,9 @@ const titleArr = ['基础功能演示']
         </ATabPane>
         <ATabPane key="9" :tab="$t('app.tabs.zod-api')">
           <ZodApiDemo />
+        </ATabPane>
+        <ATabPane key="10" :tab="$t('app.tabs.zod-hooks')">
+          <ZodHooksDemo />
         </ATabPane>
       </ATabs>
     </div>

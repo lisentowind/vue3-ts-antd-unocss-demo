@@ -17,5 +17,6 @@
   "app.tabs.upload": "上传",
   "app.tabs.zod-form": "Zod 表单校验",
   "app.tabs.zod-data": "Zod 数据校验",
-  "app.tabs.zod-api": "Zod API 校验"
+  "app.tabs.zod-api": "Zod API 校验",
+  "app.tabs.zod-hooks": "Zod Hooks"
 }
