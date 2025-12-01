@@ -14,5 +14,8 @@
   "app.tabs.locale": "国际化",
   "app.tabs.api": "请求",
   "app.tabs.echarts": "图表",
-  "app.tabs.upload": "上传"
+  "app.tabs.upload": "上传",
+  "app.tabs.zod-form": "Zod 表单校验",
+  "app.tabs.zod-data": "Zod 数据校验",
+  "app.tabs.zod-api": "Zod API 校验"
 }

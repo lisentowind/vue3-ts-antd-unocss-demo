@@ -9,6 +9,9 @@ import EchartsDemo from './components/echarts-demo.vue'
 import IconDemo from './components/icon-demo.vue'
 import LocalDemo from './components/local-demo.vue'
 import UploadDemo from './components/upload-demo.vue'
+import ZodFormDemo from './components/zod-form-demo.vue'
+import ZodDataDemo from './components/zod-data-demo.vue'
+import ZodApiDemo from './components/zod-api-demo.vue'
 
 const activeKey = ref('1')
 
@@ -56,6 +59,15 @@ const titleArr = ['基础功能演示']
         </ATabPane>
         <ATabPane key="6" :tab="$t('app.tabs.upload')">
           <UploadDemo />
+        </ATabPane>
+        <ATabPane key="7" :tab="$t('app.tabs.zod-form')">
+          <ZodFormDemo />
+        </ATabPane>
+        <ATabPane key="8" :tab="$t('app.tabs.zod-data')">
+          <ZodDataDemo />
+        </ATabPane>
+        <ATabPane key="9" :tab="$t('app.tabs.zod-api')">
+          <ZodApiDemo />
         </ATabPane>
       </ATabs>
     </div>

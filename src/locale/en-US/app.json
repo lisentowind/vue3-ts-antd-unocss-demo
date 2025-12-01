@@ -14,5 +14,8 @@
   "app.tabs.locale": "Internationalization",
   "app.tabs.api": "ask",
   "app.tabs.echarts": "chart",
-  "app.tabs.upload": "Upload"
+  "app.tabs.upload": "Upload",
+  "app.tabs.zod-form": "Zod Form Validation",
+  "app.tabs.zod-data": "Zod Data Validation",
+  "app.tabs.zod-api": "Zod API Validation"
 }
