@@ -15,7 +15,7 @@ const userSchema = z
       .min(3, '用户名至少需要3个字符')
       .max(20, '用户名最多20个字符')
       .regex(/^\w+$/, '用户名只能包含字母、数字和下划线'),
-    email: z.string().email('请输入有效的邮箱地址'),
+    email: z.email('请输入有效的邮箱地址'),
     age: z
       .number({ message: '年龄必须是数字' })
       .int('年龄必须是整数')
@@ -30,7 +30,8 @@ const userSchema = z
     phone: z
       .string()
       .regex(/^1[3-9]\d{9}$/, '请输入有效的手机号码')
-      .optional(),
+      .optional()
+      .or(z.literal('')),
   })
   .refine(data => data.password === data.confirmPassword, {
     message: '两次输入的密码不一致',
@@ -51,7 +52,7 @@ const {
   age: undefined,
   password: '',
   confirmPassword: '',
-  phone: '',
+  phone: undefined,
 })
 
 function handleUserSubmit() {
@@ -89,7 +90,7 @@ const configSchema = z.object({
     .int('最大连接数必须是整数')
     .positive('最大连接数必须是正数')
     .default(100),
-  apiUrl: z.string().url('请输入有效的 URL').optional(),
+  apiUrl: z.url('请输入有效的 URL').optional(),
 })
 
 const configForm = useZodForm(configSchema, {

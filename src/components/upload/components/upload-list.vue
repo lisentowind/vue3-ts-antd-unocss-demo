@@ -64,7 +64,7 @@ function getBtnArr(
     <TransitionGroup name="bounce-list">
       <template v-for="file in props.fileList" :key="file.uid">
         <ARow
-          class="group m-[5px_0] w-100% cursor-pointer border-1px border-transparent rounded-[8px] border-solid p-[10px_15px] transition-all hover:border-primary hover:bg-primary-1"
+          class="group m-[5px_0] p-[10px_15px] border-1px border-transparent rounded-[8px] border-solid w-100% cursor-pointer transition-all hover:border-primary hover:bg-primary-1"
           :class="{
             'bg-error-1': file.status === 'error',
             'hover:bg-error-1': file.status === 'error',

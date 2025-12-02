@@ -57,7 +57,7 @@ function getBtnArr(
 
 <template>
   <div
-    class="relative flex cursor-pointer items-center justify-center border-1px border-primary rounded-md border-solid p-5px transition-all hover:border-primary hover:bg-primary-1"
+    class="p-5px border-1px border-primary rounded-md border-solid flex cursor-pointer transition-all items-center justify-center relative hover:border-primary hover:bg-primary-1"
     :style="{ width: props.width, height: props.height }"
     :class="{
       'bg-error-1': props.list.status === 'error',
@@ -69,7 +69,7 @@ function getBtnArr(
     <ASpace
       v-if="!isImage || (isImage && props.list.status !== 'done')"
       direction="vertical"
-      class="info h-100% w-100% flex items-center justify-center"
+      class="info flex h-100% w-100% items-center justify-center"
     >
       <AProgress
         class="progress-right mr-0"
@@ -95,14 +95,14 @@ function getBtnArr(
         :has-default-class="false"
       />
       <ATypographyText
-        class="w-80px text-center"
+        class="text-center w-80px"
         :ellipsis="{ tooltip: props.list.name }"
         :content="props.list.name"
       />
     </ASpace>
     <AImage
       v-else-if="isImage && props.list.status === 'done'"
-      class="absolute left--1px top--1px rounded-md"
+      class="rounded-md left--1px top--1px absolute"
       :width="props.width"
       :height="props.height"
       :preview="true"
@@ -110,7 +110,7 @@ function getBtnArr(
     />
     <!-- hover层级 -->
     <div
-      class="card-hover absolute left--1px top--1px flex items-center justify-center border-1px border-primary rounded-md border-solid pb-10px"
+      class="card-hover pb-10px border-1px border-primary rounded-md border-solid flex items-center left--1px top--1px justify-center absolute"
       :style="{ width: props.width, height: props.height }"
     >
       <ASpace wrap>

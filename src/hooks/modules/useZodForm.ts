@@ -1,3 +1,4 @@
+import type { UnwrapRef } from 'vue'
 import type { z } from 'zod'
 import { cloneDeep } from 'lodash'
 import { reactive, ref } from 'vue'
@@ -9,12 +10,13 @@ export function useZodForm<
   T extends z.ZodObject<any>, // 🔥 强制 schema 必须是 ZodObject
 >(schema: T, initialValues: z.infer<T>) {
   type FormData = z.infer<T>
+  type ReactiveFormData = UnwrapRef<FormData>
 
   // 保存初始值
   const _initialValues = cloneDeep(initialValues)
 
-  // 表单数据
-  const formData = reactive(cloneDeep(_initialValues)) as unknown as FormData
+  // 表单数据 (reactive 返回的是 UnwrapRef 类型)
+  const formData = reactive(cloneDeep(_initialValues)) as ReactiveFormData
 
   // 错误信息
   const errors = reactive<Record<string, string>>({})
@@ -110,14 +112,14 @@ export function useZodForm<
   }
 
   /** 设置单个字段 */
-  function setFieldValue<K extends keyof FormData>(
+  function setFieldValue<K extends keyof ReactiveFormData>(
     field: K,
-    value: FormData[K],
+    value: ReactiveFormData[K],
     shouldValidate = false,
   ) {
     formData[field] = value
     if (shouldValidate)
-      validateField(field)
+      validateField(field as keyof FormData)
   }
 
   /** 获取字段错误 */

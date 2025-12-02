@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import dayjs from 'dayjs'
 import { ref } from 'vue'
 import { z } from 'zod'
 import { useMessage } from '@/hooks'
@@ -41,10 +42,10 @@ const userApiSchema = z.object({
   data: z.object({
     id: z.number(),
     username: z.string(),
-    email: z.string().email(),
-    avatar: z.string().url().optional(),
+    email: z.email(),
+    avatar: z.url().optional(),
     roles: z.array(z.string()),
-    createdAt: z.string().datetime(),
+    createdAt: z.string().transform(val => dayjs(val).format('YYYY年MM月DD日 HH:mm:ss')),
   }),
 })
 
@@ -117,7 +118,7 @@ function validateConfig() {
 const transformSchema = z.object({
   price: z.string().transform(val => Number.parseFloat(val)),
   quantity: z.string().transform(val => Number.parseInt(val)),
-  createdAt: z.string().transform(val => new Date(val)),
+  createdAt: z.string().transform(val => dayjs(val).format('YYYY年MM月DD日 HH:mm:ss')),
 })
 
 const transformInput = ref('')
@@ -130,7 +131,7 @@ function validateAndTransform() {
     transformResult.value = `✅ 转换成功！\n原始数据:\n${JSON.stringify(data, null, 2)}\n\n转换后:\n${JSON.stringify({
       price: validated.price,
       quantity: validated.quantity,
-      createdAt: validated.createdAt.toISOString(),
+      createdAt: validated.createdAt,
     }, null, 2)}`
     msgSuccess({ content: '数据转换成功' })
   }
@@ -265,7 +266,7 @@ function setTransformExample() {
   transformInput.value = JSON.stringify({
     price: '99.99',
     quantity: '10',
-    createdAt: new Date().toISOString(),
+    createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'), // 模拟后端返回的日期格式
   }, null, 2)
 }
 
@@ -286,7 +287,7 @@ function setSafeParseExample() {
       username: 'johndoe',
       email: 'john@example.com',
       roles: ['user'],
-      createdAt: new Date().toISOString(),
+      createdAt: dayjs().format('YYYY年MM月DD日 HH:mm:ss'),
     },
   }, null, 2)
 }

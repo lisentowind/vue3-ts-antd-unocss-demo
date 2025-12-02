@@ -12,7 +12,7 @@ const formSchema = z
       .min(3, '用户名至少需要3个字符')
       .max(20, '用户名最多20个字符')
       .regex(/^\w+$/, '用户名只能包含字母、数字和下划线'),
-    email: z.string().email('请输入有效的邮箱地址'),
+    email: z.email('请输入有效的邮箱地址'),
     age: z
       .number({ message: '年龄必须是数字' })
       .int('年龄必须是整数')
@@ -23,13 +23,22 @@ const formSchema = z
       .string()
       .min(6, '密码至少需要6个字符')
       .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, '密码必须包含大小写字母和数字'),
-    confirmPassword: z.string(),
+    confirmPassword: z
+      .string()
+      .min(6, '密码至少需要6个字符')
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, '密码必须包含大小写字母和数字'),
     phone: z
       .string()
       .regex(/^1[3-9]\d{9}$/, '请输入有效的手机号码')
-      .optional(),
-    website: z.string().url('请输入有效的网址').optional().or(z.literal('')),
+      .optional()
+      .or(z.literal('')),
+    website: z.url('请输入有效的网址').optional().or(z.literal('')),
     bio: z.string().max(200, '简介最多200个字符').optional(),
+    gender: z.string().min(1, '请选择性别'),
+    hobbies: z
+      .array(z.string())
+      .min(1, '至少选择一个爱好')
+      .max(5, '最多选择5个爱好'),
   })
   .refine(data => data.password === data.confirmPassword, {
     message: '两次输入的密码不一致',
@@ -44,11 +53,31 @@ const data: FormData = {
   age: undefined,
   password: '',
   confirmPassword: '',
-  phone: '',
-  website: '',
-  bio: '',
+  phone: undefined,
+  website: undefined,
+  bio: undefined,
+  gender: '',
+  hobbies: [],
 }
 console.log('🚀 ~ 测试类型:', data)
+
+// 下拉选项数据
+const genderOptions = [
+  { label: '男', value: 'male' },
+  { label: '女', value: 'female' },
+  { label: '其他', value: 'other' },
+]
+
+const hobbyOptions = [
+  { label: '阅读', value: 'reading' },
+  { label: '运动', value: 'sports' },
+  { label: '音乐', value: 'music' },
+  { label: '旅游', value: 'travel' },
+  { label: '摄影', value: 'photography' },
+  { label: '编程', value: 'coding' },
+  { label: '游戏', value: 'gaming' },
+  { label: '绘画', value: 'painting' },
+]
 
 const formRef = ref<FormInstance>()
 const { msgSuccess, msgError } = useMessage()
@@ -71,8 +100,9 @@ const {
   phone: '',
   website: '',
   bio: '',
+  gender: 'male',
+  hobbies: [],
 })
-
 // 提交表单
 function handleSubmit() {
   const result = validate()
@@ -111,7 +141,6 @@ function handleReset() {
       type="info"
       show-icon
     />
-
     <AForm
       ref="formRef"
       :model="formData"
@@ -224,6 +253,36 @@ function handleReset() {
           placeholder="请输入个人简介 (最多200字)"
           :rows="4"
           @blur="() => validateField('bio')"
+        />
+      </AFormItem>
+
+      <AFormItem
+        label="性别"
+        name="gender"
+        :validate-status="hasFieldError('gender') ? 'error' : ''"
+        :help="getFieldError('gender')"
+      >
+        <ASelect
+          v-model:value="formData.gender"
+          placeholder="请选择性别"
+          :options="genderOptions"
+          @blur="() => validateField('gender')"
+        />
+      </AFormItem>
+
+      <AFormItem
+        label="兴趣爱好"
+        name="hobbies"
+        :validate-status="hasFieldError('hobbies') ? 'error' : ''"
+        :help="getFieldError('hobbies')"
+      >
+        <ASelect
+          v-model:value="formData.hobbies"
+          mode="multiple"
+          placeholder="请选择兴趣爱好 (1-5个)"
+          :options="hobbyOptions"
+          :max-tag-count="3"
+          @blur="() => validateField('hobbies')"
         />
       </AFormItem>
 
