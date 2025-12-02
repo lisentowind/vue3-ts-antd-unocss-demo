@@ -158,7 +158,7 @@ const shippingSchema = z
 
     if (!data.address) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: 'custom',
         message: '请填写地址',
         path: ['address'],
       })
@@ -166,7 +166,7 @@ const shippingSchema = z
 
     if (!data.city) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: 'custom',
         message: '请填写城市',
         path: ['city'],
       })
@@ -174,7 +174,7 @@ const shippingSchema = z
 
     if (!data.zipCode) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: 'custom',
         message: '请填写邮编',
         path: ['zipCode'],
       })
