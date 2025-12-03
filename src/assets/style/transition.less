@@ -98,3 +98,37 @@
 .bounce-list-leave-active {
   position: absolute;
 }
+
+// 现代优雅的淡入动画 - 用于页面切换
+.smooth-fade-move,
+.smooth-fade-enter-active,
+.smooth-fade-leave-active {
+  transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.smooth-fade-enter-from {
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+}
+
+.smooth-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.98);
+}
+
+// 优雅的缩放淡入 - 更适合登录后的页面切换
+.zoom-fade-move,
+.zoom-fade-enter-active,
+.zoom-fade-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.zoom-fade-enter-from {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.zoom-fade-leave-to {
+  opacity: 0;
+  transform: scale(1.05);
+}

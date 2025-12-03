@@ -1,85 +1,87 @@
 import type { App } from 'vue'
-// 按需引入ant-design-vue组件
-import {
-  Alert,
-  Button,
-  Card,
-  Col,
-  ConfigProvider,
-  DatePicker,
-  Form,
-  FormItem,
-  Image,
-  Input,
-  InputNumber,
-  InputPassword,
-  Modal,
-  Progress,
-  Radio,
-  Row,
-  Select,
-  SelectOption,
-  Space,
-  Switch,
-  Table,
-  TabPane,
-  Tabs,
-  Textarea,
-  Timeline,
-  TimelineItem,
-  Tooltip,
-  TypographyText,
-  Upload,
-} from 'ant-design-vue'
+import * as antd from 'ant-design-vue'
 // 自定义组件
 import CustomIcon from './CustomIcon/CustomIcon.vue'
 import CustomModal from './modal/index.vue'
 import CustomMouse from './other/custom-mouse.vue'
 import CustomUpload from './upload/customUpload.vue'
 
-const AntdComponents = {
-  Alert,
-  Button,
-  Card,
-  Col,
-  ConfigProvider,
-  DatePicker,
-  Form,
-  FormItem,
-  Image,
-  Input,
-  InputNumber,
-  InputPassword,
-  Modal,
-  Progress,
-  Radio,
-  Row,
-  Select,
-  SelectOption,
-  Space,
-  Switch,
-  Table,
-  TabPane,
-  Tabs,
-  Textarea,
-  Timeline,
-  TimelineItem,
-  Tooltip,
-  TypographyText,
-  Upload,
+// ==================== 配置区：只需要在这里维护一次 ====================
+
+// 需要注册的自定义组件 (组件名 -> 组件对象)
+const customComponents = {
+  CustomIcon,
+  CustomMouse,
+  CustomUpload,
+  CustomModal,
 }
 
-// 全局注册组件  类型提示需要去global.d.ts中添加
+// 需要注册的 ant-design-vue 组件名（只写一次！有智能提示）
+const antdComponentNames: Array<keyof typeof antd> = [
+  'Alert',
+  'Avatar',
+  'Badge',
+  'Button',
+  'Card',
+  'Col',
+  'ConfigProvider',
+  'DatePicker',
+  'Dropdown',
+  'Form',
+  'FormItem',
+  'Image',
+  'Input',
+  'InputNumber',
+  'InputPassword',
+  'Layout',
+  'LayoutContent',
+  'LayoutFooter',
+  'LayoutHeader',
+  'LayoutSider',
+  'List',
+  'ListItem',
+  'Menu',
+  'MenuDivider',
+  'MenuItem',
+  'Modal',
+  'Progress',
+  'Radio',
+  'RadioGroup',
+  'Row',
+  'Select',
+  'SelectOption',
+  'Space',
+  'Switch',
+  'Table',
+  'TabPane',
+  'Tabs',
+  'Tag',
+  'Textarea',
+  'Timeline',
+  'TimelineItem',
+  'Tooltip',
+  'TypographyText',
+  'Upload',
+  'InputSearch',
+  'Drawer',
+]
+
+// ==================== 以下代码自动处理，无需修改 ====================
+
+// 全局注册组件  类型提示通过运行 pnpm gen:types 脚本自动生成
 export default {
   install(Vue: App) {
-    // 自定义组件
-    Vue.component('CustomIcon', CustomIcon)
-    Vue.component('CustomMouse', CustomMouse)
-    Vue.component('CustomUpload', CustomUpload)
-    Vue.component('CustomModal', CustomModal)
-    // ant-design-vue组件
-    Object.entries(AntdComponents).forEach(([key, component]) => {
-      Vue.component(`A${key}`, component)
+    // 注册自定义组件
+    Object.entries(customComponents).forEach(([name, component]) => {
+      Vue.component(name, component)
+    })
+
+    // 注册 ant-design-vue 组件 (自动添加 A 前缀)
+    antdComponentNames.forEach((name) => {
+      const component = (antd as any)[name]
+      if (component) {
+        Vue.component(`A${name}`, component)
+      }
     })
   },
 }

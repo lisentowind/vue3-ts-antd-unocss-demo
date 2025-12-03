@@ -96,7 +96,7 @@ onBeforeUnmount(() => {
     <ModalContextHolder />
     <CustomMouse v-if="useCustomMouse" />
     <RouterView v-slot="{ Component }">
-      <Transition mode="out-in" name="list">
+      <Transition mode="out-in" name="zoom-fade">
         <component :is="Component" />
       </Transition>
     </RouterView>

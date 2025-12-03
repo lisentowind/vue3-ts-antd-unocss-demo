@@ -21,7 +21,7 @@ export default antfu(
     typescript: true,
     jsonc: false,
     yaml: false,
-    ignores: ['dist/**', 'node_modules/**'],
+    ignores: ['dist/**', 'node_modules/**', '*.md'],
   },
   {
     rules: {

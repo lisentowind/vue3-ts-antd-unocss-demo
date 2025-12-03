@@ -58,6 +58,14 @@ watch(
   },
   { flush: 'post' },
 )
+
+// 监听主题色变化，同步到颜色输入框
+watch(
+  () => themeStore.getPrimaryColor,
+  (newColor) => {
+    color.value = rgbaToHex(newColor)
+  },
+)
 </script>
 
 <template>

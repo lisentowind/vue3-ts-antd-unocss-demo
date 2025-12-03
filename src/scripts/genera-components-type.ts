@@ -9,55 +9,67 @@ const GLOBAL_DTS = path.resolve(ROOT, 'global.d.ts')
 // 读取 index.ts 内容
 const content = fs.readFileSync(COMPONENTS_INDEX, 'utf-8')
 
-// 匹配自定义组件注册语句：Vue.component('CustomIcon', CustomIcon)
-const customImports = Array.from(
-  content.matchAll(/Vue\.component\('(\w+)',\s*(\w+)\)/g),
-).map(([, name, variable]) => ({ name, variable }))
-
-// 匹配 ant-design-vue 组件导入
-const antdMatches = Array.from(
-  content.matchAll(/import\s*\{([^}]+)\}\s*from\s*'ant-design-vue'/g),
-)
-const antdList = antdMatches
-  .flatMap(([, inside]) =>
-    inside
-      .split(',')
-      .map(v => v.trim())
-      .filter(Boolean),
-  )
-  .map(name => ({ key: `A${name}`, importName: name }))
-
 /** 生成 GlobalComponents 内部声明字符串 */
 const generatedLines: string[] = []
 
-for (const { name, variable } of customImports) {
-  // 匹配 import 语句
-  const reg = new RegExp(`import\\s+${variable}\\s+from\\s+['"](.+?)['"]`)
-  const match = content.match(reg)
-  if (match) {
-    let filePath = match[1]
+// 1. 解析 customComponents 对象
+const customComponentsMatch = content.match(
+  /const\s+customComponents\s*=\s*\{([^}]+)\}/,
+)
+if (customComponentsMatch) {
+  const customComponentsContent = customComponentsMatch[1]
+  // 匹配对象中的每一行，格式如：CustomIcon, 或 CustomMouse,
+  const componentNames = customComponentsContent
+    .split(',')
+    .map(line => line.trim())
+    .filter(Boolean)
 
-    // 修正路径
-    if (filePath.startsWith('@/')) {
-      // 保留原样
-    }
-    else if (filePath.startsWith('./') || filePath.startsWith('../')) {
-      filePath = filePath
-        .replace(/^\.\/?/, '@/components/')
-        .replace(/^@\//, '@/')
-    }
-    else if (filePath.startsWith('@//')) {
-      filePath = filePath.replace('@//', '@/')
-    }
+  for (const name of componentNames) {
+    // 匹配对应的 import 语句
+    const importRegex = new RegExp(`import\\s+${name}\\s+from\\s+['"](.+?)['"]`)
+    const importMatch = content.match(importRegex)
 
-    generatedLines.push(`    ${name}: typeof import('${filePath}')['default']`)
+    if (importMatch) {
+      let filePath = importMatch[1]
+
+      // 修正路径
+      if (filePath.startsWith('@/')) {
+        // 保留原样
+      }
+      else if (filePath.startsWith('./') || filePath.startsWith('../')) {
+        filePath = filePath
+          .replace(/^\.\/?/, '@/components/')
+          .replace(/^@\//, '@/')
+      }
+      else if (filePath.startsWith('@//')) {
+        filePath = filePath.replace('@//', '@/')
+      }
+
+      generatedLines.push(
+        `    ${name}: typeof import('${filePath}')['default']`,
+      )
+    }
   }
 }
 
-for (const { key, importName } of antdList) {
-  generatedLines.push(
-    `    ${key}: typeof import('ant-design-vue')['${importName}']`,
-  )
+// 2. 解析 antdComponentNames 数组
+const antdComponentNamesMatch = content.match(
+  /const\s+antdComponentNames[^[]*\[([\s\S]*?)\]/,
+)
+if (antdComponentNamesMatch) {
+  const antdComponentsContent = antdComponentNamesMatch[1]
+  // 匹配数组中的每个字符串，格式如：'Alert', 或 'Button',
+  const componentNames
+    = antdComponentsContent
+      .match(/'(\w+)'/g)
+      ?.map(match => match.replace(/'/g, ''))
+      .filter(Boolean) || []
+
+  for (const name of componentNames) {
+    generatedLines.push(
+      `    A${name}: typeof import('ant-design-vue')['${name}']`,
+    )
+  }
 }
 
 /** 合成要插入的完整代码块 */
