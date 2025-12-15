@@ -163,7 +163,7 @@ watch(
           </div>
 
           <!-- 预设颜色 -->
-          <div class="flex flex-wrap gap-3 mb-4">
+          <div class="mb-4 flex flex-wrap gap-3">
             <div
               v-for="color in presetColors"
               :key="color.value"
@@ -187,7 +187,7 @@ watch(
           </div>
 
           <!-- 自定义颜色 -->
-          <div class="flex gap-3 items-center pt-4 border-t">
+          <div class="pt-4 border-t flex gap-3 items-center">
             <div class="flex-1">
               <div class="text-sm text-gray-700 font-medium mb-1">
                 自定义主题色

@@ -82,6 +82,18 @@ export default {
       if (component) {
         Vue.component(`A${name}`, component)
       }
+      // 注册自定义组件
+      Object.entries(customComponents).forEach(([name, component]) => {
+        Vue.component(name, component)
+      })
+
+      // 注册 ant-design-vue 组件 (自动添加 A 前缀)
+      antdComponentNames.forEach((name) => {
+        const component = (antd as any)[name]
+        if (component) {
+          Vue.component(`A${name}`, component)
+        }
+      })
     })
   },
 }
