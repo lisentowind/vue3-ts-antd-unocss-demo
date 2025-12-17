@@ -1,5 +1,4 @@
 import type { App } from 'vue'
-import * as antd from 'ant-design-vue'
 // 自定义组件
 import CustomIcon from './CustomIcon/CustomIcon.vue'
 import CustomModal from './modal/index.vue'
@@ -16,56 +15,6 @@ const customComponents = {
   CustomModal,
 }
 
-// 需要注册的 ant-design-vue 组件名（只写一次！有智能提示）
-const antdComponentNames: Array<keyof typeof antd> = [
-  'Alert',
-  'Avatar',
-  'Badge',
-  'Button',
-  'Card',
-  'Col',
-  'ConfigProvider',
-  'DatePicker',
-  'Dropdown',
-  'Form',
-  'FormItem',
-  'Image',
-  'Input',
-  'InputNumber',
-  'InputPassword',
-  'Layout',
-  'LayoutContent',
-  'LayoutFooter',
-  'LayoutHeader',
-  'LayoutSider',
-  'List',
-  'ListItem',
-  'Menu',
-  'MenuDivider',
-  'MenuItem',
-  'Modal',
-  'Progress',
-  'Radio',
-  'RadioGroup',
-  'Row',
-  'Select',
-  'SelectOption',
-  'Space',
-  'Switch',
-  'Table',
-  'TabPane',
-  'Tabs',
-  'Tag',
-  'Textarea',
-  'Timeline',
-  'TimelineItem',
-  'Tooltip',
-  'TypographyText',
-  'Upload',
-  'InputSearch',
-  'Drawer',
-]
-
 // ==================== 以下代码自动处理，无需修改 ====================
 
 // 全局注册组件  类型提示通过运行 pnpm gen:types 脚本自动生成
@@ -74,26 +23,6 @@ export default {
     // 注册自定义组件
     Object.entries(customComponents).forEach(([name, component]) => {
       Vue.component(name, component)
-    })
-
-    // 注册 ant-design-vue 组件 (自动添加 A 前缀)
-    antdComponentNames.forEach((name) => {
-      const component = (antd as any)[name]
-      if (component) {
-        Vue.component(`A${name}`, component)
-      }
-      // 注册自定义组件
-      Object.entries(customComponents).forEach(([name, component]) => {
-        Vue.component(name, component)
-      })
-
-      // 注册 ant-design-vue 组件 (自动添加 A 前缀)
-      antdComponentNames.forEach((name) => {
-        const component = (antd as any)[name]
-        if (component) {
-          Vue.component(`A${name}`, component)
-        }
-      })
     })
   },
 }

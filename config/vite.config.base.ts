@@ -3,8 +3,9 @@ import { fileURLToPath } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 
 import UnoCSS from 'unocss/vite'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
-import { VitePluginGenTypes } from './plugins/genComponentsType-vite'
 import VitePluginIconify from './plugins/iconify-vite'
 
 // 手动定义 __dirname
@@ -16,13 +17,16 @@ export default defineConfig({
   plugins: [
     vue(),
     UnoCSS(),
+    Components({
+      dts: 'src/components.d.ts',
+      resolvers: [
+        AntDesignVueResolver({
+          importStyle: 'less', // 或 'less'
+        }),
+      ],
+    }),
     VitePluginIconify({
       collections: ['line-md', 'material-symbols', 'vscode-icons'], // 需要支持的图标集
-    }),
-    VitePluginGenTypes({
-      watchPaths: ['src/components/index.ts'], // 只监听组件下的index.ts文件
-      filter: /index\.ts$/,
-      command: 'pnpm gen:types',
     }),
   ],
   resolve: {
