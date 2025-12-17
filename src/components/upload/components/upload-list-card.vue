@@ -116,7 +116,7 @@ function getBtnArr(
       <ASpace wrap>
         <template
           v-for="btn in getBtnArr(props.list.status, props.list.name)"
-          :key="btn"
+          :key="btn.id"
         >
           <AButton
             size="small"

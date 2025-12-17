@@ -1,5 +1,9 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 /** 项目路径 */
 const ROOT = path.resolve(__dirname, '../../src')
@@ -21,7 +25,7 @@ if (customComponentsMatch) {
   // 匹配对象中的每一行，格式如：CustomIcon, 或 CustomMouse,
   const componentNames = customComponentsContent
     .split(',')
-    .map(line => line.trim())
+    .map((line) => line.trim())
     .filter(Boolean)
 
   for (const name of componentNames) {
@@ -35,13 +39,11 @@ if (customComponentsMatch) {
       // 修正路径
       if (filePath.startsWith('@/')) {
         // 保留原样
-      }
-      else if (filePath.startsWith('./') || filePath.startsWith('../')) {
+      } else if (filePath.startsWith('./') || filePath.startsWith('../')) {
         filePath = filePath
           .replace(/^\.\/?/, '@/components/')
           .replace(/^@\//, '@/')
-      }
-      else if (filePath.startsWith('@//')) {
+      } else if (filePath.startsWith('@//')) {
         filePath = filePath.replace('@//', '@/')
       }
 
@@ -59,10 +61,10 @@ const antdComponentNamesMatch = content.match(
 if (antdComponentNamesMatch) {
   const antdComponentsContent = antdComponentNamesMatch[1]
   // 匹配数组中的每个字符串，格式如：'Alert', 或 'Button',
-  const componentNames
-    = antdComponentsContent
+  const componentNames =
+    antdComponentsContent
       .match(/'(\w+)'/g)
-      ?.map(match => match.replace(/'/g, ''))
+      ?.map((match) => match.replace(/'/g, ''))
       .filter(Boolean) || []
 
   for (const name of componentNames) {
