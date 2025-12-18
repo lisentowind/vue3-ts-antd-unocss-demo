@@ -3,13 +3,18 @@ import { defineStore } from 'pinia'
 
 interface UserState {
   token: string
+  tokenExpireTime: number // token 过期时间戳
   userInfo: UserInfo | null
   roles: string[]
 }
 
+// Token 有效期：30分钟（单位：毫秒）
+const TOKEN_EXPIRE_TIME = 10 * 1000
+
 export const useUserStore = defineStore('user', {
   state: (): UserState => ({
     token: '',
+    tokenExpireTime: 0,
     userInfo: null,
     roles: [],
   }),
@@ -18,16 +23,32 @@ export const useUserStore = defineStore('user', {
     isLoggedIn: state => !!state.token,
     getUserRoles: state => state.roles,
     getHomePath: state => state.userInfo?.homePath || '/dashboard',
+    // 检查 token 是否过期
+    isTokenExpired: (state) => {
+      if (!state.token || !state.tokenExpireTime) {
+        return true
+      }
+      return Date.now() > state.tokenExpireTime
+    },
   },
 
   actions: {
     setToken(token: string) {
       this.token = token
+      // 设置 token 过期时间（当前时间 + 30分钟）
+      this.tokenExpireTime = Date.now() + TOKEN_EXPIRE_TIME
     },
 
     setUserInfo(userInfo: UserInfo) {
       this.userInfo = userInfo
       this.roles = userInfo.roles
+    },
+
+    // 刷新 token 过期时间
+    refreshTokenExpireTime() {
+      if (this.token) {
+        this.tokenExpireTime = Date.now() + TOKEN_EXPIRE_TIME
+      }
     },
 
     async login(params: LoginParams) {
@@ -51,6 +72,7 @@ export const useUserStore = defineStore('user', {
 
     logout() {
       this.token = ''
+      this.tokenExpireTime = 0
       this.userInfo = null
       this.roles = []
     },

@@ -24,6 +24,10 @@ function filterAsyncRoutes(routes: AppRouteRecordRaw[], roles: string[]): AppRou
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {
         tmp.children = filterAsyncRoutes(tmp.children, roles)
+        // 如果所有子路由都被过滤掉了，并且父路由没有自己的component（只是容器），则不添加这个路由
+        if (tmp.children.length === 0 && tmp.redirect) {
+          return
+        }
       }
       res.push(tmp)
     }
