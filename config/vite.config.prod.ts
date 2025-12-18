@@ -1,4 +1,5 @@
 import legacy from '@vitejs/plugin-legacy'
+import Icons from 'unplugin-icons/vite'
 import { mergeConfig } from 'vite'
 import { compression } from 'vite-plugin-compression2'
 
@@ -11,12 +12,16 @@ export default mergeConfig(
       compression({
         algorithms: ['gzip'],
       }),
+      // 关闭后可提示打包速度
       legacy({
         targets: ['> 0.2%', 'not dead', 'not op_mini all'],
       }),
+      Icons({
+        // experimental
+        autoInstall: true,
+      }),
     ],
     build: {
-      minify: 'terser',
       terserOptions: {
         compress: {
           // 生产环境时移除console.log()
