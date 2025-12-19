@@ -63,7 +63,7 @@ const recentActivities = ref([
       <div
         v-for="stat in stats"
         :key="stat.title"
-        class="p-6 border border-gray-100 rounded-lg bg-white shadow"
+        class="p-6 border border-gray-100 rounded-lg bg-bgPrimary shadow dark:border-gray-800"
       >
         <div class="mb-4 flex items-center justify-between">
           <div>
@@ -78,12 +78,20 @@ const recentActivities = ref([
             class="rounded-full flex h-14 w-14 items-center justify-center"
             :style="{ backgroundColor: `${stat.color}20` }"
           >
-            <CustomIcon :icon="stat.icon" :width="28" :style="{ color: stat.color }" />
+            <CustomIcon
+              :icon="stat.icon"
+              :width="28"
+              :style="{ color: stat.color }"
+            />
           </div>
         </div>
         <div class="flex items-center">
           <CustomIcon
-            :icon="stat.trendUp ? 'material-symbols:trending-up' : 'material-symbols:trending-down'"
+            :icon="
+              stat.trendUp
+                ? 'material-symbols:trending-up'
+                : 'material-symbols:trending-down'
+            "
             :width="16"
             :class="stat.trendUp ? 'text-green-500' : 'text-red-500'"
           />
@@ -100,7 +108,9 @@ const recentActivities = ref([
 
     <div class="gap-6 grid grid-cols-1 lg:grid-cols-2">
       <!-- 最近活动 -->
-      <div class="p-6 border border-gray-100 rounded-lg bg-white shadow">
+      <div
+        class="p-6 border border-gray-100 rounded-lg bg-bgPrimary shadow dark:border-gray-800"
+      >
         <div class="mb-4 flex items-center justify-between">
           <h3 class="text-lg font-semibold">
             最近活动
@@ -133,28 +143,45 @@ const recentActivities = ref([
       </div>
 
       <!-- 快捷操作 -->
-      <div class="p-6 border border-gray-100 rounded-lg bg-white shadow">
+      <div
+        class="p-6 border border-gray-100 rounded-lg bg-bgPrimary shadow dark:border-gray-800"
+      >
         <h3 class="text-lg font-semibold mb-4">
           快捷操作
         </h3>
 
         <div class="gap-4 grid grid-cols-2">
-          <AButton size="large" class="flex flex-col gap-2 h-20 items-center justify-center">
-            <CustomIcon icon="material-symbols:add-circle-outline" :width="24" />
+          <AButton
+            size="large"
+            class="flex flex-col gap-2 h-20 items-center justify-center"
+          >
+            <CustomIcon
+              icon="material-symbols:add-circle-outline"
+              :width="24"
+            />
             <span>新建用户</span>
           </AButton>
 
-          <AButton size="large" class="flex flex-col gap-2 h-20 items-center justify-center">
+          <AButton
+            size="large"
+            class="flex flex-col gap-2 h-20 items-center justify-center"
+          >
             <CustomIcon icon="material-symbols:article-outline" :width="24" />
             <span>发布文章</span>
           </AButton>
 
-          <AButton size="large" class="flex flex-col gap-2 h-20 items-center justify-center">
+          <AButton
+            size="large"
+            class="flex flex-col gap-2 h-20 items-center justify-center"
+          >
             <CustomIcon icon="material-symbols:settings-outline" :width="24" />
             <span>系统设置</span>
           </AButton>
 
-          <AButton size="large" class="flex flex-col gap-2 h-20 items-center justify-center">
+          <AButton
+            size="large"
+            class="flex flex-col gap-2 h-20 items-center justify-center"
+          >
             <CustomIcon icon="material-symbols:analytics-outline" :width="24" />
             <span>数据报表</span>
           </AButton>

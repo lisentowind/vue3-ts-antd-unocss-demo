@@ -33,12 +33,3 @@ body {
 ::view-transition-new(root) {
   z-index: 2147483646; /* 接近最大z-index值 */
 }
-
-/* 暗色模式下的层级反转 */
-.dark::view-transition-old(root) {
-  z-index: 2147483646;
-}
-
-.dark::view-transition-new(root) {
-  z-index: 1;
-}
