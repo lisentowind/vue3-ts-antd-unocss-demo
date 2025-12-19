@@ -82,7 +82,7 @@ function quickLogin(username: string) {
   >
     <div class="mx-4 gap-8 grid max-w-5xl w-full md:grid-cols-2">
       <!-- 左侧：登录表单 -->
-      <div class="p-8 rounded-lg bg-white shadow-2xl">
+      <div class="p-8 rounded-lg bg-bgPrimary shadow-2xl">
         <div class="mb-8 text-center">
           <div class="mb-4 flex justify-center">
             <CustomIcon
@@ -91,7 +91,7 @@ function quickLogin(username: string) {
               class="text-primary-8"
             />
           </div>
-          <h1 class="text-3xl text-gray-800 font-bold">
+          <h1 class="text-3xl text-textBaseColor font-bold">
             后台管理系统
           </h1>
           <p class="text-gray-500 mt-2">

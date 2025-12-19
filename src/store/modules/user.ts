@@ -9,7 +9,7 @@ interface UserState {
 }
 
 // Token 有效期：30分钟（单位：毫秒）
-const TOKEN_EXPIRE_TIME = 10 * 1000
+const TOKEN_EXPIRE_TIME = 10 * 60 * 1000
 
 export const useUserStore = defineStore('user', {
   state: (): UserState => ({
