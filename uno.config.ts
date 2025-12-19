@@ -35,6 +35,7 @@ export default defineConfig({
         'color-textBaseColor transition-all ease-in active:scale-80 hover:color-primary',
     },
   ],
+  darkMode: 'class', // 基于CSS类名切换
   theme: {
     colors: {
       'test': 'red',
