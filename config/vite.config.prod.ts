@@ -1,8 +1,10 @@
 import legacy from '@vitejs/plugin-legacy'
 import Icons from 'unplugin-icons/vite'
 import { mergeConfig } from 'vite'
+import vitePluginBundleObfuscator from 'vite-plugin-bundle-obfuscator'
 import { compression } from 'vite-plugin-compression2'
 
+import { obfuscatorConfig } from './options/obfuscator'
 import baseConfig from './vite.config.base'
 
 export default mergeConfig(
@@ -20,6 +22,9 @@ export default mergeConfig(
         // experimental
         autoInstall: true,
       }),
+      // 关闭后可提示打包速度
+      //  开启混淆
+      vitePluginBundleObfuscator(obfuscatorConfig),
     ],
     build: {
       terserOptions: {
