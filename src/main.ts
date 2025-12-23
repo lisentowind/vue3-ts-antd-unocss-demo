@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import { setGlobalOptions } from 'vue-request'
 import App from './App.vue'
-import GlobalComponents from './components'
 import directives from './directives'
 import i18n from './locale'
 import router from './router'
@@ -23,7 +22,6 @@ setGlobalOptions({
   debounceInterval: 150,
 })
 
-app.use(GlobalComponents)
 app.use(router)
 app.use(pinia)
 app.use(i18n)
