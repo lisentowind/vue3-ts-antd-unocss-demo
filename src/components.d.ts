@@ -37,6 +37,7 @@ declare module 'vue' {
     ATimelineItem: typeof import('ant-design-vue/es')['TimelineItem']
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
     CustomIcon: typeof import('./components/CustomIcon/CustomIcon.vue')['default']
+    CustomModal: typeof import('./components/modal/custom-modal.vue')['default']
     CustomMouse: typeof import('./components/other/custom-mouse.vue')['default']
     CustomUpload: typeof import('./components/upload/customUpload.vue')['default']
     EchartsArea: typeof import('./components/echarts/echarts-area.vue')['default']
