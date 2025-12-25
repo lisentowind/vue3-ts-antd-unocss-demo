@@ -1,7 +1,7 @@
 import type { App } from 'vue'
 // 自定义组件
 import CustomIcon from './CustomIcon/CustomIcon.vue'
-import CustomModal from './modal/index.vue'
+import CustomModal from './modal/custom-modal.vue'
 import CustomMouse from './other/custom-mouse.vue'
 import CustomUpload from './upload/customUpload.vue'
 
