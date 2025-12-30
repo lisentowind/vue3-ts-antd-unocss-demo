@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import type { MenuProps } from 'ant-design-vue'
 import type { MenuInfo } from 'ant-design-vue/es/menu/src/interface'
+import { useDark, useToggle } from '@vueuse/core'
 import { computed, h, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import CustomIcon from '@/components/CustomIcon/CustomIcon.vue'
+import { useThemeStore } from '@/store'
 import { usePermissionStore } from '@/store/modules/permission'
 import { useUserStore } from '@/store/modules/user'
+import { handelChangeThemeModeAnimation } from '@/utils'
 
 const route = useRoute()
 const router = useRouter()
@@ -134,6 +137,19 @@ function handleLogout() {
   // 使用强制刷新来清除所有动态路由
   window.location.href = '/login'
 }
+const themeStore = useThemeStore()
+// 主题
+const isDark = useDark({
+  onChanged(dark: boolean) {
+    themeStore.setThemeDark(dark ? 'dark' : 'light')
+  },
+})
+const toggleDark = useToggle(isDark)
+function handelChangeThemeMode(e: MouseEvent) {
+  if (e) {
+    handelChangeThemeModeAnimation(e.clientX, e.clientY, toggleDark)
+  }
+}
 </script>
 
 <template>
@@ -167,31 +183,42 @@ function handleLogout() {
           {{ router.currentRoute.value.meta?.title || '首页' }}
         </div>
 
-        <ADropdown>
-          <div class="px-3 py-2 rounded flex gap-3 cursor-pointer items-center">
-            <AAvatar :src="userStore.userInfo?.avatar" />
-            <span class="text-textBaseColor">{{ userStore.userInfo?.nickname }}</span>
-          </div>
-          <template #overlay>
-            <AMenu
-              @click="(info: MenuInfo) => info.key === 'profile' ? router.push('/user/profile') : null"
+        <div class="flex gap-3">
+          <ASpace>
+            <AButton type="primary" @click="(e) => handelChangeThemeMode(e)">
+              {{ themeStore.getThemeDark }} {{ $t('app.theme') }}
+            </AButton>
+          </ASpace>
+          <ADropdown>
+            <div
+              class="px-3 py-2 rounded flex gap-3 cursor-pointer items-center"
             >
-              <AMenuItem key="profile">
-                <div class="flex gap-2 items-center">
-                  <CustomIcon icon="material-symbols:person-outline" />
-                  <span>个人中心</span>
-                </div>
-              </AMenuItem>
-              <AMenuDivider />
-              <AMenuItem key="logout" @click="handleLogout">
-                <div class="flex gap-2 items-center">
-                  <CustomIcon icon="material-symbols:logout" />
-                  <span>退出登录</span>
-                </div>
-              </AMenuItem>
-            </AMenu>
-          </template>
-        </ADropdown>
+              <AAvatar :src="userStore.userInfo?.avatar" />
+              <span class="text-textBaseColor">{{
+                userStore.userInfo?.nickname
+              }}</span>
+            </div>
+            <template #overlay>
+              <AMenu
+                @click="(info: MenuInfo) => info.key === 'profile' ? router.push('/user/profile') : null"
+              >
+                <AMenuItem key="profile">
+                  <div class="flex gap-2 items-center">
+                    <CustomIcon icon="material-symbols:person-outline" />
+                    <span>个人中心</span>
+                  </div>
+                </AMenuItem>
+                <AMenuDivider />
+                <AMenuItem key="logout" @click="handleLogout">
+                  <div class="flex gap-2 items-center">
+                    <CustomIcon icon="material-symbols:logout" />
+                    <span>退出登录</span>
+                  </div>
+                </AMenuItem>
+              </AMenu>
+            </template>
+          </ADropdown>
+        </div>
       </ALayoutHeader>
 
       <ALayoutContent>

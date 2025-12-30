@@ -27,6 +27,8 @@ export const useThemeStore = defineStore('theme', {
     setThemeDark(value: ThemeStoreState['themeMode']) {
       this.themeMode = value
       document.documentElement.setAttribute('data-theme', value)
+      // 设置class 根据value 设置 html标签的class  给unocss进行dark的样式定义
+      document.documentElement.classList.toggle('dark', value === 'dark')
     },
     setPrimaryColor(value: ThemeStoreState['primaryColor']) {
       const finalColor = toRgb(value)
