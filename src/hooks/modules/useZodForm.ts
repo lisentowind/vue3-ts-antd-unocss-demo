@@ -24,6 +24,9 @@ export function useZodForm<
   const isValidating = ref(false)
   const isValid = ref(false)
 
+  // 动态 schema（支持动态更新）
+  let currentSchema = schema
+
   /** 验证整个表单 */
   function validate() {
     isValidating.value = true
@@ -33,7 +36,7 @@ export function useZodForm<
     })
 
     try {
-      const validatedData = schema.parse(formData)
+      const validatedData = currentSchema.parse(formData)
       isValid.value = true
       isValidating.value = false
 
@@ -70,7 +73,7 @@ export function useZodForm<
     errors[field as string] = ''
 
     try {
-      schema.parse(formData)
+      currentSchema.parse(formData)
       return true
     }
     catch (error) {
@@ -90,7 +93,7 @@ export function useZodForm<
 
   /** 安全验证 */
   function safeParse() {
-    return schema.safeParse(formData)
+    return currentSchema.safeParse(formData)
   }
 
   /** 重置 */
@@ -148,7 +151,7 @@ export function useZodForm<
   function isFieldRequired(field: keyof FormData): boolean {
     try {
       const testData = { ...formData, [field]: undefined }
-      schema.parse(testData)
+      currentSchema.parse(testData)
       return false
     }
     catch (error) {
@@ -172,10 +175,23 @@ export function useZodForm<
   }
 
   /** ✔ 获取全表所有规则（挂载到 <AForm>） */
-  const allRules: Record<string, any[]> = {}
+  const allRules = reactive<Record<string, any[]>>({})
   Object.keys(initialValues).forEach((key) => {
     allRules[key] = getFieldRules(key as keyof FormData)
   })
+
+  /** 更新 schema */
+  function updateSchema(newSchema: T) {
+    currentSchema = newSchema
+    // 清空错误信息
+    Object.keys(errors).forEach((key) => {
+      delete errors[key]
+    })
+    // 更新 allRules
+    Object.keys(initialValues).forEach((key) => {
+      allRules[key] = getFieldRules(key as keyof FormData)
+    })
+  }
 
   return {
     formData,
@@ -199,5 +215,6 @@ export function useZodForm<
 
     isFieldRequired,
     getFieldRules,
+    updateSchema,
   }
 }
