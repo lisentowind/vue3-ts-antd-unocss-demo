@@ -44,7 +44,6 @@ declare module 'vue' {
     EchartsIndex: typeof import('./components/echarts/echarts-index.vue')['default']
     EchartsOneLine: typeof import('./components/echarts/echarts-one-line.vue')['default']
     ImageCropper: typeof import('./components/upload/components/image-cropper.vue')['default']
-    Modal: typeof import('./components/modal/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UploadList: typeof import('./components/upload/components/upload-list.vue')['default']
