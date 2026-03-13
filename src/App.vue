@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { theme } from 'ant-design-vue'
+import { message, theme } from 'ant-design-vue'
 import enUS from 'ant-design-vue/es/locale/en_US'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 
@@ -11,7 +11,7 @@ import { useMessage, useModal } from './hooks'
 import useLocale from './hooks/modules/useLocale'
 import { useThemeColor } from './hooks/modules/useThemeColor'
 import { useThemeStore } from './store'
-import { AppEventEmitter } from './utils'
+import { AppEventEmitter, useUpdateDetector } from './utils'
 import 'dayjs/locale/zh-cn'
 
 // 引入dayjs全局语言包
@@ -27,8 +27,8 @@ const themeStore = useThemeStore()
 const { destroyAll: msgDestroyAll, msgSuccess } = useMessage()
 
 // 引入全局模态框组件 函数式的简单弹窗
-const { modalContextHolder: ModalContextHolder, destroyAll: modalDestroyAll }
-  = useModal()
+const { modalContextHolder: ModalContextHolder, destroyAll: modalDestroyAll } =
+  useModal()
 
 // 引入全局语言包
 const { currentLocale } = useLocale()
@@ -74,6 +74,18 @@ onMounted(() => {
       }, 500)
     }
   })
+
+  // 使用方式
+  useUpdateDetector({
+    url: '/', // 可选，默认 '/'
+    onUpdate: () => {
+      message.info('有新版本可用，请点击右上角刷新页面')
+      setTimeout(() => {
+        // 检测到更新时的回调
+        location.reload()
+      }, 600)
+    },
+  })
 })
 
 onBeforeUnmount(() => {
@@ -91,8 +103,7 @@ onBeforeUnmount(() => {
       token: {
         colorPrimary: primaryColor,
       },
-    }"
-  >
+    }">
     <ModalContextHolder />
     <CustomMouse v-if="useCustomMouse" />
     <RouterView v-slot="{ Component }">
