@@ -14,7 +14,7 @@ export default mergeConfig(
       compression({
         algorithms: ['gzip'],
       }),
-      // 关闭后可提示打包速度
+      // 关闭后可提升打包速度
       legacy({
         targets: ['> 0.2%', 'not dead', 'not op_mini all'],
       }),
@@ -22,9 +22,9 @@ export default mergeConfig(
         // experimental
         autoInstall: true,
       }),
-      // 关闭后可提示打包速度
+      // 关闭后可提升打包速度
       //  开启混淆
-      vitePluginBundleObfuscator(obfuscatorConfig),
+      // vitePluginBundleObfuscator(obfuscatorConfig),
     ],
     build: {
       terserOptions: {
