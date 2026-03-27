@@ -1,38 +1,72 @@
 import Cookies from 'js-cookie'
 
+interface StorageLike {
+  getItem: (key: string) => string | null
+  setItem: (key: string, value: string) => void
+  removeItem: (key: string) => void
+}
+
+interface CookieLike {
+  get: (key: string) => string | undefined
+  set: (key: string, value: string, options: { expires: number }) => void
+  remove: (key: string) => void
+}
+
+interface AuthStorageOptions {
+  tokenKey: string
+  isElectron: boolean
+  localStorage: StorageLike
+  cookies: CookieLike
+}
+
+export function createAuthStorage(options: AuthStorageOptions) {
+  const { tokenKey, isElectron, localStorage, cookies } = options
+
+  function isLogin() {
+    if (isElectron) {
+      return !!localStorage.getItem(tokenKey)
+    }
+    return !!cookies.get(tokenKey)
+  }
+
+  function getToken() {
+    if (isElectron) {
+      return localStorage.getItem(tokenKey)
+    }
+    return cookies.get(tokenKey) ?? null
+  }
+
+  function setToken(token: string) {
+    if (isElectron) {
+      localStorage.setItem(tokenKey, token)
+      return
+    }
+    cookies.set(tokenKey, token, { expires: 0.5 })
+  }
+
+  function clearToken() {
+    if (isElectron) {
+      localStorage.removeItem(tokenKey)
+      return
+    }
+    cookies.remove(tokenKey)
+  }
+
+  return {
+    isLogin,
+    getToken,
+    setToken,
+    clearToken,
+  }
+}
+
 const { VITE_APP_TOKEN_KEY, VITE_IS_ELE } = import.meta.env
-const isEle = VITE_IS_ELE === 'true'
 
-// localStorage启用是为了解决在electron中无法使用cookie的问题
+const authStorage = createAuthStorage({
+  tokenKey: VITE_APP_TOKEN_KEY,
+  isElectron: VITE_IS_ELE === 'true',
+  localStorage: window.localStorage,
+  cookies: Cookies,
+})
 
-function isLogin() {
-  if (isEle) {
-    return !!localStorage.getItem(VITE_APP_TOKEN_KEY)
-  }
-  return !!Cookies.get(VITE_APP_TOKEN_KEY)
-}
-
-function getToken() {
-  if (isEle) {
-    return localStorage.getItem(VITE_APP_TOKEN_KEY)
-  }
-  return Cookies.get(VITE_APP_TOKEN_KEY)
-}
-
-function setToken(token: string) {
-  if (isEle) {
-    localStorage.setItem(VITE_APP_TOKEN_KEY, token)
-    return
-  }
-  Cookies.set(VITE_APP_TOKEN_KEY, token, { expires: 0.5 })
-}
-
-function clearToken() {
-  if (isEle) {
-    localStorage.removeItem(VITE_APP_TOKEN_KEY)
-    return
-  }
-  Cookies.remove(VITE_APP_TOKEN_KEY)
-}
-
-export { clearToken, getToken, isLogin, setToken }
+export const { clearToken, getToken, isLogin, setToken } = authStorage

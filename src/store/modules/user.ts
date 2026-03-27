@@ -1,5 +1,6 @@
 import type { LoginParams, UserInfo } from '@/types/user'
 import { defineStore } from 'pinia'
+import { clearToken, getToken, setToken } from '@/utils'
 
 interface UserState {
   token: string
@@ -13,7 +14,7 @@ const TOKEN_EXPIRE_TIME = 10 * 60 * 1000
 
 export const useUserStore = defineStore('user', {
   state: (): UserState => ({
-    token: '',
+    token: getToken() ?? '',
     tokenExpireTime: 0,
     userInfo: null,
     roles: [],
@@ -35,6 +36,7 @@ export const useUserStore = defineStore('user', {
   actions: {
     setToken(token: string) {
       this.token = token
+      setToken(token)
       // 设置 token 过期时间（当前时间 + 30分钟）
       this.tokenExpireTime = Date.now() + TOKEN_EXPIRE_TIME
     },
@@ -75,6 +77,7 @@ export const useUserStore = defineStore('user', {
       this.tokenExpireTime = 0
       this.userInfo = null
       this.roles = []
+      clearToken()
     },
 
     // Mock 登录响应

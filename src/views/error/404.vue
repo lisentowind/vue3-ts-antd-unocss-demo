@@ -17,16 +17,24 @@ function goHome() {
 <template>
   <div class="error-404-page">
     <div class="content">
-      <h1 class="error-code">404</h1>
-      <p class="error-message">页面不存在</p>
+      <h1 class="error-code">
+        404
+      </h1>
+      <p class="error-message">
+        页面不存在
+      </p>
 
       <div v-if="userStore.getUserRoles.includes('guest')" class="guest-tip">
         <p>作为访客用户，部分页面可能无权访问</p>
       </div>
 
       <div class="actions">
-        <AButton @click="goBack">返回上一页</AButton>
-        <AButton type="primary" @click="goHome">回到首页</AButton>
+        <AButton @click="goBack">
+          返回上一页
+        </AButton>
+        <AButton type="primary" @click="goHome">
+          回到首页
+        </AButton>
       </div>
     </div>
   </div>

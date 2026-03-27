@@ -3,13 +3,13 @@ import { useDark, useToggle } from '@vueuse/core'
 import { colord } from 'colord'
 import { debounce } from 'lodash'
 import { computed, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useMessage } from '@/hooks'
+import useLocale from '@/hooks/modules/useLocale'
 import { useThemeStore, useUserStore } from '@/store'
 import { rgbaToHex } from '@/utils'
 import { handelChangeThemeModeAnimation } from '@/utils/modules/theme-animation'
 
-const { locale } = useI18n()
+const { currentLocale, changeLocale } = useLocale()
 const themeStore = useThemeStore()
 const userStore = useUserStore()
 const { msgSuccess } = useMessage()
@@ -19,8 +19,8 @@ const customColor = ref(rgbaToHex(themeStore.getPrimaryColor))
 
 // 语言选项
 const languageOptions = [
-  { label: '简体中文', value: 'zh' },
-  { label: 'English', value: 'en' },
+  { label: '简体中文', value: 'zh-CN' },
+  { label: 'English', value: 'en-US' },
 ]
 
 // 主题模式
@@ -33,10 +33,9 @@ const toggleDark = useToggle(isDark)
 
 // 当前语言
 const currentLanguage = computed({
-  get: () => locale.value,
+  get: () => currentLocale.value,
   set: (value) => {
-    locale.value = value
-    msgSuccess({ content: `语言已切换为${value === 'zh' ? '简体中文' : 'English'}` })
+    changeLocale(value)
   },
 })
 

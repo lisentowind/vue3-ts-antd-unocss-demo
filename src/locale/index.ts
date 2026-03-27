@@ -31,7 +31,7 @@ const cn = Object.values(cnAll).reduce((m, v) => {
 
 const i18n = createI18n({
   locale: defaultLocale,
-  fallbackLocale: 'zh-CNS',
+  fallbackLocale: 'zh-CN',
   legacy: false,
   allowComposition: true,
   messages: {

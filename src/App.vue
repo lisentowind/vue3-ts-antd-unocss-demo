@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ApiEventHandle } from './apis/event'
+import { setupAppRuntime } from './bootstrap/app-runtime'
 import { useMessage, useModal } from './hooks'
 import useLocale from './hooks/modules/useLocale'
 import { useThemeColor } from './hooks/modules/useThemeColor'
@@ -27,8 +28,8 @@ const themeStore = useThemeStore()
 const { destroyAll: msgDestroyAll, msgSuccess } = useMessage()
 
 // 引入全局模态框组件 函数式的简单弹窗
-const { modalContextHolder: ModalContextHolder, destroyAll: modalDestroyAll } =
-  useModal()
+const { modalContextHolder: ModalContextHolder, destroyAll: modalDestroyAll }
+  = useModal()
 
 // 引入全局语言包
 const { currentLocale } = useLocale()
@@ -44,6 +45,7 @@ function setThemePrimaryColor(color: string) {
 }
 
 const useCustomMouse = ref(false)
+let cleanupAppRuntime: (() => void) | undefined
 
 const locale = computed(() => {
   switch (currentLocale.value) {
@@ -57,41 +59,45 @@ const locale = computed(() => {
 })
 
 onMounted(() => {
-  // 注入除了主题色以外的其他颜色
-  useThemeColor()
-  // 注入主题色
-  setThemePrimaryColor(primaryColor.value)
-  // 测试事件总线
-  AppEventEmitter.on('refreshPage', (val) => {
-    if (val.path) {
-      msgSuccess({
-        content: `${t('app.event.reload.front')} ${val.path} ${t(
-          'app.event.reload.back',
-        )}`,
+  cleanupAppRuntime = setupAppRuntime({
+    primaryColor: primaryColor.value,
+    applyThemeColors: () => {
+      useThemeColor()
+    },
+    setPrimaryColor: setThemePrimaryColor,
+    subscribeRefreshPage: (handler) => {
+      AppEventEmitter.on('refreshPage', handler)
+      return () => AppEventEmitter.off('refreshPage', handler)
+    },
+    notifyRefreshPage: (content) => {
+      msgSuccess({ content })
+    },
+    reloadPage: () => {
+      location.reload()
+    },
+    startUpdateDetector: () => {
+      const detector = useUpdateDetector({
+        url: '/', // 可选，默认 '/'
+        onUpdate: () => {
+          message.info('有新版本可用，请点击右上角刷新页面')
+        },
       })
-      setTimeout(() => {
-        location.reload()
-      }, 500)
-    }
-  })
 
-  // 使用方式
-  useUpdateDetector({
-    url: '/', // 可选，默认 '/'
-    onUpdate: () => {
-      message.info('有新版本可用，请点击右上角刷新页面')
+      return detector.stop
+    },
+    destroyMessages: msgDestroyAll,
+    destroyModals: modalDestroyAll,
+    t,
+    scheduleReload: (reload) => {
       setTimeout(() => {
-        // 检测到更新时的回调
-        location.reload()
-      }, 600)
+        reload()
+      }, 500)
     },
   })
 })
 
 onBeforeUnmount(() => {
-  AppEventEmitter.off('refreshPage')
-  msgDestroyAll()
-  modalDestroyAll()
+  cleanupAppRuntime?.()
 })
 </script>
 
@@ -103,7 +109,8 @@ onBeforeUnmount(() => {
       token: {
         colorPrimary: primaryColor,
       },
-    }">
+    }"
+  >
     <ModalContextHolder />
     <CustomMouse v-if="useCustomMouse" />
     <RouterView v-slot="{ Component }">

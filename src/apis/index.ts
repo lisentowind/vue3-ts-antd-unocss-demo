@@ -4,7 +4,7 @@ import type {
   InternalAxiosRequestConfig,
 } from 'axios'
 import axios from 'axios'
-import { ApiEventEmitter, getEnvData } from '@/utils'
+import { ApiEventEmitter, getEnvData, getToken } from '@/utils'
 
 const { VITE_API_BASE_URL, VITE_API_UPLOAD_URL } = getEnvData()
 
@@ -31,7 +31,7 @@ baseAxios.interceptors.request.use(
     }
 
     // 其他地方处理token
-    const token = ''
+    const token = getToken()
 
     if (token && !tokenWhite.some(item => new RegExp(item).test(path))) {
       config.headers.Authorization = token
