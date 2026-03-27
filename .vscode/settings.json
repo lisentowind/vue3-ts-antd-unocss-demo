@@ -140,5 +140,8 @@
         ]
       }
     }
+  ],
+  "codeInfo.analysis.directories": [
+    "src"
   ]
 }

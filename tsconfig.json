@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "strict": true,
+    "isolatedModules": true,
+    "noUncheckedIndexedAccess": true,
     "forceConsistentCasingInFileNames": true,
-
   },
   "files": [],
   "references": [
